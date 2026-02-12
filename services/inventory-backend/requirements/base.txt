@@ -1,0 +1,20 @@
+# ======================================================================
+# BASE REQUIREMENTS
+# Core dependencies shared across all environments. These packages
+# represent the fundamental runtime for the backend service and should
+# remain minimal, stable, and environment-agnostic.
+# ======================================================================
+
+# Django and configuration management
+Django>=5.0,<6.0
+django-environ>=0.11,<1.0
+
+# PostgreSQL driver (psycopg3 with bundled binary)
+psycopg[binary]>=3.1,<4.0
+
+# Core API support layer (serialization, views, routing utilities)
+djangorestframework>=3.15,<4.0
+djangorestframework-simplejwt>=5.5,<6.0
+
+# CORS support for APIs (middleware + headers)
+django-cors-headers>=4.4,<5.0

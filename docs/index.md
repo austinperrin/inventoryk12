@@ -1,0 +1,27 @@
+# Documentation Index
+
+- `docs/overview/` product and project overview
+  - `docs/overview/project.md`
+  - `docs/overview/monorepo-blueprint.md`
+  - `docs/overview/inventoryk12-blueprint.md`
+  - `docs/overview/roadmap.md`
+  - `docs/overview/glossary.md`
+- `docs/architecture/` system architecture notes
+- `docs/standards/` coding, security, and collaboration standards
+  - `docs/standards/coding-standards.md`
+  - `docs/standards/commits.md`
+  - `docs/standards/testing.md`
+  - `docs/standards/api.md`
+  - `docs/standards/security.md`
+  - `docs/standards/data.md`
+  - `docs/standards/observability.md`
+  - `docs/standards/review.md`
+  - `docs/standards/scripts.md` scripting conventions
+  - `docs/standards/migrations.md` migrations policy
+- `docs/security/` compliance and privacy controls
+  - `docs/security/states/` state-specific requirements (Texas first)
+- `docs/runbooks/` operational runbooks
+- `docs/adr/` architecture decision records (use `docs/adr/template.md`)
+  - `docs/adr/0001-auth-strategy.md`
+  - `docs/adr/0002-core-data-model.md`
+  - `docs/adr/0003-ingestion-architecture.md`

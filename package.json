@@ -1,0 +1,50 @@
+{
+  "name": "inventoryk12",
+  "private": true,
+  "packageManager": "pnpm@9.12.3",
+  "workspaces": [
+    "services/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "bootstrap:env": "bash scripts/bootstrap/bootstrap-env.sh",
+    "bootstrap:secrets": "bash scripts/bootstrap/bootstrap-secrets.sh",
+    "dev:up": "bash scripts/dev/dev-up.sh",
+    "dev:checks": "bash scripts/dev/dev-checks.sh",
+    "dev:format": "bash scripts/dev/dev-format.sh",
+    "dev:reset": "bash scripts/dev/dev-reset.sh",
+    "ci:backend": "bash scripts/ci/ci-backend.sh",
+    "ci:frontend": "bash scripts/ci/ci-frontend.sh",
+    "ci:security": "bash scripts/ci/ci-security.sh",
+    "ci:backend:lint": "bash scripts/ci/backend-lint.sh",
+    "ci:backend:typecheck": "bash scripts/ci/backend-typecheck.sh",
+    "ci:backend:test": "bash scripts/ci/backend-tests.sh",
+    "ci:frontend:lint": "bash scripts/ci/frontend-lint.sh",
+    "ci:frontend:test": "bash scripts/ci/frontend-tests.sh",
+    "release:prepare": "bash scripts/release/release-prepare.sh",
+    "ops:migrate": "bash scripts/ops/ops-migrate.sh",
+    "ops:backup": "bash scripts/ops/ops-backup.sh",
+    "ops:restore": "bash scripts/ops/ops-restore.sh",
+    "security:deps-audit": "bash scripts/security/security-deps-audit.sh",
+    "security:sbom": "bash scripts/security/security-sbom.sh",
+    "compliance:checklist": "bash scripts/compliance/compliance-checklist.sh",
+    "compliance:export": "bash scripts/compliance/compliance-export.sh",
+    "lint": "pnpm --filter inventory-frontend lint",
+    "format": "prettier --write .",
+    "check": "bash scripts/dev/dev-checks.sh",
+    "commitlint": "commitlint --edit",
+    "prepare": "husky"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.19.0",
+    "@commitlint/cli": "^19.8.0",
+    "@commitlint/config-conventional": "^19.8.0",
+    "eslint": "^9.19.0",
+    "eslint-plugin-react": "^7.37.4",
+    "eslint-plugin-react-hooks": "^5.1.0",
+    "eslint-plugin-react-refresh": "^0.4.16",
+    "husky": "^9.1.6",
+    "prettier": "^3.5.2",
+    "typescript-eslint": "^8.22.0"
+  }
+}

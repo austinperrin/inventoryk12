@@ -1,0 +1,125 @@
+# ======================================================================
+# PYTHON ARTIFACTS
+# Applies to backend, workers, scripts, or any Python-based service
+# ======================================================================
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pyd
+*.so
+
+# Local Python databases
+*.sqlite3
+*.db
+
+# Virtual environments (even if not used)
+venv/
+/env/
+.venv/
+.pyenv/
+!config/env/
+!config/env/**
+
+
+# ======================================================================
+# DJANGO RUNTIME DIRECTORIES
+# These are created at runtime and must NEVER be committed.
+# NOTE: Migrations are temporarily ignored while the baseline schema stabilizes.
+# ======================================================================
+media/
+static/
+staticfiles/
+logs/
+tmp/
+
+# TEMPORARY ONLY; Ignore migration files for early development stages.
+**/migrations/*
+!**/migrations/__init__.py
+
+
+# ======================================================================
+# ENVIRONMENT FILES
+# Secret env vars must never be committed. Examples stay allowed.
+# ======================================================================
+.env
+.env.*
+!.env.example
+!.env.*.example
+
+
+# ======================================================================
+# TESTING / COVERAGE / LINTING
+# Applied globally so backend/frontend/tools follow consistent rules
+# ======================================================================
+.coverage
+coverage/
+htmlcov/
+pytest_cache/
+.pytest_cache/
+.mypy_cache/
+ruff_cache/
+.ruff_cache/
+.tox/
+.nox/
+.cache/
+
+
+# ======================================================================
+# NODE / JAVASCRIPT FRONTEND ARTIFACTS
+# Applies to React/Vite frontend, admin panels, or any JS toolchains
+# ======================================================================
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+.pnpm-debug.log*
+dist/
+build/
+.vite/
+
+
+# ======================================================================
+# EDITOR / OS / TOOLING FILES
+# Applies to all contributors regardless of OS or editor
+# ======================================================================
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+*.swo
+*.tmp
+*~
+*.bak
+
+
+# ======================================================================
+# DOCKER / CONTAINER ARTIFACTS
+# Docker itself does not generate many files, but this block ensures
+# tooling or scripts do not leak temp files into source control.
+# ======================================================================
+docker-temp/
+docker-cache/
+**/.docker-temp/
+
+
+# ======================================================================
+# GIT METADATA
+# These files should not appear inside subdirectories or nested tooling.
+# ======================================================================
+.git/
+!.gitignore
+.gitattributes
+
+
+# ======================================================================
+# DOCUMENTATION AND NOTES
+# Most permanent docs should be tracked. Ignore only local temp notes.
+# ======================================================================
+notes/
+*.local.md
+
+# pnpm store
+.pnpm-store/

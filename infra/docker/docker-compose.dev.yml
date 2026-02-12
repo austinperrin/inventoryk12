@@ -1,0 +1,76 @@
+# ======================================================================
+# DEVELOPMENT COMPOSE CONFIGURATION
+# ======================================================================
+name: perrinsoft-platform
+
+services:
+  backend:
+    container_name: perrinsoft-inventory-backend
+    build:
+      context: ../../services/inventory-backend
+      dockerfile: Dockerfile
+      args:
+        DJANGO_ENV: dev
+    working_dir: /repo
+    command: ["/bin/sh", "-c", "python services/inventory-backend/manage.py runserver 0.0.0.0:8000"]
+    env_file:
+      - ../../.env.backend
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    volumes:
+      - ../../services/inventory-backend:/repo/services/inventory-backend
+      - ../../:/repo
+    depends_on:
+      - redis
+
+  frontend:
+    container_name: perrinsoft-inventory-frontend
+    profiles:
+      - frontend
+    build:
+      context: ../../
+      dockerfile: services/inventory-frontend/Dockerfile
+    working_dir: /repo/services/inventory-frontend
+    command: ["/bin/sh", "-c", "pnpm run dev -- --host 0.0.0.0 --port 5173"]
+    env_file:
+      - ../../.env.frontend
+    ports:
+      - "5173:5173"
+    volumes:
+      - ../../:/repo
+      - frontend-node-modules:/repo/services/inventory-frontend/node_modules
+      - frontend-pnpm-store:/pnpm-store
+    depends_on:
+      - backend
+
+  checks:
+    container_name: perrinsoft-inventory-checks
+    profiles:
+      - checks
+    build:
+      context: ../../services/inventory-backend
+      dockerfile: Dockerfile
+      args:
+        DJANGO_ENV: dev
+    working_dir: /repo
+    command: ["/bin/sh", "-c", "bash scripts/dev/dev-checks-internal.sh"]
+    env_file:
+      - ../../.env.backend
+    volumes:
+      - ../../:/repo
+    depends_on:
+      - backend
+
+  redis:
+    container_name: perrinsoft-redis
+    image: redis:7
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+
+volumes:
+  redis-data:
+  frontend-node-modules:
+  frontend-pnpm-store:

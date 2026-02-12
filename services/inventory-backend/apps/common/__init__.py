@@ -1,0 +1,1 @@
+"""Common domain app package."""
