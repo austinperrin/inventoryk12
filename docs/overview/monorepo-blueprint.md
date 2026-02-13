@@ -28,7 +28,9 @@ integration points for internal add-on services.
 ## Release and Environments
 - Local development is Docker-first; local runtimes are optional for scripts.
 - Environments: local, dev, staging, production.
-- CI checks use `pnpm dev:checks` and formatting uses `pnpm dev:format`.
+- Local checks use `pnpm dev:checks`.
+- Final CI-equivalent gate uses `pnpm ci:checks`.
+- Formatting uses `pnpm dev:format`.
 
 ## Decision Log
 - Auth strategy: `docs/adr/0001-auth-strategy.md`

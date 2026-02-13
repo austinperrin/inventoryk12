@@ -26,6 +26,12 @@ Use the Docker checks service:
 
 - `pnpm dev:checks`
 
+## Final PR Gate
+
+Run the aggregate CI gate before requesting approval:
+
+- `pnpm ci:checks`
+
 ## Notes
 
 - `.env.backend` and `.env.frontend` live at repo root.
