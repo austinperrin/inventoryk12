@@ -25,3 +25,20 @@ Scripts are grouped by intent and should be safe, idempotent, and well-documente
 ## Dev reset
 
 Run `pnpm dev:reset` to stop dev containers and remove Docker volumes.
+
+## Ops and release commands
+
+- Migrations:
+  - `pnpm ops:migrate`
+  - `pnpm ops:migrate -- --docker`
+- Backup and restore:
+  - `pnpm ops:backup -- --output backups/dev.sql`
+  - `pnpm ops:restore -- --input backups/dev.sql --yes`
+- Security:
+  - `pnpm security:deps-audit`
+  - `pnpm security:sbom -- --output-dir artifacts/sbom`
+- Compliance:
+  - `pnpm compliance:checklist`
+  - `pnpm compliance:export -- --output artifacts/compliance-evidence.tar.gz`
+- Release:
+  - `pnpm release:prepare`

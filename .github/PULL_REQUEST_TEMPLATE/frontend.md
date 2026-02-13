@@ -7,9 +7,9 @@
 # Testing
 
 - [ ] Not run (explain why)
-- [ ] `npm run lint`
-- [ ] `npm run format:check`
-- [ ] `npm run test`
+- [ ] `pnpm ci:frontend:lint`
+- [ ] `pnpm ci:frontend:test`
+- [ ] `pnpm --filter inventory-frontend format:check`
 
 # Docs / ADRs
 

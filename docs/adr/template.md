@@ -1,10 +1,8 @@
 # ADR Template
 
-## Title
-
-## Status
-
-Proposed | Accepted | Rejected | Deprecated
+- **Status**: Proposed | Accepted | Rejected | Deprecated
+- **Date**: YYYY-MM-DD
+- **Owners**: Team names or named owners
 
 ## Context
 
@@ -13,5 +11,9 @@ Proposed | Accepted | Rejected | Deprecated
 ## Consequences
 
 ## Alternatives Considered
+
+## Follow-Up
+
+## Related
 
 ## References

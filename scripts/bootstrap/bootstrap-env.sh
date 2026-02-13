@@ -20,6 +20,7 @@ WITH_SECRETS=false
 
 for arg in "$@"; do
   case "$arg" in
+    --) ;;
     --with-secrets) WITH_SECRETS=true ;;
     -h|--help) usage; exit 0 ;;
     *)

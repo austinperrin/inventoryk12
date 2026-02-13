@@ -33,7 +33,9 @@ chain-of-custody, auditability, and district-friendly workflows.
 - Users and roles with least-privilege access.
 
 ## Data Model (Starting Point)
-This baseline is expected to evolve; changes should be recorded in ADRs.
+This baseline is expected to evolve incrementally by domain area.
+For the data-modeling approach, see `docs/adr/0002-core-data-model.md`.
+For broader feature planning candidates, see `docs/overview/feature-candidates.md`.
 
 - Asset
   - Asset tag, UUID, serial, manufacturer, model, device type, specs.
@@ -75,3 +77,4 @@ This baseline is expected to evolve; changes should be recorded in ADRs.
 
 ## Roadmap Link
 - `docs/overview/roadmap.md`
+- `docs/overview/feature-candidates.md`
