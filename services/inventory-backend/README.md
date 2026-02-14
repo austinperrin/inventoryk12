@@ -35,6 +35,16 @@ services/inventory-backend/
 - JWT-based auth with pluggable identity providers per tenant (default Django auth + optional SSO integrations) (planned).
 - RBAC enforced in DRF permissions; admin-only features exposed via same endpoints but gated by permissions.
 
+## Auth API (MVP Baseline)
+
+Implemented endpoints:
+
+- `POST /api/v1/auth/login/`
+- `POST /api/v1/auth/refresh/`
+- `POST /api/v1/auth/logout/`
+- `GET /api/v1/auth/me/`
+- `GET /api/v1/auth/rbac-check/` (elevated-role guard baseline)
+
 ## Security Expectations
 
 - Remove Django admin site; replace with purpose-built management views in domain apps.
