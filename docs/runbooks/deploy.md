@@ -21,8 +21,7 @@ This runbook defines the minimum deployment flow until infra automation is final
    - If local runtime checks are intentionally skipped: `pnpm release:prepare -- --skip-checks`
 2. Build and publish artifacts for backend/frontend (pipeline-owned).
 3. Deploy backend and run migrations:
-   - Containerized local/staging: `pnpm ops:migrate -- --docker`
-   - Non-containerized runtime: `pnpm ops:migrate`
+   - Containerized runtime: `pnpm ops:migrate -- --docker`
 4. Deploy frontend artifact.
 5. Run smoke checks:
    - `GET /api/v1/common/health/` returns `{ "status": "ok" }`

@@ -50,4 +50,4 @@ services/inventory-backend/
 
 ## Local Tooling
 
-- Run type checks with `mypy services/inventory-backend`.
+- Run backend checks through Docker: `pnpm dev:checks`.

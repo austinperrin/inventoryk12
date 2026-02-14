@@ -3,19 +3,32 @@ set -euo pipefail
 
 usage() {
   cat <<'USAGE'
-Usage: scripts/bootstrap/bootstrap-secrets.sh
+Usage: scripts/bootstrap/bootstrap-secrets.sh [--force]
 
 Generates local development secrets safely.
 
 Updates:
   .env.backend -> DJANGO_SECRET_KEY
+
+Options:
+  --force  Rotate DJANGO_SECRET_KEY even if a non-placeholder value exists
 USAGE
 }
 
-if [ "${1:-}" = "--help" ] || [ "${1:-}" = "-h" ]; then
-  usage
-  exit 0
-fi
+FORCE=false
+
+for arg in "$@"; do
+  case "$arg" in
+    --) ;;
+    --force) FORCE=true ;;
+    -h|--help) usage; exit 0 ;;
+    *)
+      printf '[error] Unknown argument: %s\n' "$arg" >&2
+      usage
+      exit 1
+      ;;
+  esac
+done
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 # shellcheck source=../lib/common.sh
@@ -33,7 +46,7 @@ if grep -q '^DJANGO_SECRET_KEY=' "$ENV_FILE"; then
   CURRENT_VALUE="$(grep '^DJANGO_SECRET_KEY=' "$ENV_FILE" | head -n1 | cut -d '=' -f2-)"
 fi
 
-if [ -n "$CURRENT_VALUE" ] && [ "$CURRENT_VALUE" != "$PLACEHOLDER" ]; then
+if [ "$FORCE" != "true" ] && [ -n "$CURRENT_VALUE" ] && [ "$CURRENT_VALUE" != "$PLACEHOLDER" ]; then
   log_info "DJANGO_SECRET_KEY already set (no changes)"
   exit 0
 fi
@@ -46,4 +59,8 @@ else
   printf '\nDJANGO_SECRET_KEY=%s\n' "$NEW_KEY" >> "$ENV_FILE"
 fi
 
-log_info "Generated DJANGO_SECRET_KEY in .env.backend"
+if [ "$FORCE" = "true" ]; then
+  log_info "Rotated DJANGO_SECRET_KEY in .env.backend"
+else
+  log_info "Generated DJANGO_SECRET_KEY in .env.backend"
+fi

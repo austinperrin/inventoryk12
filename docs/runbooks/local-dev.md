@@ -6,16 +6,17 @@
 - Docker Compose
 - Node 24.13.0 (required for pnpm scripts)
 - pnpm 9.12.3
-- Postgres (remote or local instance)
+- Postgres endpoint reachable from Docker containers
 
 ## Setup
 
 1. Create env files:
    - `pnpm bootstrap:env`
-   - `pnpm bootstrap:env --with-secrets`
+   - `pnpm bootstrap:env -- --with-secrets`
+   - Optional key rotation: `pnpm bootstrap:secrets -- --force`
 2. Set `DATABASE_URL` in `.env.backend`:
-   - Remote Postgres for dev/prod-like parity
-   - Local Postgres example: `postgres://user:password@host.docker.internal:5432/dbname`
+   - Use a Postgres endpoint reachable from Docker
+   - Example local host DB from Docker: `postgres://user:password@host.docker.internal:5432/dbname`
 3. Start services:
    - `pnpm dev:up`
    - `pnpm dev:up -- --frontend`
@@ -34,6 +35,7 @@ Run the aggregate CI gate before requesting approval:
 
 ## Notes
 
+- Local and production runtime expectations are containerized (Docker-based).
 - `.env.backend` and `.env.frontend` live at repo root.
 - Docker compose uses `infra/docker/docker-compose.dev.yml`.
 - If Docker commands fail, ensure Docker Desktop is running and your user has access to the Docker socket.

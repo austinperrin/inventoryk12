@@ -28,7 +28,8 @@ env_file = REPO_ROOT / ".env.backend"
 if env_file.exists():
     env.read_env(env_file)
 else:
-    fallback_env_file = REPO_ROOT / "configs" / "env" / ".env.backend"
+    # Fallback to example defaults only when a local env file is missing.
+    fallback_env_file = REPO_ROOT / "configs" / "env" / ".env.backend.example"
     if fallback_env_file.exists():
         env.read_env(fallback_env_file)
 
