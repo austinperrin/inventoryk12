@@ -4,9 +4,14 @@
   - `docs/overview/project.md`
   - `docs/overview/monorepo-blueprint.md`
   - `docs/overview/inventoryk12-blueprint.md`
+  - `docs/overview/feature-candidates.md`
   - `docs/overview/roadmap.md`
   - `docs/overview/glossary.md`
+  - `docs/overview/sprints/README.md`
+  - `docs/overview/sprints/sprint-000-foundation-alignment.md`
 - `docs/architecture/` system architecture notes
+  - `docs/architecture/README.md`
+  - `docs/architecture/overview.md`
 - `docs/standards/` coding, security, and collaboration standards
   - `docs/standards/coding-standards.md`
   - `docs/standards/commits.md`
@@ -18,9 +23,14 @@
   - `docs/standards/review.md`
   - `docs/standards/scripts.md` scripting conventions
   - `docs/standards/migrations.md` migrations policy
+  - `docs/standards/adr.md` ADR lifecycle and follow-up conventions
+  - `docs/standards/git-workflow.md` branching, PR, and release flow
 - `docs/security/` compliance and privacy controls
   - `docs/security/states/` state-specific requirements (Texas first)
 - `docs/runbooks/` operational runbooks
+  - `docs/runbooks/local-dev.md`
+  - `docs/runbooks/deploy.md`
+  - `docs/runbooks/incident-response.md`
 - `docs/adr/` architecture decision records (use `docs/adr/template.md`)
   - `docs/adr/0001-auth-strategy.md`
   - `docs/adr/0002-core-data-model.md`

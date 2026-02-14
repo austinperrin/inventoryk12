@@ -1,11 +1,11 @@
 # ======================================================================
 # DEVELOPMENT COMPOSE CONFIGURATION
 # ======================================================================
-name: perrinsoft-platform
+name: inventoryk12
 
 services:
   backend:
-    container_name: perrinsoft-inventory-backend
+    container_name: inventoryk12-backend
     build:
       context: ../../services/inventory-backend
       dockerfile: Dockerfile
@@ -25,7 +25,7 @@ services:
       - redis
 
   frontend:
-    container_name: perrinsoft-inventory-frontend
+    container_name: inventoryk12-frontend
     profiles:
       - frontend
     build:
@@ -45,7 +45,7 @@ services:
       - backend
 
   checks:
-    container_name: perrinsoft-inventory-checks
+    container_name: inventoryk12-checks
     profiles:
       - checks
     build:
@@ -63,7 +63,7 @@ services:
       - backend
 
   redis:
-    container_name: perrinsoft-redis
+    container_name: inventoryk12-redis
     image: redis:7
     ports:
       - "6379:6379"

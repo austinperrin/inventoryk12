@@ -5,8 +5,8 @@
 # Testing
 
 - [ ] Not run (explain why)
-- [ ] Backend checks (if applicable)
-- [ ] Frontend checks (if applicable)
+- [ ] `pnpm dev:checks` (Docker-based local checks)
+- [ ] `pnpm ci:checks` (final full CI-equivalent gate)
 
 # Docs / ADRs
 

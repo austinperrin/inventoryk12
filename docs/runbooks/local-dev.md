@@ -12,7 +12,7 @@
 
 1. Create env files:
    - `pnpm bootstrap:env`
-   - `pnpm bootstrap:env -- --with-secrets`
+   - `pnpm bootstrap:env --with-secrets`
 2. Set `DATABASE_URL` in `.env.backend`:
    - Remote Postgres for dev/prod-like parity
    - Local Postgres example: `postgres://user:password@host.docker.internal:5432/dbname`
@@ -25,6 +25,12 @@
 Use the Docker checks service:
 
 - `pnpm dev:checks`
+
+## Final PR Gate
+
+Run the aggregate CI gate before requesting approval:
+
+- `pnpm ci:checks`
 
 ## Notes
 

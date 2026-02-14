@@ -49,9 +49,9 @@ Use this table as the canonical timeline and status view.
 
 | Milestone | Phase | Estimate | Planned Start | Planned End | Actual Start | Actual End | Variance | Status |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| [Milestone 0: Foundation Alignment](#milestone-0-foundation-alignment-estimated-1-week) |  | 1 week | TBD | TBD | 2026-02-10 | TBD | TBD | In Progress |
-|  | [Phase 1: Scope and Decision Lock](#m0-phase-1) | 2-3 days | TBD | TBD | 2026-02-10 | TBD | TBD | In Progress |
-|  | [Phase 2: Planning and Risk Setup](#m0-phase-2) | 2-3 days | TBD | TBD | TBD | TBD | TBD | Planned |
+| [Milestone 0: Foundation Alignment](#milestone-0-foundation-alignment-estimated-1-week) |  | 1 week | TBD | TBD | 2026-02-13 | 2026-02-13 | On Track | Complete |
+|  | [Phase 1: Scope and Decision Lock](#m0-phase-1) | 2-3 days | TBD | TBD | 2026-02-13 | 2026-02-13 | On Track | Complete |
+|  | [Phase 2: Planning and Risk Setup](#m0-phase-2) | 2-3 days | TBD | TBD | 2026-02-13 | 2026-02-13 | On Track | Complete |
 | [Milestone 1: MVP Delivery](#milestone-1-mvp-delivery-estimated-6-8-weeks) |  | 6-8 weeks | TBD | TBD | TBD | TBD | TBD | Planned |
 |  | [Phase 1: Workflow Backbone](#m1-phase-1) | 1-2 weeks | TBD | TBD | TBD | TBD | TBD | Planned |
 |  | [Phase 2: UI and Ingestion Integration](#m1-phase-2) | 2-3 weeks | TBD | TBD | TBD | TBD | TBD | Planned |
@@ -84,6 +84,8 @@ Variance guidance:
 Execution tracking:
 - Mirror each roadmap milestone in GitHub Milestones.
 - Create issues from milestone tasks and tag by owning team.
+- Until issue board bootstrap is complete, track milestone checklist execution in
+  sprint docs under `docs/overview/sprints/`.
 
 ## Milestone 0: Foundation Alignment (Estimated: 1 week)
 ### Goal
@@ -99,14 +101,22 @@ Lock critical direction before feature-heavy work.
 
 ### Repo Alignment and Drift-Prevention (Required)
 - [x] `docs/index.md` reflects current docs structure and file names.
-- [ ] Milestone task status matches actual issue/PR state.
-- [ ] Standards in `docs/standards/` match current engineering practice.
-- [ ] Documentation is consistent across targeted areas in `docs/overview/`, `docs/architecture/`, `docs/standards/`, `docs/runbooks/`, `docs/security/`, and `docs/adr/`.
-- [ ] Terminology, decisions, and status values are consistent across roadmap, ADRs, and related docs.
+- [x] Milestone task status matches actual issue/PR state.
+- [x] Standards in `docs/standards/` match current engineering practice.
+- [x] Documentation is consistent across targeted areas in `docs/overview/`, `docs/architecture/`, `docs/standards/`, `docs/runbooks/`, `docs/security/`, and `docs/adr/`.
+- [x] Terminology, decisions, and status values are consistent across roadmap, ADRs, and related docs.
 - [x] New architecture decisions are recorded in `docs/adr/`.
-- [ ] Runbooks match real local/dev/deploy workflows.
+- [x] Runbooks match real local/dev/deploy workflows.
 - [x] Team labels and ownership map are unchanged or explicitly updated in this file.
-- [ ] Temporary shortcuts are documented with a removal target milestone.
+- [x] Temporary shortcuts are documented with a removal target milestone.
+
+Temporary shortcuts register:
+- Infra provisioning remains a Terraform stub (`infra/terraform/README.md`); target removal milestone: Milestone 2.
+- COPPA parental consent workflow remains `TBD` in compliance matrix (`docs/security/compliance-matrix.md`); target removal milestone: Milestone 2.
+- Texas controls source verification placeholders remain (`docs/security/states/texas/controls.md`); target removal milestone: Milestone 2.
+
+Milestone 0 evidence:
+- Sprint log and risk register: `docs/overview/sprints/sprint-000-foundation-alignment.md`
 
 <a id="m0-phase-1"></a>
 ### Phase 1: Scope and Decision Lock (2-3 days)
@@ -116,7 +126,7 @@ Docs + Standards:
 - [x] Confirm MVP feature boundaries against `docs/overview/inventoryk12-blueprint.md`.
 
 Architecture:
-- [ ] Mark ADR 0002 status as accepted/revised with final MVP entity scope.
+- [x] Mark ADR 0002 status as accepted/revised with incremental modeling strategy and follow-up ADR plan.
 - [x] Confirm API error-shape baseline from `docs/standards/api.md`.
 
 QA + Testing:
@@ -128,7 +138,7 @@ Goal: establish planning controls, risk tracking, and execution cadence.
 
 Product Management + TPM:
 - [x] Define milestone board columns, labels, and weekly review ritual.
-- [ ] Publish sprint-0 risk log with owners and mitigation triggers.
+- [x] Publish sprint-0 risk log with owners and mitigation triggers.
 
 Docs + Standards:
 - [x] Ensure this roadmap aligns with `docs/index.md` and references.
@@ -146,12 +156,12 @@ QA + Testing:
 - Weekly planning/review cadence active.
 
 ### Milestone Review (Required)
-- [ ] Review docs for consistency and cross-links.
-- [ ] Update ADRs for any architecture-impacting decisions.
-- [ ] Verify scripts/configs align with documented standards.
-- [ ] Confirm tests were added or updated where behavior changed.
-- [ ] Confirm milestone goal and exit criteria are met.
-- [ ] Update schedule status and milestone task completion.
+- [x] Review docs for consistency and cross-links.
+- [x] Update ADRs for any architecture-impacting decisions.
+- [x] Verify scripts/configs align with documented standards.
+- [x] Confirm tests were added or updated where behavior changed.
+- [x] Confirm milestone goal and exit criteria are met.
+- [x] Update schedule status and milestone task completion.
 
 ## Milestone 1: MVP Delivery (Estimated: 6-8 weeks)
 ### Goal

@@ -1,10 +1,8 @@
 # ADR 0003: Ingestion Architecture (Per-Product First)
 
-## Title
-Ingestion Architecture (Per-Product First)
-
-## Status
-Accepted (2026-02-10)
+- **Status**: Accepted
+- **Date**: 2026-02-13
+- **Owners**: Data + Integrations, Backend Engineering, Architecture
 
 ## Context
 InventoryK12 needs SIS/roster imports and district-controlled validation and
@@ -12,9 +10,12 @@ change thresholds. A centralized ingestion service is a future possibility but
 adds complexity early.
 
 ## Decision
-Implement ingestion pipelines within each product backend (starting with
-InventoryK12). For MVP, focus on validation handling and user account provisioning.
-Design ingestion logic to allow a future centralized ingestion service if needed.
+1. **Service boundary for MVP**: Ingestion pipelines run within each product
+   backend (starting with InventoryK12), not as a centralized shared service.
+2. **MVP functional focus**: Prioritize validation handling, import visibility,
+   and user-account provisioning behavior.
+3. **Future flexibility**: Implement the ingestion layer so migration to a
+   shared ingestion service remains possible without breaking API contracts.
 
 MVP ingestion flow:
 - District uploads CSV files to SFTP.
@@ -37,7 +38,7 @@ MVP ingestion flow:
 - Import thresholds and configuration are deferred until after MVP.
 - Future migration to a shared service remains possible.
 
-# Future Enhancements (Post-MVP)
+## Future Enhancements (Post-MVP)
 
 - Import configuration and thresholds per district.
 - Notification hooks (success/failure).
@@ -48,6 +49,14 @@ MVP ingestion flow:
 ## Alternatives Considered
 - Shared ingestion service with event/API distribution.
 - Shared ingestion service with direct writes to product databases.
+
+## Follow-Up
+- Define CSV templates and required field sets for users, assets, and assignments.
+- Document operational runbook for import retries and failure escalation.
+
+## Related
+- `docs/overview/roadmap.md` (Milestone 1 ingestion and UI integration tasks)
+- `docs/overview/inventoryk12-blueprint.md` (integration and ingestion goals)
 
 ## References
 - `docs/overview/inventoryk12-blueprint.md`

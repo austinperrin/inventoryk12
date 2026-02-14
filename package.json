@@ -16,6 +16,7 @@
     "ci:backend": "bash scripts/ci/ci-backend.sh",
     "ci:frontend": "bash scripts/ci/ci-frontend.sh",
     "ci:security": "bash scripts/ci/ci-security.sh",
+    "ci:checks": "pnpm ci:backend && pnpm ci:frontend && pnpm ci:security",
     "ci:backend:lint": "bash scripts/ci/backend-lint.sh",
     "ci:backend:typecheck": "bash scripts/ci/backend-typecheck.sh",
     "ci:backend:test": "bash scripts/ci/backend-tests.sh",

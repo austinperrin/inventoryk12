@@ -1,10 +1,8 @@
 # ADR 0001: Authentication Strategy
 
-## Title
-Authentication Strategy
-
-## Status
-Accepted (2026-02-10)
+- **Status**: Accepted
+- **Date**: 2026-02-13
+- **Owners**: Architecture, Backend Engineering, Security + Compliance
 
 ## Context
 InventoryK12 requires role-based access for district staff, students, and
@@ -13,17 +11,17 @@ support a district pilot with minimal integration burden while remaining
 compatible with future SSO and external add-on integrations.
 
 ## Decision
-Proposed approach:
-- MVP uses per-product authentication within InventoryK12.
-- Login uses email/password for MVP.
-- MFA is optional (user opt-in) for MVP.
-- User provisioning supports manual creation in the UI.
-- User provisioning supports automated imports (CSV via SFTP, OneRoster).
-- User provisioning supports manual CSV upload in the UI.
-- Password policy follows default Django password requirements for MVP.
-- SSO/MFA support is a Phase 2/3 milestone (OneRoster, LDAP/Azure Entra).
-- Portal access is role-based with a shared UI; future portal-specific login
-  policies are supported via configuration.
+1. **MVP authentication baseline**: InventoryK12 uses product-local authentication
+   for MVP, with email/password login and role-based access control.
+2. **MFA approach for MVP**: MFA is optional (user opt-in) during MVP. Tenant-level
+   mandatory MFA is deferred to later milestones.
+3. **Provisioning baseline**: Provisioning supports manual user creation in the UI,
+   manual CSV upload, and automated import flows (CSV via SFTP, OneRoster).
+4. **Policy baseline**: Password policy follows default Django requirements for MVP.
+5. **Future integration direction**: SSO/MFA integration (including OneRoster and
+   LDAP/Azure Entra) is planned for Milestone 2/3.
+6. **Portal model**: Portal access remains role-based with a shared UI, while
+   portal-specific login policies remain a future configurable extension.
 
 ## Consequences
 - Faster MVP delivery without requiring district SSO upfront.
@@ -34,6 +32,14 @@ Proposed approach:
 - Per-product auth only with no SSO roadmap.
 - Immediate SSO-first approach (higher complexity, slower MVP).
 - Shared auth service as a separate integration service (adds infra earlier).
+
+## Follow-Up
+- Define and document SSO/MFA transition plan before Milestone 1 completion.
+- Define JWT claim schema and token lifecycle controls.
+
+## Related
+- `docs/overview/roadmap.md` (Milestone 1 and Milestone 2 auth-related tasks)
+- `docs/overview/inventoryk12-blueprint.md` (target users and role model)
 
 ## References
 - `docs/standards/security.md`

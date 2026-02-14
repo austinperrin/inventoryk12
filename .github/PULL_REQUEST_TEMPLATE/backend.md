@@ -7,9 +7,9 @@
 # Testing
 
 - [ ] Not run (explain why)
-- [ ] `python manage.py check`
-- [ ] `python manage.py test`
-- [ ] `mypy services/backend`
+- [ ] `pnpm ci:backend:lint`
+- [ ] `pnpm ci:backend:typecheck`
+- [ ] `pnpm ci:backend:test`
 
 # Docs / ADRs
 

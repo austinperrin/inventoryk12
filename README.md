@@ -7,8 +7,8 @@ backend/frontend, add-on services/modules, standards, and operational tooling.
 
 - Core repo structure and tooling are scaffolded.
 - Backend (Django) and frontend (Vite + React + TS) are in place.
-- Compliance and policy docs are placeholders to be filled by the next team.
-- Infrastructure is intentionally stubbed until requirements are finalized.
+- Compliance and policy docs are scaffolded and should be expanded as controls are finalized.
+- Infrastructure is intentionally minimal until target environments are finalized.
 
 ## Structure
 
