@@ -34,6 +34,8 @@ Run `pnpm dev:reset` to stop dev containers and remove Docker volumes.
   - `pnpm ci:security`
   - `pnpm ci:checks`
 - Migrations:
+  - `pnpm ops:makemigrations`
+  - `pnpm ops:makemigrations -- --docker`
   - `pnpm ops:migrate`
   - `pnpm ops:migrate -- --docker`
 - Backup and restore:

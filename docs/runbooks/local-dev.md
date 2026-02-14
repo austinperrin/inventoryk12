@@ -27,6 +27,13 @@ Use the Docker checks service:
 
 - `pnpm dev:checks`
 
+## Backend DB Workflow (Docker)
+
+When backend models change:
+
+- `pnpm ops:makemigrations -- --docker`
+- `pnpm ops:migrate -- --docker`
+
 ## Final PR Gate
 
 Run the aggregate CI gate before requesting approval:

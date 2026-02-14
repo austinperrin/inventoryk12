@@ -23,6 +23,7 @@
     "ci:frontend:lint": "bash scripts/ci/frontend-lint.sh",
     "ci:frontend:test": "bash scripts/ci/frontend-tests.sh",
     "release:prepare": "bash scripts/release/release-prepare.sh",
+    "ops:makemigrations": "bash scripts/ops/ops-makemigrations.sh",
     "ops:migrate": "bash scripts/ops/ops-migrate.sh",
     "ops:backup": "bash scripts/ops/ops-backup.sh",
     "ops:restore": "bash scripts/ops/ops-restore.sh",
