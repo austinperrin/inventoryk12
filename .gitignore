@@ -18,8 +18,8 @@ venv/
 /env/
 .venv/
 .pyenv/
-!config/env/
-!config/env/**
+!configs/env/
+!configs/env/**
 
 
 # ======================================================================
@@ -33,7 +33,8 @@ staticfiles/
 logs/
 tmp/
 
-# TEMPORARY ONLY; Ignore migration files for early development stages.
+# TEMPORARY ONLY; migrations are intentionally ignored until model baseline
+# stabilizes. Revisit this policy before enabling migration commits in CI.
 **/migrations/*
 !**/migrations/__init__.py
 
