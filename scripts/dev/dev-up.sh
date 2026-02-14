@@ -33,6 +33,7 @@ BUILD=false
 
 for arg in "$@"; do
   case "$arg" in
+    --) ;;
     --frontend) FRONTEND=true ;;
     --build) BUILD=true ;;
     -h|--help) usage; exit 0 ;;

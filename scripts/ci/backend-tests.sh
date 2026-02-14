@@ -9,6 +9,10 @@ Runs backend test suite.
 USAGE
 }
 
+if [ "${1:-}" = "--" ]; then
+  shift
+fi
+
 if [ "${1:-}" = "--help" ] || [ "${1:-}" = "-h" ]; then
   usage
   exit 0
