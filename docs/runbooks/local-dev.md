@@ -34,6 +34,15 @@ When backend models change:
 - `pnpm ops:makemigrations -- --docker`
 - `pnpm ops:migrate -- --docker`
 
+Optional clean rebuild workflow (destructive, local/dev only):
+
+- `pnpm ops:reset-schema -- --with-makemigrations --with-migrate --docker`
+- Script reads `DATABASE_URL` from `.env.backend` by default.
+- Script prompts for interactive confirmation by default.
+- Use `--force` to skip prompt in scripted workflows.
+- Safety guards block execution unless `DJANGO_DEBUG=true`, and also block
+  production-like DB names plus non-local hosts by default.
+
 ## Final PR Gate
 
 Run the aggregate CI gate before requesting approval:

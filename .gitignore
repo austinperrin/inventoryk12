@@ -35,7 +35,7 @@ tmp/
 
 # TEMPORARY ONLY; migrations are intentionally ignored until model baseline
 # stabilizes. Revisit this policy before enabling migration commits in CI.
-**/migrations/*
+# **/migrations/*
 !**/migrations/__init__.py
 
 

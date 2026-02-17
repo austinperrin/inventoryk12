@@ -22,5 +22,8 @@ class HasElevatedRole(BasePermission):  # type: ignore[misc]
         if not user or not user.is_authenticated:
             return False
 
-        user_roles = set(user.groups.values_list("name", flat=True))
+        if hasattr(user, "active_role_names"):
+            user_roles = set(user.active_role_names())
+        else:
+            user_roles = set(user.groups.values_list("name", flat=True))
         return bool(user_roles & ELEVATED_ROLES)

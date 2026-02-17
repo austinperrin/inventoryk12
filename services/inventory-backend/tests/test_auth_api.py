@@ -1,3 +1,5 @@
+from datetime import date
+
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import Group
 from rest_framework import status  # type: ignore[import-untyped]
@@ -19,12 +21,26 @@ class AuthApiTests(APITestCase):
             last_name="Teacher",
         )
 
+    def _assign_role(
+        self, role_name: str, user=None, starts_on: date | None = None, ends_on: date | None = None
+    ) -> None:
+        actor = user or self.user
+        role, _ = Group.objects.get_or_create(name=role_name)
+        actor.groups.add(role)
+        actor.role_assignments.create(
+            role=role,
+            starts_on=starts_on or date.today(),
+            ends_on=ends_on,
+        )
+
     def _auth_headers(self, user=None) -> dict[str, str]:
         actor = user or self.user
         refresh = RefreshToken.for_user(actor)
         return {"HTTP_AUTHORIZATION": f"Bearer {refresh.access_token}"}
 
     def test_login_returns_tokens_and_user_summary(self) -> None:
+        self._assign_role("teacher")
+
         response = self.client.post(
             "/api/v1/auth/login/",
             {"email": self.user.email, "password": self.password},
@@ -34,6 +50,8 @@ class AuthApiTests(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertIn("access", response.data)
         self.assertIn("refresh", response.data)
+        self.assertIsInstance(response.data["user"]["id"], int)
+        self.assertTrue(response.data["user"]["uuid"])
         self.assertEqual(response.data["user"]["email"], self.user.email)
         self.assertEqual(response.data["user"]["full_name"], "Taylor Teacher")
 
@@ -52,8 +70,7 @@ class AuthApiTests(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
     def test_me_returns_user_roles(self) -> None:
-        role = Group.objects.create(name="teacher")
-        self.user.groups.add(role)
+        self._assign_role("teacher")
 
         response = self.client.get("/api/v1/auth/me/", **self._auth_headers())
 
@@ -85,16 +102,23 @@ class AuthApiTests(APITestCase):
         self.assertTrue(BlacklistedToken.objects.filter(token__jti=refresh["jti"]).exists())
 
     def test_rbac_check_forbidden_for_non_elevated_role(self) -> None:
-        role = Group.objects.create(name="student")
-        self.user.groups.add(role)
+        self._assign_role("student")
 
         response = self.client.get("/api/v1/auth/rbac-check/", **self._auth_headers())
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
     def test_rbac_check_allows_elevated_role(self) -> None:
-        role = Group.objects.create(name="district_admin")
-        self.user.groups.add(role)
+        self._assign_role("district_admin")
 
         response = self.client.get("/api/v1/auth/rbac-check/", **self._auth_headers())
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data["status"], "allowed")
+
+    def test_login_rejects_when_no_active_role_assignments(self) -> None:
+        response = self.client.post(
+            "/api/v1/auth/login/",
+            {"email": self.user.email, "password": self.password},
+            format="json",
+        )
+
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)

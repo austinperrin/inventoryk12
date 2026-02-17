@@ -1,9 +1,11 @@
+from datetime import date
 from typing import Any, ClassVar
 
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from django.db import models
+from simple_history.models import HistoricalRecords
 
-from apps.common.models import BaseModel
+from apps.common.models import AuditModel, BaseModel
 
 
 class UserManager(BaseUserManager["User"]):
@@ -40,10 +42,10 @@ class UserManager(BaseUserManager["User"]):
         return self.create_user(email, password, **extra_fields)
 
 
-class User(BaseModel, AbstractBaseUser, PermissionsMixin):
+class User(BaseModel, AuditModel, AbstractBaseUser, PermissionsMixin):
     """
     Primary user model for authentication and system identity.
-    Inherits BaseModel for UUIDs + timestamps.
+    Inherits BaseModel for integer IDs, external UUID, and timestamps.
     Designed to stay minimal while remaining IAM-ready.
     """
 
@@ -57,6 +59,15 @@ class User(BaseModel, AbstractBaseUser, PermissionsMixin):
     is_staff = models.BooleanField(default=False)
 
     # User lifecycle
+    activated_at = models.DateTimeField(null=True, blank=True)
+    inactivated_at = models.DateTimeField(null=True, blank=True)
+    inactivated_by = models.ForeignKey(
+        "identity.User",
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name="inactivated_user_set",
+    )
     verified_at = models.DateTimeField(
         null=True,
         blank=True,
@@ -68,6 +79,9 @@ class User(BaseModel, AbstractBaseUser, PermissionsMixin):
 
     # Manager
     objects: ClassVar[UserManager] = UserManager()
+    history = HistoricalRecords(
+        excluded_fields=["password", "last_login", "created_at", "updated_at"]
+    )
 
     # Authentication configuration
     USERNAME_FIELD: ClassVar[str] = "email"
@@ -85,3 +99,18 @@ class User(BaseModel, AbstractBaseUser, PermissionsMixin):
     @property
     def full_name(self) -> str:
         return f"{self.first_name} {self.last_name}".strip()
+
+    def has_active_role_assignment(self, on_date: date | None = None) -> bool:
+        check_date = on_date or date.today()
+        return self.role_assignments.filter(
+            starts_on__lte=check_date,
+        ).filter(models.Q(ends_on__isnull=True) | models.Q(ends_on__gte=check_date)).exists()
+
+    def active_role_names(self, on_date: date | None = None) -> list[str]:
+        check_date = on_date or date.today()
+        return sorted(
+            self.role_assignments.filter(starts_on__lte=check_date)
+            .filter(models.Q(ends_on__isnull=True) | models.Q(ends_on__gte=check_date))
+            .values_list("role__name", flat=True)
+            .distinct()
+        )

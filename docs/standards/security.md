@@ -51,6 +51,8 @@ If a role is unknown, default to the least-privileged role and flag for review.
 
 - All sensitive endpoints must enforce permission checks in DRF.
 - Use group-based permission checks in API views/permissions.
+- Role grants should support effective date windows so access can expire by
+  assignment without deleting accounts.
 
 ### MVP Role Capabilities (Draft)
 

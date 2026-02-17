@@ -5,6 +5,7 @@ It is a planning input, not a commitment of delivered scope.
 
 Prioritization and sequence are controlled by `docs/overview/roadmap.md`.
 Data model evolution for these features follows `docs/adr/0002-core-data-model.md`.
+Deferred implementation ideas are tracked in `docs/overview/nice-to-have-register.md`.
 
 ## Candidate Matrix
 

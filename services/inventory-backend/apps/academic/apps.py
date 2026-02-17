@@ -1,6 +1,7 @@
 from django.apps import AppConfig
 
 
-class DistrictsConfig(AppConfig):
+class AcademicConfig(AppConfig):
     default_auto_field = "django.db.models.BigAutoField"
-    name = "apps.districts"
+    name = "apps.academic"
+    verbose_name = "Academic"

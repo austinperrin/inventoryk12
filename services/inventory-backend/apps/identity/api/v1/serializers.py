@@ -1,5 +1,6 @@
 from typing import Any
 
+from rest_framework.exceptions import AuthenticationFailed  # type: ignore[import-untyped]
 from rest_framework import serializers  # type: ignore[import-untyped]
 from rest_framework_simplejwt.serializers import (  # type: ignore[import-untyped]
     TokenObtainPairSerializer,
@@ -8,7 +9,8 @@ from rest_framework_simplejwt.serializers import (  # type: ignore[import-untype
 
 
 class UserSummarySerializer(serializers.Serializer):  # type: ignore[misc]
-    id = serializers.UUIDField(read_only=True)
+    id = serializers.IntegerField(read_only=True)
+    uuid = serializers.UUIDField(read_only=True)
     email = serializers.EmailField(read_only=True)
     first_name = serializers.CharField(read_only=True)
     last_name = serializers.CharField(read_only=True)
@@ -17,7 +19,10 @@ class UserSummarySerializer(serializers.Serializer):  # type: ignore[misc]
 
     def to_representation(self, instance: Any) -> dict[str, object]:
         data = super().to_representation(instance)
-        data["roles"] = sorted(instance.groups.values_list("name", flat=True))
+        if hasattr(instance, "active_role_names"):
+            data["roles"] = instance.active_role_names()
+        else:
+            data["roles"] = sorted(instance.groups.values_list("name", flat=True))
         return data
 
 
@@ -28,6 +33,8 @@ class LoginSerializer(TokenObtainPairSerializer):  # type: ignore[misc]
 
     def validate(self, attrs: dict[str, object]) -> dict[str, str]:
         data = super().validate(attrs)
+        if not self.user.is_superuser and not self.user.has_active_role_assignment():
+            raise AuthenticationFailed("User does not have an active role assignment.")
         data["user"] = UserSummarySerializer(self.user).data  # type: ignore[assignment]
         return data  # type: ignore[return-value]
 
