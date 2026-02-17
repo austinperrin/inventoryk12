@@ -21,7 +21,7 @@ class Migration(migrations.Migration):
                     models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID"),
                 ),
                 ("uuid", models.UUIDField(db_index=True, default=uuid.uuid4, editable=False, unique=True)),
-                ("created_at", models.DateTimeField(default=django.utils.timezone.now, editable=False)),
+                ("created_at", models.DateTimeField(auto_now_add=True, db_index=True, editable=False)),
                 ("updated_at", models.DateTimeField(auto_now=True)),
                 ("source_system", models.CharField(blank=True, max_length=100)),
                 ("source_record_id", models.CharField(blank=True, max_length=255)),

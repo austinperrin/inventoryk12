@@ -211,7 +211,7 @@ QA + Testing:
 - [ ] Confirm tests were added or updated for this phase where behavior changed.
 
 Domain Foundation Checklist (Review Order):
-1. [ ] `common`: shared model conventions approved (`id`, `uuid`, audit fields, history conventions).
+1. [x] `common`: shared model conventions approved (`id`, `uuid`, audit fields, history conventions).
 2. [ ] `identity`: user/account, profile, demographics, and role-scope models approved.
 3. [ ] `organization`: organization type/core, lifecycle, address links, and additional IDs approved.
 4. [ ] `academic`: year/calendar/day/term models and date-window rules approved.
