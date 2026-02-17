@@ -52,8 +52,8 @@ Use this table as the canonical timeline and status view.
 | [Milestone 0: Foundation Alignment](#milestone-0-foundation-alignment-estimated-1-week) |  | 1 week | TBD | TBD | 2026-02-13 | 2026-02-13 | On Track | Complete |
 |  | [Phase 1: Scope and Decision Lock](#m0-phase-1) | 2-3 days | TBD | TBD | 2026-02-13 | 2026-02-13 | On Track | Complete |
 |  | [Phase 2: Planning and Risk Setup](#m0-phase-2) | 2-3 days | TBD | TBD | 2026-02-13 | 2026-02-13 | On Track | Complete |
-| [Milestone 1: MVP Delivery](#milestone-1-mvp-delivery-estimated-6-8-weeks) |  | 6-8 weeks | TBD | TBD | TBD | TBD | TBD | Planned |
-|  | [Phase 0: Domain Foundation Lock](#m1-phase-0) | 1-2 weeks | TBD | TBD | TBD | TBD | TBD | Planned |
+| [Milestone 1: MVP Delivery](#milestone-1-mvp-delivery-estimated-6-8-weeks) |  | 6-8 weeks | TBD | TBD | 2026-02-14 | TBD | TBD | In Progress |
+|  | [Phase 0: Domain Foundation Lock](#m1-phase-0) | 1-2 weeks | TBD | TBD | 2026-02-14 | TBD | TBD | In Progress |
 |  | [Phase 1: Workflow Backbone](#m1-phase-1) | 1-2 weeks | TBD | TBD | TBD | TBD | TBD | Planned |
 |  | [Phase 2: UI and Ingestion Integration](#m1-phase-2) | 2-3 weeks | TBD | TBD | TBD | TBD | TBD | Planned |
 |  | [Phase 3: MVP Quality Gate](#m1-phase-3) | 2-3 weeks | TBD | TBD | TBD | TBD | TBD | Planned |
@@ -202,6 +202,7 @@ Architecture:
 Backend Engineering:
 - [ ] Ensure clean baseline migration chains for active domains.
 - [ ] Confirm role assignment + organization scoping model readiness for workflow work.
+- [ ] Define and document code-table seed dataset to be executed at end of domain lock.
 
 Docs + Standards:
 - [ ] Update roadmap, ADRs, and standards to reflect prerequisite scope and sequence.
