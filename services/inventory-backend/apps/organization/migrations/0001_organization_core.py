@@ -16,6 +16,51 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
+            name="OrganizationType",
+            fields=[
+                (
+                    "id",
+                    models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID"),
+                ),
+                ("uuid", models.UUIDField(db_index=True, default=uuid.uuid4, editable=False, unique=True)),
+                ("created_at", models.DateTimeField(default=django.utils.timezone.now, editable=False)),
+                ("updated_at", models.DateTimeField(auto_now=True)),
+                ("local_id", models.CharField(max_length=64, unique=True)),
+                ("name", models.CharField(max_length=100)),
+                ("display_name", models.CharField(blank=True, max_length=100)),
+                ("description", models.CharField(blank=True, max_length=255)),
+                ("sort_order", models.PositiveIntegerField(default=0)),
+                ("is_system_managed", models.BooleanField(default=True)),
+                ("is_active", models.BooleanField(default=True)),
+                (
+                    "created_by",
+                    models.ForeignKey(
+                        blank=True,
+                        null=True,
+                        on_delete=django.db.models.deletion.SET_NULL,
+                        related_name="created_%(class)s_set",
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
+                (
+                    "updated_by",
+                    models.ForeignKey(
+                        blank=True,
+                        null=True,
+                        on_delete=django.db.models.deletion.SET_NULL,
+                        related_name="updated_%(class)s_set",
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
+            ],
+            options={
+                "verbose_name": "Organization Type",
+                "verbose_name_plural": "Organization Types",
+                "db_table": "organization_type",
+                "ordering": ["sort_order", "name"],
+            },
+        ),
+        migrations.CreateModel(
             name="Organization",
             fields=[
                 (
@@ -27,21 +72,9 @@ class Migration(migrations.Migration):
                 ("updated_at", models.DateTimeField(auto_now=True)),
                 ("local_id", models.CharField(max_length=64, unique=True)),
                 ("name", models.CharField(max_length=255)),
+                ("display_name", models.CharField(blank=True, max_length=255)),
                 ("short_name", models.CharField(blank=True, max_length=100)),
-                (
-                    "organization_type",
-                    models.CharField(
-                        choices=[
-                            ("district", "District"),
-                            ("campus", "Campus"),
-                            ("department", "Department"),
-                            ("program", "Program"),
-                            ("other", "Other"),
-                        ],
-                        default="other",
-                        max_length=30,
-                    ),
-                ),
+                ("sort_order", models.PositiveIntegerField(default=0)),
                 (
                     "created_by",
                     models.ForeignKey(
@@ -63,6 +96,14 @@ class Migration(migrations.Migration):
                     ),
                 ),
                 (
+                    "organization_type",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.PROTECT,
+                        related_name="organizations",
+                        to="organization.organizationtype",
+                    ),
+                ),
+                (
                     "updated_by",
                     models.ForeignKey(
                         blank=True,
@@ -77,7 +118,7 @@ class Migration(migrations.Migration):
                 "verbose_name": "Organization",
                 "verbose_name_plural": "Organizations",
                 "db_table": "organization",
-                "ordering": ["name"],
+                "ordering": ["organization_type__sort_order", "sort_order", "name"],
             },
         ),
         migrations.CreateModel(
@@ -90,21 +131,9 @@ class Migration(migrations.Migration):
                 ("uuid", models.UUIDField(db_index=True, default=uuid.uuid4, editable=False)),
                 ("local_id", models.CharField(db_index=True, max_length=64)),
                 ("name", models.CharField(max_length=255)),
+                ("display_name", models.CharField(blank=True, max_length=255)),
                 ("short_name", models.CharField(blank=True, max_length=100)),
-                (
-                    "organization_type",
-                    models.CharField(
-                        choices=[
-                            ("district", "District"),
-                            ("campus", "Campus"),
-                            ("department", "Department"),
-                            ("program", "Program"),
-                            ("other", "Other"),
-                        ],
-                        default="other",
-                        max_length=30,
-                    ),
-                ),
+                ("sort_order", models.PositiveIntegerField(default=0)),
                 ("history_id", models.AutoField(primary_key=True, serialize=False)),
                 ("history_date", models.DateTimeField(db_index=True)),
                 ("history_change_reason", models.CharField(max_length=100, null=True)),
@@ -147,6 +176,17 @@ class Migration(migrations.Migration):
                     ),
                 ),
                 (
+                    "organization_type",
+                    models.ForeignKey(
+                        blank=True,
+                        db_constraint=False,
+                        null=True,
+                        on_delete=django.db.models.deletion.DO_NOTHING,
+                        related_name="+",
+                        to="organization.organizationtype",
+                    ),
+                ),
+                (
                     "updated_by",
                     models.ForeignKey(
                         blank=True,
@@ -161,6 +201,70 @@ class Migration(migrations.Migration):
             options={
                 "verbose_name": "historical Organization",
                 "verbose_name_plural": "historical Organizations",
+                "ordering": ("-history_date", "-history_id"),
+                "get_latest_by": ("history_date", "history_id"),
+            },
+        ),
+        migrations.CreateModel(
+            name="HistoricalOrganizationType",
+            fields=[
+                (
+                    "id",
+                    models.BigIntegerField(auto_created=True, blank=True, db_index=True, verbose_name="ID"),
+                ),
+                ("uuid", models.UUIDField(db_index=True, default=uuid.uuid4, editable=False)),
+                ("local_id", models.CharField(db_index=True, max_length=64)),
+                ("name", models.CharField(max_length=100)),
+                ("display_name", models.CharField(blank=True, max_length=100)),
+                ("description", models.CharField(blank=True, max_length=255)),
+                ("sort_order", models.PositiveIntegerField(default=0)),
+                ("is_system_managed", models.BooleanField(default=True)),
+                ("is_active", models.BooleanField(default=True)),
+                ("history_id", models.AutoField(primary_key=True, serialize=False)),
+                ("history_date", models.DateTimeField(db_index=True)),
+                ("history_change_reason", models.CharField(max_length=100, null=True)),
+                (
+                    "history_type",
+                    models.CharField(
+                        choices=[("+", "Created"), ("~", "Changed"), ("-", "Deleted")],
+                        max_length=1,
+                    ),
+                ),
+                (
+                    "created_by",
+                    models.ForeignKey(
+                        blank=True,
+                        db_constraint=False,
+                        null=True,
+                        on_delete=django.db.models.deletion.DO_NOTHING,
+                        related_name="+",
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
+                (
+                    "history_user",
+                    models.ForeignKey(
+                        null=True,
+                        on_delete=django.db.models.deletion.SET_NULL,
+                        related_name="+",
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
+                (
+                    "updated_by",
+                    models.ForeignKey(
+                        blank=True,
+                        db_constraint=False,
+                        null=True,
+                        on_delete=django.db.models.deletion.DO_NOTHING,
+                        related_name="+",
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
+            ],
+            options={
+                "verbose_name": "historical Organization Type",
+                "verbose_name_plural": "historical Organization Types",
                 "ordering": ("-history_date", "-history_id"),
                 "get_latest_by": ("history_date", "history_id"),
             },
