@@ -5,21 +5,37 @@ from simple_history.models import HistoricalRecords
 from apps.common.models import AuditModel, BaseModel
 
 
+class OrganizationType(BaseModel, AuditModel):
+    local_id = models.CharField(max_length=64, unique=True)
+    name = models.CharField(max_length=100)
+    display_name = models.CharField(max_length=100, blank=True)
+    description = models.CharField(max_length=255, blank=True)
+    sort_order = models.PositiveIntegerField(default=0)
+    is_system_managed = models.BooleanField(default=True)
+    is_active = models.BooleanField(default=True)
+    history = HistoricalRecords(excluded_fields=["created_at", "updated_at"])
+
+    class Meta:
+        db_table = "organization_type"
+        verbose_name = "Organization Type"
+        verbose_name_plural = "Organization Types"
+        ordering = ["sort_order", "name"]
+
+    def __str__(self) -> str:
+        return self.display_name or self.name
+
+
 class Organization(BaseModel, AuditModel):
-    class OrganizationType(models.TextChoices):
-        DISTRICT = "district", "District"
-        CAMPUS = "campus", "Campus"
-        DEPARTMENT = "department", "Department"
-        PROGRAM = "program", "Program"
-        OTHER = "other", "Other"
 
     local_id = models.CharField(max_length=64, unique=True)
     name = models.CharField(max_length=255)
+    display_name = models.CharField(max_length=255, blank=True)
     short_name = models.CharField(max_length=100, blank=True)
-    organization_type = models.CharField(
-        max_length=30,
-        choices=OrganizationType.choices,
-        default=OrganizationType.OTHER,
+    sort_order = models.PositiveIntegerField(default=0)
+    organization_type = models.ForeignKey(
+        "organization.OrganizationType",
+        on_delete=models.PROTECT,
+        related_name="organizations",
     )
     parent = models.ForeignKey(
         "self",
@@ -34,10 +50,10 @@ class Organization(BaseModel, AuditModel):
         db_table = "organization"
         verbose_name = "Organization"
         verbose_name_plural = "Organizations"
-        ordering = ["name"]
+        ordering = ["organization_type__sort_order", "sort_order", "name"]
 
     def __str__(self) -> str:
-        return self.name
+        return self.display_name or self.name
 
 
 class OrganizationLifecycle(BaseModel, AuditModel):

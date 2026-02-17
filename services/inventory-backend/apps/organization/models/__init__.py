@@ -5,6 +5,7 @@ from .organization import (
     OrganizationAdditionalIdentifier,
     OrganizationAddress,
     OrganizationLifecycle,
+    OrganizationType,
 )
 
 __all__ = [
@@ -12,4 +13,5 @@ __all__ = [
     "OrganizationLifecycle",
     "OrganizationAddress",
     "OrganizationAdditionalIdentifier",
+    "OrganizationType",
 ]

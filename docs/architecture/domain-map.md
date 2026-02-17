@@ -63,8 +63,10 @@ subdomains to keep boundaries clear:
   duplication.
 - Introduce follow-up ADRs when boundaries materially change.
 - Organization core baseline includes:
-  `id`, `uuid`, `local_id`, `name`, `organization_type`, `parent`, and
-  audit/history tracking.
+  `id`, `uuid`, `local_id`, `name`, `display_name`, `sort_order`,
+  `organization_type`, `parent`, and audit/history tracking.
+- Organization types are modeled in `organization_type` and support both
+  system-managed and district-managed records.
 - Lifecycle windows are modeled separately in `organization_lifecycle`
   (`starts_on`, `ends_on`, `status`) to support reopen scenarios.
 - Organization addresses are linked via `organization_address` and should point

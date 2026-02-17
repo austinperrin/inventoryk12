@@ -32,6 +32,8 @@ Inventory management work is implemented as subdomains across these boundaries:
 
 Organization modeling baseline:
 - Keep core organization identity/hierarchy in `organization`.
+- Keep dynamic organization types in `organization_type` with support for
+  system-managed and district-managed type records.
 - Model organization lifecycle windows in a separate `organization_lifecycle`
   table to support multiple active/inactive periods over time.
 - Link organization addresses through `organization_address` to the `contacts`
