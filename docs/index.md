@@ -5,6 +5,7 @@
   - `docs/overview/monorepo-blueprint.md`
   - `docs/overview/inventoryk12-blueprint.md`
   - `docs/overview/feature-candidates.md`
+  - `docs/overview/nice-to-have-register.md`
   - `docs/overview/roadmap.md`
   - `docs/overview/glossary.md`
   - `docs/overview/sprints/README.md`
@@ -12,6 +13,7 @@
 - `docs/architecture/` system architecture notes
   - `docs/architecture/README.md`
   - `docs/architecture/overview.md`
+  - `docs/architecture/domain-map.md`
 - `docs/standards/` coding, security, and collaboration standards
   - `docs/standards/coding-standards.md`
   - `docs/standards/commits.md`
@@ -35,3 +37,8 @@
   - `docs/adr/0001-auth-strategy.md`
   - `docs/adr/0002-core-data-model.md`
   - `docs/adr/0003-ingestion-architecture.md`
+  - `docs/adr/0004-identity-domain-model-v1.md`
+  - `docs/adr/0005-contact-and-address-model-v1.md`
+  - `docs/adr/0006-code-table-governance-v1.md`
+  - `docs/adr/0007-academic-time-model-v1.md`
+  - `docs/adr/0008-domain-boundaries-v1.md`

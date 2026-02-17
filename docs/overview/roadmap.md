@@ -53,6 +53,7 @@ Use this table as the canonical timeline and status view.
 |  | [Phase 1: Scope and Decision Lock](#m0-phase-1) | 2-3 days | TBD | TBD | 2026-02-13 | 2026-02-13 | On Track | Complete |
 |  | [Phase 2: Planning and Risk Setup](#m0-phase-2) | 2-3 days | TBD | TBD | 2026-02-13 | 2026-02-13 | On Track | Complete |
 | [Milestone 1: MVP Delivery](#milestone-1-mvp-delivery-estimated-6-8-weeks) |  | 6-8 weeks | TBD | TBD | TBD | TBD | TBD | Planned |
+|  | [Phase 0: Domain Foundation Lock](#m1-phase-0) | 1-2 weeks | TBD | TBD | TBD | TBD | TBD | Planned |
 |  | [Phase 1: Workflow Backbone](#m1-phase-1) | 1-2 weeks | TBD | TBD | TBD | TBD | TBD | Planned |
 |  | [Phase 2: UI and Ingestion Integration](#m1-phase-2) | 2-3 weeks | TBD | TBD | TBD | TBD | TBD | Planned |
 |  | [Phase 3: MVP Quality Gate](#m1-phase-3) | 2-3 weeks | TBD | TBD | TBD | TBD | TBD | Planned |
@@ -177,6 +178,7 @@ Deliver a demoable end-to-end workflow for one district.
 ### Dependencies
 - Milestone 0 completed
 - Auth/integration assumptions in ADR 0001 and ADR 0003
+- Domain foundation baseline accepted (identity + organization + academic core models and migrations).
 
 ### Repo Alignment and Drift-Prevention (Required)
 - [x] `docs/index.md` reflects current docs structure and file names.
@@ -188,6 +190,24 @@ Deliver a demoable end-to-end workflow for one district.
 - [ ] Runbooks match real local/dev/deploy workflows.
 - [x] Team labels and ownership map are unchanged or explicitly updated in this file.
 - [ ] Temporary shortcuts are documented with a removal target milestone.
+
+<a id="m1-phase-0"></a>
+### Phase 0: Domain Foundation Lock (1-2 weeks)
+Goal: finalize prerequisite domain foundations required by milestone-1 feature delivery.
+
+Architecture:
+- [ ] Lock identity, organization, and academic baseline data models and constraints.
+- [ ] Confirm domain boundaries and ADR alignment for milestone-1 scope.
+
+Backend Engineering:
+- [ ] Ensure clean baseline migration chains for active domains.
+- [ ] Confirm role assignment + organization scoping model readiness for workflow work.
+
+Docs + Standards:
+- [ ] Update roadmap, ADRs, and standards to reflect prerequisite scope and sequence.
+
+QA + Testing:
+- [ ] Confirm tests were added or updated for this phase where behavior changed.
 
 <a id="m1-phase-1"></a>
 ### Phase 1: Workflow Backbone (1-2 weeks)
@@ -230,6 +250,7 @@ QA + Testing:
 
 ### Entry Criteria
 - Milestone 0 exit criteria complete.
+- Milestone 1 Phase 0 exit criteria complete.
 - Local dev and checks pass via runbook baseline.
 
 ### Exit Criteria

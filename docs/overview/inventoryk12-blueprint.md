@@ -32,6 +32,10 @@ chain-of-custody, auditability, and district-friendly workflows.
 - Locations (district, campus, building, room).
 - Users and roles with least-privilege access.
 
+Domain boundary reference:
+- `docs/architecture/domain-map.md`
+- `docs/adr/0008-domain-boundaries-v1.md`
+
 ## Data Model (Starting Point)
 This baseline is expected to evolve incrementally by domain area.
 For the data-modeling approach, see `docs/adr/0002-core-data-model.md`.

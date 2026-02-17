@@ -6,7 +6,7 @@
 
 ## Naming
 
-- Use plural nouns for resources: `/assets/`, `/districts/`.
+- Use plural nouns for resources: `/assets/`, `/organizations/`.
 - Use kebab-case or snake_case consistently in URLs (pick one when implementing).
 
 ## Errors
