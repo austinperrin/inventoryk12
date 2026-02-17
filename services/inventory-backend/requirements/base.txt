@@ -15,6 +15,7 @@ psycopg[binary]>=3.1,<4.0
 # Core API support layer (serialization, views, routing utilities)
 djangorestframework>=3.15,<4.0
 djangorestframework-simplejwt>=5.5,<6.0
+django-simple-history>=3.7,<4.0
 
 # CORS support for APIs (middleware + headers)
 django-cors-headers>=4.4,<5.0

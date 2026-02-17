@@ -1,10 +1,11 @@
 from django.conf import settings
 from django.db import models
+from simple_history.models import HistoricalRecords
 
-from apps.common.models import BaseModel
+from apps.common.models import AuditModel, BaseModel
 
 
-class Profile(BaseModel):
+class Profile(BaseModel, AuditModel):
     """
     User-facing profile data.
 
@@ -20,13 +21,13 @@ class Profile(BaseModel):
     )
 
     # Profile identity details
-    first_name = models.CharField(max_length=150, blank=True)
-    last_name = models.CharField(max_length=150, blank=True)
+    preferred_name = models.CharField(max_length=150, blank=True)
     display_name = models.CharField(max_length=150, blank=True)
 
     # Contact + locale details (separate from auth email)
     phone_number = models.CharField(max_length=50, blank=True)
     timezone = models.CharField(max_length=100, default="UTC")
+    history = HistoricalRecords(excluded_fields=["created_at", "updated_at"])
 
     class Meta:
         db_table = "identity_profile"
@@ -36,6 +37,6 @@ class Profile(BaseModel):
     def __str__(self) -> str:
         if self.display_name:
             return self.display_name
-        if self.first_name or self.last_name:
-            return f"{self.first_name} {self.last_name}".strip()
+        if self.preferred_name:
+            return self.preferred_name
         return f"Profile for {self.user.email}"
