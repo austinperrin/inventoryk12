@@ -210,6 +210,20 @@ Docs + Standards:
 QA + Testing:
 - [ ] Confirm tests were added or updated for this phase where behavior changed.
 
+Domain Foundation Checklist (Review Order):
+1. [ ] `common`: shared model conventions approved (`id`, `uuid`, audit fields, history conventions).
+2. [ ] `identity`: user/account, profile, demographics, and role-scope models approved.
+3. [ ] `organization`: organization type/core, lifecycle, address links, and additional IDs approved.
+4. [ ] `academic`: year/calendar/day/term models and date-window rules approved.
+5. [ ] `contacts`: address/contact model baseline approved.
+6. [ ] `enrollment`: enrollment relationship model baseline approved.
+7. [ ] `instruction`: course/section/scheduling model baseline approved.
+8. [ ] `inventory`: asset and custody model baseline approved.
+9. [ ] `operations`: audit/incident/workflow model baseline approved.
+10. [ ] `integrations`: source-mapping/import-export/sync tracking baseline approved.
+11. [ ] Domain migration chains validated cleanly after each domain approval checkpoint.
+12. [ ] All approved domain decisions cross-linked in ADRs and standards before Phase 1 start.
+
 <a id="m1-phase-1"></a>
 ### Phase 1: Workflow Backbone (1-2 weeks)
 Goal: deliver core backend workflows that form the MVP foundation.
