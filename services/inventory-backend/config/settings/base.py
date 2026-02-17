@@ -66,11 +66,18 @@ INSTALLED_APPS = [
     "rest_framework",
     "rest_framework_simplejwt",
     "rest_framework_simplejwt.token_blacklist",
+    "simple_history",
     # Project apps
     "apps.common",
     "apps.identity",
+    "apps.organization",
+    "apps.academic",
+    "apps.instruction",
+    "apps.enrollment",
+    "apps.contacts",
     "apps.inventory",
-    "apps.districts",
+    "apps.operations",
+    "apps.integrations",
 ]
 
 # Custom user model
@@ -88,6 +95,7 @@ MIDDLEWARE = [
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
+    "simple_history.middleware.HistoryRequestMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     # Third-party middleware
