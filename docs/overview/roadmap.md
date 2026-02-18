@@ -178,7 +178,7 @@ Deliver a demoable end-to-end workflow for one district.
 ### Dependencies
 - Milestone 0 completed
 - Auth/integration assumptions in ADR 0001 and ADR 0003
-- Domain foundation baseline accepted (identity + organization + academic core models and migrations).
+- Domain foundation baseline accepted (identity + organization + locations + academic core models and migrations).
 
 ### Repo Alignment and Drift-Prevention (Required)
 - [x] `docs/index.md` reflects current docs structure and file names.
@@ -196,7 +196,7 @@ Deliver a demoable end-to-end workflow for one district.
 Goal: finalize prerequisite domain foundations required by milestone-1 feature delivery.
 
 Architecture:
-- [ ] Lock identity, organization, and academic baseline data models and constraints.
+- [ ] Lock identity, organization, locations, and academic baseline data models and constraints.
 - [ ] Confirm domain boundaries and ADR alignment for milestone-1 scope.
 
 Backend Engineering:
@@ -227,18 +227,26 @@ Domain Foundation Checklist (Review Order):
    - [x] `identity.login_locks`: user/role login lock models approved.
    - [x] `identity.role_assignment`: role window + organization scope model approved.
    - [x] `identity.role_assignment_organization`: role-assignment to organization scope-link model approved.
-3. [ ] `organization`: organization type/core, lifecycle, address links, and additional IDs approved.
-   - [ ] `organization.organization_type_code`: organization type code-table model approved (system/district managed).
-   - [ ] `organization.organization`: core organization hierarchy model approved.
-   - [ ] `organization.organization_lifecycle`: organization lifecycle windows approved.
-   - [ ] `organization.organization_address`: organization-address link model approved.
-   - [ ] `organization.organization_additional_identifier`: additional identifier mapping model approved.
-4. [ ] `academic`: year/calendar/day/term models and date-window rules approved.
+3. [x] `organization`: organization type/core, lifecycle, address links, and additional IDs approved.
+   - [x] `organization.organization_type_code`: organization type code-table model approved (system/district managed).
+   - [x] `organization.organization`: core organization hierarchy model approved.
+   - [x] `organization.organization_lifecycle`: organization lifecycle windows approved.
+   - [x] `organization.organization_address`: organization-address link model approved.
+   - [x] `organization.organization_additional_identifier`: additional identifier mapping model approved.
+4. [ ] `locations`: location hierarchy and organization-link models approved.
+   - [ ] `locations.facility_type_code`: location type code-table model approved (system/district managed).
+   - [ ] `locations.facility`: core location hierarchy model approved (campus/building/floor/room pattern).
+   - [ ] `locations.facility_detail`: profile/detail fields approved (label, floor plan, capacity, delivery, website, notes).
+   - [ ] `locations.facility_lifecycle`: location lifecycle windows approved.
+   - [ ] `locations.facility_address`: location-address link model approved.
+   - [ ] `locations.facility_additional_identifier`: facility additional identifier mapping model approved.
+   - [ ] `locations.organization_facility`: organization-to-location scope/link model approved.
+5. [ ] `academic`: year/calendar/day/term models and date-window rules approved.
    - [ ] `academic.year`: academic year model approved.
    - [ ] `academic.calendar`: calendar model approved (district/campus/department scope rules).
    - [ ] `academic.day`: calendar day model approved (day metadata and constraints).
    - [ ] `academic.term`: academic term/period model approved (OneRoster-aligned hybrid).
-5. [ ] `contacts`: address/contact model baseline approved.
+6. [ ] `contacts`: address/contact model baseline approved.
    - [ ] `contacts.phone_code`: phone code-table model approved (system/district managed).
    - [ ] `contacts.phone`: phone model approved (SMS consent fields and constraints).
    - [ ] `contacts.email_code`: email code-table model approved (system/district managed).
@@ -246,32 +254,32 @@ Domain Foundation Checklist (Review Order):
    - [ ] `contacts.country_code`: country code-table model approved (system/district managed).
    - [ ] `contacts.state_code`: state code-table model approved (system/district managed).
    - [ ] `contacts.address`: address baseline model approved.
-6. [ ] `enrollment`: enrollment relationship model baseline approved.
+7. [ ] `enrollment`: enrollment relationship model baseline approved.
    - [ ] `enrollment.student_enrollment`: student enrollment relationship model approved.
    - [ ] `enrollment.guardian_link`: guardian-student relationship/link model approved.
    - [ ] `enrollment.staff_assignment`: staff-to-campus/department assignment model approved.
-7. [ ] `instruction`: course/section/scheduling model baseline approved.
+8. [ ] `instruction`: course/section/scheduling model baseline approved.
    - [ ] `instruction.course`: course catalog model approved.
    - [ ] `instruction.section`: section/class instance model approved.
    - [ ] `instruction.schedule`: bell/schedule period model approved.
    - [ ] `instruction.term_linking`: section/course to academic term linking approved.
-8. [ ] `inventory`: asset and custody model baseline approved.
+9. [ ] `inventory`: asset and custody model baseline approved.
    - [ ] `inventory.asset`: asset master model approved.
    - [ ] `inventory.asset_type`: asset type/code model approved.
    - [ ] `inventory.custody`: assignment/custody lifecycle model approved.
    - [ ] `inventory.audit`: audit count/discrepancy model baseline approved.
-9. [ ] `operations`: audit/incident/workflow model baseline approved.
+10. [ ] `operations`: audit/incident/workflow model baseline approved.
    - [ ] `operations.incident`: incident reporting model approved.
    - [ ] `operations.workflow`: operational workflow/state model approved.
    - [ ] `operations.activity_log`: cross-domain activity logging model approved.
-10. [ ] `integrations`: source-mapping/import-export/sync tracking baseline approved.
+11. [ ] `integrations`: source-mapping/import-export/sync tracking baseline approved.
    - [ ] `integrations.source_system`: source system registry model approved.
    - [ ] `integrations.import_job`: import job + status tracking model approved.
    - [ ] `integrations.record_map`: source-to-local record mapping model approved.
    - [ ] `integrations.sync_log`: synchronization result/error logging model approved.
-11. [ ] Domain migration chains validated cleanly after each domain approval checkpoint.
-12. [ ] All approved domain decisions cross-linked in ADRs and standards before Phase 1 start.
-13. [ ] Seed-data plan compiled for all approved domains (implementation deferred until domain reviews are complete).
+12. [ ] Domain migration chains validated cleanly after each domain approval checkpoint.
+13. [ ] All approved domain decisions cross-linked in ADRs and standards before Phase 1 start.
+14. [ ] Seed-data plan compiled for all approved domains (implementation deferred until domain reviews are complete).
 
 <a id="m1-phase-1"></a>
 ### Phase 1: Workflow Backbone (1-2 weeks)
