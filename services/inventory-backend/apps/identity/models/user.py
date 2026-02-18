@@ -1,8 +1,11 @@
-from datetime import date
+from datetime import date, datetime
 from typing import Any, ClassVar
 
+from django.apps import apps
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from django.db import models
+from django.db.models.functions import Lower
+from django.utils import timezone
 from simple_history.models import HistoricalRecords
 
 from apps.common.models import AuditModel, BaseModel
@@ -18,7 +21,7 @@ class UserManager(BaseUserManager["User"]):
         if not email:
             raise ValueError("Email is required for user accounts.")
 
-        email = self.normalize_email(email)
+        email = self.normalize_email(email).strip().lower()
         user = self.model(email=email, **extra_fields)
 
         if password:
@@ -57,6 +60,7 @@ class User(BaseModel, AuditModel, AbstractBaseUser, PermissionsMixin):
     # Account status
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
+    require_password_reset = models.BooleanField(default=False)
 
     # User lifecycle
     activated_at = models.DateTimeField(null=True, blank=True)
@@ -80,7 +84,8 @@ class User(BaseModel, AuditModel, AbstractBaseUser, PermissionsMixin):
     # Manager
     objects: ClassVar[UserManager] = UserManager()
     history = HistoricalRecords(
-        excluded_fields=["password", "last_login", "created_at", "updated_at"]
+        excluded_fields=["password", "last_login", "created_at", "updated_at"],
+        table_name="hist_identity_user",
     )
 
     # Authentication configuration
@@ -92,9 +97,24 @@ class User(BaseModel, AuditModel, AbstractBaseUser, PermissionsMixin):
         verbose_name = "User"
         verbose_name_plural = "Users"
         ordering = ["created_at"]  # comes from BaseModel
+        constraints = [
+            models.UniqueConstraint(
+                Lower("email"),
+                name="identity_user_email_ci_unique",
+            )
+        ]
+        indexes = [
+            models.Index(fields=["is_active", "is_staff"], name="identity_user_active_staff_idx"),
+            models.Index(fields=["inactivated_at"], name="id_user_inact_at_idx"),
+        ]
 
     def __str__(self) -> str:
         return self.email
+
+    def save(self, *args: Any, **kwargs: Any) -> None:
+        if self.email:
+            self.email = self.email.strip().lower()
+        super().save(*args, **kwargs)
 
     @property
     def full_name(self) -> str:
@@ -113,4 +133,39 @@ class User(BaseModel, AuditModel, AbstractBaseUser, PermissionsMixin):
             .filter(models.Q(ends_on__isnull=True) | models.Q(ends_on__gte=check_date))
             .values_list("role__name", flat=True)
             .distinct()
+        )
+
+    def has_active_user_login_lock(self, at_time: datetime | None = None) -> bool:
+        check_time = at_time or timezone.now()
+        return self.login_locks.filter(starts_at__lte=check_time).filter(
+            models.Q(ends_at__isnull=True) | models.Q(ends_at__gte=check_time)
+        ).exists()
+
+    def has_active_role_login_lock(self, at_time: datetime | None = None) -> bool:
+        check_time = at_time or timezone.now()
+        check_date = check_time.date()
+
+        active_role_ids = list(
+            self.role_assignments.filter(starts_on__lte=check_date)
+            .filter(models.Q(ends_on__isnull=True) | models.Q(ends_on__gte=check_date))
+            .values_list("role_id", flat=True)
+            .distinct()
+        )
+        if not active_role_ids:
+            return False
+
+        role_lock_model = apps.get_model("identity", "RoleLoginLock")
+        role_lock_qs = role_lock_model.objects.filter(
+            role_id__in=active_role_ids,
+            starts_at__lte=check_time,
+        ).filter(models.Q(ends_at__isnull=True) | models.Q(ends_at__gte=check_time))
+        return role_lock_qs.exists()
+
+    def can_authenticate(self, at_time: datetime | None = None) -> bool:
+        check_time = at_time or timezone.now()
+        return (
+            self.is_active
+            and self.has_active_role_assignment(check_time.date())
+            and not self.has_active_user_login_lock(check_time)
+            and not self.has_active_role_login_lock(check_time)
         )

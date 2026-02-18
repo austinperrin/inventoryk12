@@ -203,6 +203,7 @@ Backend Engineering:
 - [ ] Ensure clean baseline migration chains for active domains.
 - [ ] Confirm role assignment + organization scoping model readiness for workflow work.
 - [ ] Define and document code-table seed dataset to be executed at end of domain lock.
+- [ ] Track per-domain seed-data candidates during each domain review (defer implementation until all domains are approved).
 
 Docs + Standards:
 - [ ] Update roadmap, ADRs, and standards to reflect prerequisite scope and sequence.
@@ -212,17 +213,65 @@ QA + Testing:
 
 Domain Foundation Checklist (Review Order):
 1. [x] `common`: shared model conventions approved (`id`, `uuid`, audit fields, history conventions).
-2. [ ] `identity`: user/account, profile, demographics, and role-scope models approved.
+2. [x] `identity`: user/account, profile, demographics, and role-scope models approved.
+   - [x] `identity.user`: account fields, lifecycle fields, email uniqueness, and password-reset enforcement approved.
+   - [x] `identity.profile`: profile-purpose fields approved (and non-auth fields kept out of user table).
+   - [x] `identity.details`: student/staff/guardian detail models approved for core person fields (birth country/state via shared `contacts` code-table FKs + text birth city).
+   - [x] `identity.prefix_code`: prefix code-table model approved (system/district managed).
+   - [x] `identity.suffix_code`: suffix code-table model approved (system/district managed).
+   - [x] `identity.demographics`: student/staff/guardian demographic payload structure and demographic code-table FKs approved.
+   - [x] `identity.gender_code`: gender code-table model approved (system/district managed).
+   - [x] `identity.race_code`: race code-table model approved (system/district managed).
+   - [x] `identity.ethnicity_code`: ethnicity code-table model approved (system/district managed).
+   - [x] `identity.additional_identifiers`: user additional ID mapping model approved (system + type + value).
+   - [x] `identity.login_locks`: user/role login lock models approved.
+   - [x] `identity.role_assignment`: role window + organization scope model approved.
+   - [x] `identity.role_assignment_organization`: role-assignment to organization scope-link model approved.
 3. [ ] `organization`: organization type/core, lifecycle, address links, and additional IDs approved.
+   - [ ] `organization.organization_type_code`: organization type code-table model approved (system/district managed).
+   - [ ] `organization.organization`: core organization hierarchy model approved.
+   - [ ] `organization.organization_lifecycle`: organization lifecycle windows approved.
+   - [ ] `organization.organization_address`: organization-address link model approved.
+   - [ ] `organization.organization_additional_identifier`: additional identifier mapping model approved.
 4. [ ] `academic`: year/calendar/day/term models and date-window rules approved.
+   - [ ] `academic.year`: academic year model approved.
+   - [ ] `academic.calendar`: calendar model approved (district/campus/department scope rules).
+   - [ ] `academic.day`: calendar day model approved (day metadata and constraints).
+   - [ ] `academic.term`: academic term/period model approved (OneRoster-aligned hybrid).
 5. [ ] `contacts`: address/contact model baseline approved.
+   - [ ] `contacts.phone_code`: phone code-table model approved (system/district managed).
+   - [ ] `contacts.phone`: phone model approved (SMS consent fields and constraints).
+   - [ ] `contacts.email_code`: email code-table model approved (system/district managed).
+   - [ ] `contacts.email`: additional email model approved (typed emails + constraints).
+   - [ ] `contacts.country_code`: country code-table model approved (system/district managed).
+   - [ ] `contacts.state_code`: state code-table model approved (system/district managed).
+   - [ ] `contacts.address`: address baseline model approved.
 6. [ ] `enrollment`: enrollment relationship model baseline approved.
+   - [ ] `enrollment.student_enrollment`: student enrollment relationship model approved.
+   - [ ] `enrollment.guardian_link`: guardian-student relationship/link model approved.
+   - [ ] `enrollment.staff_assignment`: staff-to-campus/department assignment model approved.
 7. [ ] `instruction`: course/section/scheduling model baseline approved.
+   - [ ] `instruction.course`: course catalog model approved.
+   - [ ] `instruction.section`: section/class instance model approved.
+   - [ ] `instruction.schedule`: bell/schedule period model approved.
+   - [ ] `instruction.term_linking`: section/course to academic term linking approved.
 8. [ ] `inventory`: asset and custody model baseline approved.
+   - [ ] `inventory.asset`: asset master model approved.
+   - [ ] `inventory.asset_type`: asset type/code model approved.
+   - [ ] `inventory.custody`: assignment/custody lifecycle model approved.
+   - [ ] `inventory.audit`: audit count/discrepancy model baseline approved.
 9. [ ] `operations`: audit/incident/workflow model baseline approved.
+   - [ ] `operations.incident`: incident reporting model approved.
+   - [ ] `operations.workflow`: operational workflow/state model approved.
+   - [ ] `operations.activity_log`: cross-domain activity logging model approved.
 10. [ ] `integrations`: source-mapping/import-export/sync tracking baseline approved.
+   - [ ] `integrations.source_system`: source system registry model approved.
+   - [ ] `integrations.import_job`: import job + status tracking model approved.
+   - [ ] `integrations.record_map`: source-to-local record mapping model approved.
+   - [ ] `integrations.sync_log`: synchronization result/error logging model approved.
 11. [ ] Domain migration chains validated cleanly after each domain approval checkpoint.
 12. [ ] All approved domain decisions cross-linked in ADRs and standards before Phase 1 start.
+13. [ ] Seed-data plan compiled for all approved domains (implementation deferred until domain reviews are complete).
 
 <a id="m1-phase-1"></a>
 ### Phase 1: Workflow Backbone (1-2 weeks)
@@ -233,6 +282,7 @@ Backend Engineering:
 - [ ] Implement discrepancy audit flow (expected vs found).
 - [ ] Implement incident reporting (damage/loss/theft lifecycle).
 - [ ] Deliver MVP auth endpoints and role-based portal access baseline.
+- [ ] Enforce user/role login lockout checks in authentication flow and active sessions.
 
 QA + Testing:
 - [ ] Confirm tests were added or updated for this phase where behavior changed.

@@ -45,6 +45,7 @@ class Migration(migrations.Migration):
                 ("last_name", models.CharField(blank=True, max_length=150)),
                 ("is_active", models.BooleanField(default=True)),
                 ("is_staff", models.BooleanField(default=False)),
+                ("require_password_reset", models.BooleanField(default=False)),
                 ("activated_at", models.DateTimeField(blank=True, null=True)),
                 ("inactivated_at", models.DateTimeField(blank=True, null=True)),
                 (
@@ -119,6 +120,16 @@ class Migration(migrations.Migration):
                 "verbose_name_plural": "Users",
                 "db_table": "identity_user",
                 "ordering": ["created_at"],
+                "constraints": [
+                    models.UniqueConstraint(
+                        models.functions.Lower("email"),
+                        name="identity_user_email_ci_unique",
+                    )
+                ],
+                "indexes": [
+                    models.Index(fields=["is_active", "is_staff"], name="identity_user_active_staff_idx"),
+                    models.Index(fields=["inactivated_at"], name="id_user_inact_at_idx"),
+                ],
             },
         ),
         migrations.CreateModel(
@@ -134,6 +145,7 @@ class Migration(migrations.Migration):
                 ("last_name", models.CharField(blank=True, max_length=150)),
                 ("is_active", models.BooleanField(default=True)),
                 ("is_staff", models.BooleanField(default=False)),
+                ("require_password_reset", models.BooleanField(default=False)),
                 ("activated_at", models.DateTimeField(blank=True, null=True)),
                 ("inactivated_at", models.DateTimeField(blank=True, null=True)),
                 (
@@ -213,6 +225,7 @@ class Migration(migrations.Migration):
             options={
                 "verbose_name": "historical User",
                 "verbose_name_plural": "historical Users",
+                "db_table": "hist_identity_user",
                 "ordering": ("-history_date", "-history_id"),
                 "get_latest_by": ("history_date", "history_id"),
             },

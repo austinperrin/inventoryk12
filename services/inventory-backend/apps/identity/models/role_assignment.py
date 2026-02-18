@@ -27,12 +27,25 @@ class RoleAssignment(BaseModel, AuditModel):
     )
     starts_on = models.DateField()
     ends_on = models.DateField(null=True, blank=True)
-    history = HistoricalRecords(excluded_fields=["created_at", "updated_at"])
+    history = HistoricalRecords(
+        excluded_fields=["created_at", "updated_at"],
+        table_name="hist_identity_role_assignment",
+    )
 
     class Meta:
         db_table = "identity_role_assignment"
         verbose_name = "Role Assignment"
         verbose_name_plural = "Role Assignments"
+        indexes = [
+            models.Index(
+                fields=["user", "starts_on", "ends_on"],
+                name="id_role_asgn_usr_win_idx",
+            ),
+            models.Index(
+                fields=["role", "starts_on", "ends_on"],
+                name="id_role_asgn_role_win_idx",
+            ),
+        ]
         constraints = [
             models.CheckConstraint(
                 check=Q(ends_on__isnull=True) | Q(ends_on__gte=models.F("starts_on")),
@@ -65,7 +78,10 @@ class RoleAssignmentOrganization(BaseModel, AuditModel):
         on_delete=models.CASCADE,
         related_name="role_assignment_scopes",
     )
-    history = HistoricalRecords(excluded_fields=["created_at", "updated_at"])
+    history = HistoricalRecords(
+        excluded_fields=["created_at", "updated_at"],
+        table_name="hist_identity_role_assignment_organization",
+    )
 
     class Meta:
         db_table = "identity_role_assignment_organization"

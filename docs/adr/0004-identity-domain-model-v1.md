@@ -14,10 +14,12 @@ concerns and increased migration churn.
 1. Keep `identity.User` focused on account/authentication concerns:
    email login, password auth state, RBAC compatibility, and account lifecycle.
 2. Keep `identity.Profile` lightweight and UI-facing:
-   display/preferred naming and basic contact/presentation fields only.
-3. Split persona-specific fields into separate models:
-   `StudentDetail`, `StaffDetail`, and `GuardianDetail` (names may evolve, but
-   the separation principle is fixed).
+   social-style presentation fields (display/preferred naming, pronouns,
+   slug handle, headline/about, avatar/banner) only.
+3. Split persona-specific basic person fields into separate models:
+   `StudentDetail`, `StaffDetail`, and `GuardianDetail`.
+   Include core naming fields plus code-table-backed `prefix`, `suffix`,
+   birth country/state via shared `contacts` code tables, and free-text `birth_city`.
 4. Use shared audit attribution fields (`created_by`, `updated_by`) through
    common abstract models.
 5. Keep lifecycle fields (`activated_at`, `inactivated_at`, `inactivated_by`)
@@ -36,6 +38,19 @@ concerns and increased migration churn.
 10. Allow one role assignment to scope across multiple organizations using
     a related scope table (`RoleAssignmentOrganization`) keyed by a direct
     foreign key to `organization.Organization` (many scopes to one organization).
+11. Keep demographic models focused on demographic payloads and move
+    external/source identifier mapping to `UserAdditionalIdentifier`
+    (`system`, `identifier_type`, `identifier_value`).
+12. Keep additional email endpoints in `contacts` via `Email`
+    and `EmailCode` instead of storing secondary email on persona detail rows.
+13. Keep `is_active` on `identity.User` as the hard account-authentication gate.
+14. Keep `require_password_reset` on `identity.User` so administrators can
+    force a password change at next successful login.
+15. Implement temporary operational login lockouts as dedicated models:
+    `UserLoginLock` and `RoleLoginLock`.
+    Lockouts are separate from role assignment windows.
+16. Keep `gender`, `race`, and `ethnicity` as code-table-backed demographic
+    fields on persona demographics models, not detail models.
 
 ## Locked Identity User v1
 
@@ -65,7 +80,6 @@ concerns and increased migration churn.
 - Lifecycle fields on every domain table by default.
 
 ## Follow-Up
-- Define exact field sets for `StudentDetail`, `StaffDetail`, `GuardianDetail`.
 - Add migration split strategy after baseline stabilizes.
 - Add API/serializer boundaries so default user endpoints stay minimal.
 
