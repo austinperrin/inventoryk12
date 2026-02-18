@@ -16,7 +16,7 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name="OrganizationType",
+            name="OrganizationTypeCode",
             fields=[
                 (
                     "id",
@@ -26,7 +26,7 @@ class Migration(migrations.Migration):
                 ("created_at", models.DateTimeField(auto_now_add=True, db_index=True, editable=False)),
                 ("updated_at", models.DateTimeField(auto_now=True)),
                 ("local_id", models.CharField(max_length=64, unique=True)),
-                ("name", models.CharField(max_length=100)),
+                ("code", models.CharField(max_length=100)),
                 ("display_name", models.CharField(blank=True, max_length=100)),
                 ("description", models.CharField(blank=True, max_length=255)),
                 ("sort_order", models.PositiveIntegerField(default=0)),
@@ -54,10 +54,10 @@ class Migration(migrations.Migration):
                 ),
             ],
             options={
-                "verbose_name": "Organization Type",
-                "verbose_name_plural": "Organization Types",
-                "db_table": "organization_type",
-                "ordering": ["sort_order", "name"],
+                "verbose_name": "Organization Type Code",
+                "verbose_name_plural": "Organization Type Codes",
+                "db_table": "organization_type_code",
+                "ordering": ["sort_order", "code"],
             },
         ),
         migrations.CreateModel(
@@ -96,11 +96,11 @@ class Migration(migrations.Migration):
                     ),
                 ),
                 (
-                    "organization_type",
+                    "organization_type_code",
                     models.ForeignKey(
                         on_delete=django.db.models.deletion.PROTECT,
                         related_name="organizations",
-                        to="organization.organizationtype",
+                        to="organization.organizationtypecode",
                     ),
                 ),
                 (
@@ -118,7 +118,7 @@ class Migration(migrations.Migration):
                 "verbose_name": "Organization",
                 "verbose_name_plural": "Organizations",
                 "db_table": "organization",
-                "ordering": ["organization_type__sort_order", "sort_order", "name"],
+                "ordering": ["organization_type_code__sort_order", "sort_order", "name"],
             },
         ),
         migrations.CreateModel(
@@ -176,14 +176,14 @@ class Migration(migrations.Migration):
                     ),
                 ),
                 (
-                    "organization_type",
+                    "organization_type_code",
                     models.ForeignKey(
                         blank=True,
                         db_constraint=False,
                         null=True,
                         on_delete=django.db.models.deletion.DO_NOTHING,
                         related_name="+",
-                        to="organization.organizationtype",
+                        to="organization.organizationtypecode",
                     ),
                 ),
                 (
@@ -201,12 +201,13 @@ class Migration(migrations.Migration):
             options={
                 "verbose_name": "historical Organization",
                 "verbose_name_plural": "historical Organizations",
+                "db_table": "hist_organization",
                 "ordering": ("-history_date", "-history_id"),
                 "get_latest_by": ("history_date", "history_id"),
             },
         ),
         migrations.CreateModel(
-            name="HistoricalOrganizationType",
+            name="HistoricalOrganizationTypeCode",
             fields=[
                 (
                     "id",
@@ -214,7 +215,7 @@ class Migration(migrations.Migration):
                 ),
                 ("uuid", models.UUIDField(db_index=True, default=uuid.uuid4, editable=False)),
                 ("local_id", models.CharField(db_index=True, max_length=64)),
-                ("name", models.CharField(max_length=100)),
+                ("code", models.CharField(max_length=100)),
                 ("display_name", models.CharField(blank=True, max_length=100)),
                 ("description", models.CharField(blank=True, max_length=255)),
                 ("sort_order", models.PositiveIntegerField(default=0)),
@@ -263,8 +264,9 @@ class Migration(migrations.Migration):
                 ),
             ],
             options={
-                "verbose_name": "historical Organization Type",
-                "verbose_name_plural": "historical Organization Types",
+                "verbose_name": "historical Organization Type Code",
+                "verbose_name_plural": "historical Organization Type Codes",
+                "db_table": "hist_organization_type_code",
                 "ordering": ("-history_date", "-history_id"),
                 "get_latest_by": ("history_date", "history_id"),
             },
@@ -409,6 +411,7 @@ class Migration(migrations.Migration):
             options={
                 "verbose_name": "historical Organization Lifecycle",
                 "verbose_name_plural": "historical Organization Lifecycles",
+                "db_table": "hist_organization_lifecycle",
                 "ordering": ("-history_date", "-history_id"),
                 "get_latest_by": ("history_date", "history_id"),
             },
@@ -556,6 +559,7 @@ class Migration(migrations.Migration):
             options={
                 "verbose_name": "historical Organization Address",
                 "verbose_name_plural": "historical Organization Addresses",
+                "db_table": "hist_organization_address",
                 "ordering": ("-history_date", "-history_id"),
                 "get_latest_by": ("history_date", "history_id"),
             },
@@ -679,6 +683,7 @@ class Migration(migrations.Migration):
             options={
                 "verbose_name": "historical Organization Additional Identifier",
                 "verbose_name_plural": "historical Organization Additional Identifiers",
+                "db_table": "hist_organization_additional_identifier",
                 "ordering": ("-history_date", "-history_id"),
                 "get_latest_by": ("history_date", "history_id"),
             },

@@ -5,24 +5,27 @@ from simple_history.models import HistoricalRecords
 from apps.common.models import AuditModel, BaseModel
 
 
-class OrganizationType(BaseModel, AuditModel):
+class OrganizationTypeCode(BaseModel, AuditModel):
     local_id = models.CharField(max_length=64, unique=True)
-    name = models.CharField(max_length=100)
+    code = models.CharField(max_length=100)
     display_name = models.CharField(max_length=100, blank=True)
     description = models.CharField(max_length=255, blank=True)
     sort_order = models.PositiveIntegerField(default=0)
     is_system_managed = models.BooleanField(default=True)
     is_active = models.BooleanField(default=True)
-    history = HistoricalRecords(excluded_fields=["created_at", "updated_at"])
+    history = HistoricalRecords(
+        excluded_fields=["created_at", "updated_at"],
+        table_name="hist_organization_type_code",
+    )
 
     class Meta:
-        db_table = "organization_type"
-        verbose_name = "Organization Type"
-        verbose_name_plural = "Organization Types"
-        ordering = ["sort_order", "name"]
+        db_table = "organization_type_code"
+        verbose_name = "Organization Type Code"
+        verbose_name_plural = "Organization Type Codes"
+        ordering = ["sort_order", "code"]
 
     def __str__(self) -> str:
-        return self.display_name or self.name
+        return self.display_name or self.code
 
 
 class Organization(BaseModel, AuditModel):
@@ -32,8 +35,8 @@ class Organization(BaseModel, AuditModel):
     display_name = models.CharField(max_length=255, blank=True)
     short_name = models.CharField(max_length=100, blank=True)
     sort_order = models.PositiveIntegerField(default=0)
-    organization_type = models.ForeignKey(
-        "organization.OrganizationType",
+    organization_type_code = models.ForeignKey(
+        "organization.OrganizationTypeCode",
         on_delete=models.PROTECT,
         related_name="organizations",
     )
@@ -44,13 +47,16 @@ class Organization(BaseModel, AuditModel):
         blank=True,
         related_name="children",
     )
-    history = HistoricalRecords(excluded_fields=["created_at", "updated_at"])
+    history = HistoricalRecords(
+        excluded_fields=["created_at", "updated_at"],
+        table_name="hist_organization",
+    )
 
     class Meta:
         db_table = "organization"
         verbose_name = "Organization"
         verbose_name_plural = "Organizations"
-        ordering = ["organization_type__sort_order", "sort_order", "name"]
+        ordering = ["organization_type_code__sort_order", "sort_order", "name"]
 
     def __str__(self) -> str:
         return self.display_name or self.name
@@ -71,7 +77,10 @@ class OrganizationLifecycle(BaseModel, AuditModel):
     ends_on = models.DateField(null=True, blank=True)
     status = models.CharField(max_length=20, choices=LifecycleStatus.choices, default=LifecycleStatus.ACTIVE)
     note = models.CharField(max_length=255, blank=True)
-    history = HistoricalRecords(excluded_fields=["created_at", "updated_at"])
+    history = HistoricalRecords(
+        excluded_fields=["created_at", "updated_at"],
+        table_name="hist_organization_lifecycle",
+    )
 
     class Meta:
         db_table = "organization_lifecycle"
@@ -103,7 +112,10 @@ class OrganizationAddress(BaseModel, AuditModel):
     is_primary = models.BooleanField(default=False)
     starts_on = models.DateField(null=True, blank=True)
     ends_on = models.DateField(null=True, blank=True)
-    history = HistoricalRecords(excluded_fields=["created_at", "updated_at"])
+    history = HistoricalRecords(
+        excluded_fields=["created_at", "updated_at"],
+        table_name="hist_organization_address",
+    )
 
     class Meta:
         db_table = "organization_address"
@@ -134,7 +146,10 @@ class OrganizationAdditionalIdentifier(BaseModel, AuditModel):
     identifier_value = models.CharField(max_length=255)
     starts_on = models.DateField(null=True, blank=True)
     ends_on = models.DateField(null=True, blank=True)
-    history = HistoricalRecords(excluded_fields=["created_at", "updated_at"])
+    history = HistoricalRecords(
+        excluded_fields=["created_at", "updated_at"],
+        table_name="hist_organization_additional_identifier",
+    )
 
     class Meta:
         db_table = "organization_additional_identifier"
