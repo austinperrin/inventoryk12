@@ -1,3 +1,17 @@
-from .academic_time import AcademicCalendar, AcademicCalendarDay, AcademicTerm, AcademicYear
+from .academic_time import (
+    AcademicCalendar,
+    AcademicCalendarDay,
+    AcademicCalendarEvent,
+    AcademicTerm,
+    AcademicTermTypeCode,
+    AcademicYear,
+)
 
-__all__ = ["AcademicCalendar", "AcademicCalendarDay", "AcademicTerm", "AcademicYear"]
+__all__ = [
+    "AcademicCalendar",
+    "AcademicCalendarDay",
+    "AcademicCalendarEvent",
+    "AcademicTerm",
+    "AcademicTermTypeCode",
+    "AcademicYear",
+]

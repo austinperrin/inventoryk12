@@ -241,11 +241,11 @@ Domain Foundation Checklist (Review Order):
    - [x] `locations.facility_address`: location-address link model approved.
    - [x] `locations.facility_additional_identifier`: facility additional identifier mapping model approved.
    - [x] `locations.organization_facility`: organization-to-location scope/link model approved.
-5. [ ] `academic`: year/calendar/day/term models and date-window rules approved.
-   - [ ] `academic.year`: academic year model approved.
-   - [ ] `academic.calendar`: calendar model approved (district/campus/department scope rules).
-   - [ ] `academic.day`: calendar day model approved (day metadata and constraints).
-   - [ ] `academic.term`: academic term/period model approved (OneRoster-aligned hybrid).
+5. [x] `academic`: year/calendar/day/term models and date-window rules approved.
+   - [x] `academic.year`: academic year model approved.
+   - [x] `academic.calendar`: calendar model approved (district/campus/department scope rules).
+   - [x] `academic.day`: calendar day model approved (day metadata and constraints).
+   - [x] `academic.term`: academic term/period model approved (OneRoster-aligned hybrid).
 6. [ ] `contacts`: address/contact model baseline approved.
    - [ ] `contacts.phone_code`: phone code-table model approved (system/district managed).
    - [ ] `contacts.phone`: phone model approved (SMS consent fields and constraints).
