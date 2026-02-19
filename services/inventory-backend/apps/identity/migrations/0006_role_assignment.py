@@ -2,6 +2,7 @@
 
 import django.db.models.deletion
 import django.utils.timezone
+import simple_history.models
 import uuid
 from django.conf import settings
 from django.db import migrations, models
@@ -10,6 +11,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
     dependencies = [
         ("auth", "0012_alter_user_first_name_max_length"),
+        ("contenttypes", "0002_remove_content_type_name"),
         ("identity", "0005_guardian_demographics"),
         ("organization", "0001_organization_core"),
     ]
@@ -79,6 +81,144 @@ class Migration(migrations.Migration):
                     ),
                 ],
             },
+        ),
+        migrations.CreateModel(
+            name="HistoricalGroup",
+            fields=[
+                (
+                    "id",
+                    models.IntegerField(
+                        auto_created=True, blank=True, db_index=True, verbose_name="ID"
+                    ),
+                ),
+                ("name", models.CharField(db_index=True, max_length=150, verbose_name="name")),
+                ("history_id", models.AutoField(primary_key=True, serialize=False)),
+                ("history_date", models.DateTimeField(db_index=True)),
+                ("history_change_reason", models.CharField(max_length=100, null=True)),
+                (
+                    "history_type",
+                    models.CharField(
+                        choices=[("+", "Created"), ("~", "Changed"), ("-", "Deleted")], max_length=1
+                    ),
+                ),
+                (
+                    "history_user",
+                    models.ForeignKey(
+                        null=True,
+                        on_delete=django.db.models.deletion.SET_NULL,
+                        related_name="+",
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
+            ],
+            options={
+                "verbose_name": "historical group",
+                "verbose_name_plural": "historical groups",
+                "db_table": "hist_auth_group",
+                "ordering": ("-history_date", "-history_id"),
+                "get_latest_by": ("history_date", "history_id"),
+            },
+            bases=(simple_history.models.HistoricalChanges, models.Model),
+        ),
+        migrations.CreateModel(
+            name="HistoricalGroup_permissions",
+            fields=[
+                (
+                    "id",
+                    models.IntegerField(
+                        auto_created=True, blank=True, db_index=True, verbose_name="ID"
+                    ),
+                ),
+                ("m2m_history_id", models.AutoField(primary_key=True, serialize=False)),
+                (
+                    "group",
+                    models.ForeignKey(
+                        blank=True,
+                        db_constraint=False,
+                        db_tablespace="",
+                        null=True,
+                        on_delete=django.db.models.deletion.DO_NOTHING,
+                        related_name="+",
+                        to="auth.group",
+                    ),
+                ),
+                (
+                    "history",
+                    models.ForeignKey(
+                        db_constraint=False,
+                        on_delete=django.db.models.deletion.DO_NOTHING,
+                        to="identity.historicalgroup",
+                    ),
+                ),
+                (
+                    "permission",
+                    models.ForeignKey(
+                        blank=True,
+                        db_constraint=False,
+                        db_tablespace="",
+                        null=True,
+                        on_delete=django.db.models.deletion.DO_NOTHING,
+                        related_name="+",
+                        to="auth.permission",
+                    ),
+                ),
+            ],
+            options={
+                "verbose_name": "HistoricalGroup_permissions",
+                "db_table": "hist_auth_group_permissions",
+            },
+            bases=(simple_history.models.HistoricalChanges, models.Model),
+        ),
+        migrations.CreateModel(
+            name="HistoricalPermission",
+            fields=[
+                (
+                    "id",
+                    models.IntegerField(
+                        auto_created=True, blank=True, db_index=True, verbose_name="ID"
+                    ),
+                ),
+                ("name", models.CharField(max_length=255, verbose_name="name")),
+                ("codename", models.CharField(max_length=100, verbose_name="codename")),
+                ("history_id", models.AutoField(primary_key=True, serialize=False)),
+                ("history_date", models.DateTimeField(db_index=True)),
+                ("history_change_reason", models.CharField(max_length=100, null=True)),
+                (
+                    "history_type",
+                    models.CharField(
+                        choices=[("+", "Created"), ("~", "Changed"), ("-", "Deleted")], max_length=1
+                    ),
+                ),
+                (
+                    "content_type",
+                    models.ForeignKey(
+                        blank=True,
+                        db_constraint=False,
+                        null=True,
+                        on_delete=django.db.models.deletion.DO_NOTHING,
+                        related_name="+",
+                        to="contenttypes.contenttype",
+                        verbose_name="content type",
+                    ),
+                ),
+                (
+                    "history_user",
+                    models.ForeignKey(
+                        null=True,
+                        on_delete=django.db.models.deletion.SET_NULL,
+                        related_name="+",
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
+            ],
+            options={
+                "verbose_name": "historical permission",
+                "verbose_name_plural": "historical permissions",
+                "db_table": "hist_auth_permission",
+                "ordering": ("-history_date", "-history_id"),
+                "get_latest_by": ("history_date", "history_id"),
+            },
+            bases=(simple_history.models.HistoricalChanges, models.Model),
         ),
         migrations.CreateModel(
             name="HistoricalRoleAssignment",
