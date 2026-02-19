@@ -6,7 +6,7 @@ from apps.common.models import AuditModel, BaseModel
 
 class PhoneCode(BaseModel, AuditModel):
     code = models.CharField(max_length=100)
-    display_name = models.CharField(max_length=100, blank=True)
+    label = models.CharField(max_length=100, blank=True)
     description = models.CharField(max_length=255, blank=True)
     sort_order = models.PositiveIntegerField(default=0)
     is_system_managed = models.BooleanField(default=True)
@@ -23,7 +23,7 @@ class PhoneCode(BaseModel, AuditModel):
         ordering = ["sort_order", "code"]
 
     def __str__(self) -> str:
-        return self.display_name or self.code
+        return self.label or self.code
 
 
 class Phone(BaseModel, AuditModel):

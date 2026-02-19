@@ -75,6 +75,7 @@ INSTALLED_APPS = [
     "apps.instruction",
     "apps.enrollment",
     "apps.contacts",
+    "apps.locations",
     "apps.inventory",
     "apps.operations",
     "apps.integrations",

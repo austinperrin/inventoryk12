@@ -27,7 +27,7 @@ class Migration(migrations.Migration):
                 ("updated_at", models.DateTimeField(auto_now=True)),
                 ("local_id", models.CharField(max_length=64, unique=True)),
                 ("code", models.CharField(max_length=100)),
-                ("display_name", models.CharField(blank=True, max_length=100)),
+                ("label", models.CharField(blank=True, max_length=100)),
                 ("description", models.CharField(blank=True, max_length=255)),
                 ("sort_order", models.PositiveIntegerField(default=0)),
                 ("is_system_managed", models.BooleanField(default=True)),
@@ -216,7 +216,7 @@ class Migration(migrations.Migration):
                 ("uuid", models.UUIDField(db_index=True, default=uuid.uuid4, editable=False)),
                 ("local_id", models.CharField(db_index=True, max_length=64)),
                 ("code", models.CharField(max_length=100)),
-                ("display_name", models.CharField(blank=True, max_length=100)),
+                ("label", models.CharField(blank=True, max_length=100)),
                 ("description", models.CharField(blank=True, max_length=255)),
                 ("sort_order", models.PositiveIntegerField(default=0)),
                 ("is_system_managed", models.BooleanField(default=True)),
@@ -283,18 +283,6 @@ class Migration(migrations.Migration):
                 ("updated_at", models.DateTimeField(auto_now=True)),
                 ("starts_on", models.DateField()),
                 ("ends_on", models.DateField(blank=True, null=True)),
-                (
-                    "status",
-                    models.CharField(
-                        choices=[
-                            ("active", "Active"),
-                            ("inactive", "Inactive"),
-                            ("closed", "Closed"),
-                        ],
-                        default="active",
-                        max_length=20,
-                    ),
-                ),
                 ("note", models.CharField(blank=True, max_length=255)),
                 (
                     "created_by",
@@ -342,18 +330,6 @@ class Migration(migrations.Migration):
                 ("uuid", models.UUIDField(db_index=True, default=uuid.uuid4, editable=False)),
                 ("starts_on", models.DateField()),
                 ("ends_on", models.DateField(blank=True, null=True)),
-                (
-                    "status",
-                    models.CharField(
-                        choices=[
-                            ("active", "Active"),
-                            ("inactive", "Inactive"),
-                            ("closed", "Closed"),
-                        ],
-                        default="active",
-                        max_length=20,
-                    ),
-                ),
                 ("note", models.CharField(blank=True, max_length=255)),
                 ("history_id", models.AutoField(primary_key=True, serialize=False)),
                 ("history_date", models.DateTimeField(db_index=True)),

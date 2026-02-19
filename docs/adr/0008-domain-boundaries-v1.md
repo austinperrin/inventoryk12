@@ -14,13 +14,14 @@ Adopt the following top-level domains:
 
 1. `identity`
 2. `organization`
-3. `academic`
-4. `instruction`
-5. `enrollment`
-6. `contacts`
-7. `inventory`
-8. `operations`
-9. `integrations`
+3. `locations`
+4. `academic`
+5. `instruction`
+6. `enrollment`
+7. `contacts`
+8. `inventory`
+9. `operations`
+10. `integrations`
 
 Inventory management work is implemented as subdomains across these boundaries:
 - Asset Registry (`inventory`)
@@ -32,7 +33,7 @@ Inventory management work is implemented as subdomains across these boundaries:
 
 Organization modeling baseline:
 - Keep core organization identity/hierarchy in `organization`.
-- Keep dynamic organization types in `organization_type` with support for
+- Keep dynamic organization types in `organization_type_code` with support for
   system-managed and district-managed type records.
 - Model organization lifecycle windows in a separate `organization_lifecycle`
   table to support multiple active/inactive periods over time.
@@ -40,6 +41,24 @@ Organization modeling baseline:
   address model.
 - Store organization "Additional IDs" (SIS, OneRoster, NCES, etc.) in
   `organization_additional_identifier`.
+
+Locations modeling baseline:
+- Keep physical location hierarchy (campus/building/floor/room) in `locations`.
+- Keep dynamic location classifications in `locations_facility_type_code` with support
+  for system-managed and district-managed records.
+- Keep location profile/detail fields in `locations_facility_detail`.
+- Keep location lifecycle windows in `locations_facility_lifecycle`.
+- Keep location-address links in `locations_facility_address`.
+- Store facility "Additional IDs" (SIS, OneRoster sourcedId, NCES, etc.) in
+  `locations_facility_additional_identifier`.
+- Link administrative orgs to physical locations through
+  `locations_organization_facility`.
+
+Contacts modeling baseline:
+- Keep reusable phone classifications in `contacts_phone_code` with
+  system-managed and district-managed support.
+- Keep phone endpoints in `contacts_phone` so phone records can be
+  reused across identity and organization-adjacent workflows.
 
 ## Consequences
 - Improves consistency for model/API placement decisions.

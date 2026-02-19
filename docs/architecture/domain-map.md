@@ -9,6 +9,7 @@ Use this map when deciding where new tables, services, and APIs belong.
 
 - `identity`: accounts, authentication, authorization, role windows, profile
 - `organization`: district/campus/department hierarchy and memberships
+- `locations`: physical location hierarchy (campus/building/floor/room), location lifecycle, org-location links
 - `academic`: academic years, calendars, terms, day metadata
 - `instruction`: courses, sections/classes, schedules, instructional structure
 - `enrollment`: student/staff enrollment and assignment relationships
@@ -26,7 +27,7 @@ subdomains to keep boundaries clear:
 - Asset master record, tags, serials, models, status, condition
 - Asset type catalog and controlled values
 
-2. Custody and Assignment (`inventory` + `identity` + `organization`)
+2. Custody and Assignment (`inventory` + `identity` + `organization` + `locations`)
 - Assignment windows (who has what, from/to)
 - Check-in/check-out events and custody history
 - Scoped to org units where applicable
@@ -39,7 +40,7 @@ subdomains to keep boundaries clear:
 - Damage/loss/theft lifecycle
 - Triage, status transitions, resolution evidence
 
-5. Operational Scope and Time (`organization` + `academic`)
+5. Operational Scope and Time (`organization` + `locations` + `academic`)
 - Org-level filtering (district/campus/department)
 - Year/term/calendar aware behavior and reporting windows
 
@@ -50,7 +51,8 @@ subdomains to keep boundaries clear:
 ## Placement Rules
 
 - If the data defines account/access behavior, place in `identity`.
-- If the data defines where work happens, place in `organization`.
+- If the data defines administrative ownership/scope, place in `organization`.
+- If the data defines physical places (campus/building/room), place in `locations`.
 - If the data defines when work applies, place in `academic`.
 - If the data defines what asset exists and its state, place in `inventory`.
 - If the data defines operational workflow outcomes, place in `operations`.
@@ -64,8 +66,8 @@ subdomains to keep boundaries clear:
 - Introduce follow-up ADRs when boundaries materially change.
 - Organization core baseline includes:
   `id`, `uuid`, `local_id`, `name`, `display_name`, `sort_order`,
-  `organization_type`, `parent`, and audit/history tracking.
-- Organization types are modeled in `organization_type` and support both
+  `organization_type_code`, `parent`, and audit/history tracking.
+- Organization types are modeled in `organization_type_code` and support both
   system-managed and district-managed records.
 - Lifecycle windows are modeled separately in `organization_lifecycle`
   (`starts_on`, `ends_on`, `status`) to support reopen scenarios.
@@ -73,3 +75,9 @@ subdomains to keep boundaries clear:
   to records in the `contacts` domain address model.
 - Additional IDs are modeled in `organization_additional_identifier`
   (for example SIS ID, OneRoster sourcedId, NCES ID).
+- Physical place hierarchy is modeled in `locations_facility` and typed by
+  `locations_facility_type_code`.
+- Additional IDs for facilities are modeled in
+  `locations_facility_additional_identifier`.
+- Organization-to-location relationships are modeled in
+  `locations_organization_facility`.

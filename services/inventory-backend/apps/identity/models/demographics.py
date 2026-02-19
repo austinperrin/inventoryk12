@@ -7,7 +7,7 @@ from apps.common.models import AuditModel, BaseModel
 
 class GenderCode(BaseModel, AuditModel):
     code = models.CharField(max_length=100)
-    display_name = models.CharField(max_length=100, blank=True)
+    label = models.CharField(max_length=100, blank=True)
     description = models.CharField(max_length=255, blank=True)
     sort_order = models.PositiveIntegerField(default=0)
     is_system_managed = models.BooleanField(default=True)
@@ -26,7 +26,7 @@ class GenderCode(BaseModel, AuditModel):
 
 class RaceCode(BaseModel, AuditModel):
     code = models.CharField(max_length=100)
-    display_name = models.CharField(max_length=100, blank=True)
+    label = models.CharField(max_length=100, blank=True)
     description = models.CharField(max_length=255, blank=True)
     sort_order = models.PositiveIntegerField(default=0)
     is_system_managed = models.BooleanField(default=True)
@@ -45,7 +45,7 @@ class RaceCode(BaseModel, AuditModel):
 
 class EthnicityCode(BaseModel, AuditModel):
     code = models.CharField(max_length=100)
-    display_name = models.CharField(max_length=100, blank=True)
+    label = models.CharField(max_length=100, blank=True)
     description = models.CharField(max_length=255, blank=True)
     sort_order = models.PositiveIntegerField(default=0)
     is_system_managed = models.BooleanField(default=True)

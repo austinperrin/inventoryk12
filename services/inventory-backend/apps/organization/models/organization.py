@@ -8,7 +8,7 @@ from apps.common.models import AuditModel, BaseModel
 class OrganizationTypeCode(BaseModel, AuditModel):
     local_id = models.CharField(max_length=64, unique=True)
     code = models.CharField(max_length=100)
-    display_name = models.CharField(max_length=100, blank=True)
+    label = models.CharField(max_length=100, blank=True)
     description = models.CharField(max_length=255, blank=True)
     sort_order = models.PositiveIntegerField(default=0)
     is_system_managed = models.BooleanField(default=True)
@@ -25,7 +25,7 @@ class OrganizationTypeCode(BaseModel, AuditModel):
         ordering = ["sort_order", "code"]
 
     def __str__(self) -> str:
-        return self.display_name or self.code
+        return self.label or self.code
 
 
 class Organization(BaseModel, AuditModel):
@@ -63,11 +63,6 @@ class Organization(BaseModel, AuditModel):
 
 
 class OrganizationLifecycle(BaseModel, AuditModel):
-    class LifecycleStatus(models.TextChoices):
-        ACTIVE = "active", "Active"
-        INACTIVE = "inactive", "Inactive"
-        CLOSED = "closed", "Closed"
-
     organization = models.ForeignKey(
         "organization.Organization",
         on_delete=models.CASCADE,
@@ -75,7 +70,6 @@ class OrganizationLifecycle(BaseModel, AuditModel):
     )
     starts_on = models.DateField()
     ends_on = models.DateField(null=True, blank=True)
-    status = models.CharField(max_length=20, choices=LifecycleStatus.choices, default=LifecycleStatus.ACTIVE)
     note = models.CharField(max_length=255, blank=True)
     history = HistoricalRecords(
         excluded_fields=["created_at", "updated_at"],

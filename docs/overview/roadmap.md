@@ -233,14 +233,14 @@ Domain Foundation Checklist (Review Order):
    - [x] `organization.organization_lifecycle`: organization lifecycle windows approved.
    - [x] `organization.organization_address`: organization-address link model approved.
    - [x] `organization.organization_additional_identifier`: additional identifier mapping model approved.
-4. [ ] `locations`: location hierarchy and organization-link models approved.
-   - [ ] `locations.facility_type_code`: location type code-table model approved (system/district managed).
-   - [ ] `locations.facility`: core location hierarchy model approved (campus/building/floor/room pattern).
-   - [ ] `locations.facility_detail`: profile/detail fields approved (label, floor plan, capacity, delivery, website, notes).
-   - [ ] `locations.facility_lifecycle`: location lifecycle windows approved.
-   - [ ] `locations.facility_address`: location-address link model approved.
-   - [ ] `locations.facility_additional_identifier`: facility additional identifier mapping model approved.
-   - [ ] `locations.organization_facility`: organization-to-location scope/link model approved.
+4. [x] `locations`: location hierarchy and organization-link models approved.
+   - [x] `locations.facility_type_code`: location type code-table model approved (system/district managed).
+   - [x] `locations.facility`: core location hierarchy model approved (campus/building/floor/room pattern).
+   - [x] `locations.facility_detail`: profile/detail fields approved (floor plan, capacity, delivery, website, notes).
+   - [x] `locations.facility_lifecycle`: location lifecycle windows approved.
+   - [x] `locations.facility_address`: location-address link model approved.
+   - [x] `locations.facility_additional_identifier`: facility additional identifier mapping model approved.
+   - [x] `locations.organization_facility`: organization-to-location scope/link model approved.
 5. [ ] `academic`: year/calendar/day/term models and date-window rules approved.
    - [ ] `academic.year`: academic year model approved.
    - [ ] `academic.calendar`: calendar model approved (district/campus/department scope rules).
