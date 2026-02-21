@@ -37,7 +37,7 @@ Organization modeling baseline:
   system-managed and district-managed type records.
 - Model organization lifecycle windows in a separate `organization_lifecycle`
   table to support multiple active/inactive periods over time.
-- Link organization addresses through `organization_address` to the `contacts`
+- Link organization addresses through `organization_address` to the `locations`
   address model.
 - Store organization "Additional IDs" (SIS, OneRoster, NCES, etc.) in
   `organization_additional_identifier`.
@@ -55,10 +55,28 @@ Locations modeling baseline:
   `locations_organization_facility`.
 
 Contacts modeling baseline:
-- Keep reusable phone classifications in `contacts_phone_code` with
-  system-managed and district-managed support.
-- Keep phone endpoints in `contacts_phone` so phone records can be
-  reused across identity and organization-adjacent workflows.
+- Keep reusable phone/email classifications in
+  `contacts_phone_code` and `contacts_email_code`
+  (system-managed and district-managed capable).
+- Keep reusable contact endpoints in `contacts_phone` and `contacts_email`.
+- Keep canonical country/state/address records in `locations_country_code`,
+  `locations_state_code`, and `locations_address` with both raw and
+  parsed/normalized components, plus validation metadata.
+- Link addresses to users through `contacts_user_address`.
+- Keep person relationship links in contacts:
+  `contacts_student_relationship`,
+  `contacts_student_guardian_relationship`,
+  `contacts_staff_assignment`.
+- Support low-cost local-first validation through
+  `locations_address_catalog` and `locations_address_validation_run`, with
+  optional external provider integration in later milestones.
+
+Enrollment modeling baseline:
+- Keep enrollment domain focused on instructional enrollment/roster windows.
+- Keep instructional person/org relationships in enrollment (for example,
+  `enrollment_user_enrollment`).
+- Keep guardian/student/staff relationship links out of enrollment and in
+  contacts.
 
 ## Consequences
 - Improves consistency for model/API placement decisions.

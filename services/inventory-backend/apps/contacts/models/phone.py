@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import Q
 from simple_history.models import HistoricalRecords
 
 from apps.common.models import AuditModel, BaseModel
@@ -62,5 +63,10 @@ class Phone(BaseModel, AuditModel):
             models.UniqueConstraint(
                 fields=["user", "phone_number", "phone_code"],
                 name="ct_usr_ph_unique_val",
-            )
+            ),
+            models.UniqueConstraint(
+                fields=["user"],
+                condition=Q(is_primary=True),
+                name="ct_usr_ph_primary_unique",
+            ),
         ]

@@ -216,7 +216,7 @@ Domain Foundation Checklist (Review Order):
 2. [x] `identity`: user/account, profile, demographics, and role-scope models approved.
    - [x] `identity.user`: account fields, lifecycle fields, email uniqueness, and password-reset enforcement approved.
    - [x] `identity.profile`: profile-purpose fields approved (and non-auth fields kept out of user table).
-   - [x] `identity.details`: student/staff/guardian detail models approved for core person fields (birth country/state via shared `contacts` code-table FKs + text birth city).
+   - [x] `identity.details`: student/staff/guardian detail models approved for core person fields (birth country/state via shared `locations` code-table FKs + text birth city).
    - [x] `identity.prefix_code`: prefix code-table model approved (system/district managed).
    - [x] `identity.suffix_code`: suffix code-table model approved (system/district managed).
    - [x] `identity.demographics`: student/staff/guardian demographic payload structure and demographic code-table FKs approved.
@@ -241,23 +241,27 @@ Domain Foundation Checklist (Review Order):
    - [x] `locations.facility_address`: location-address link model approved.
    - [x] `locations.facility_additional_identifier`: facility additional identifier mapping model approved.
    - [x] `locations.organization_facility`: organization-to-location scope/link model approved.
+   - [ ] `locations.country_code`: country code-table model approved (system/district managed).
+   - [ ] `locations.state_code`: state code-table model approved (system/district managed).
+   - [ ] `locations.address`: address baseline model approved (raw + parsed + validation metadata).
+   - [ ] `locations.address_catalog`: local address catalog model approved.
+   - [ ] `locations.address_validation_run`: validation run tracking model approved (provider placeholders).
 5. [x] `academic`: year/calendar/day/term models and date-window rules approved.
    - [x] `academic.year`: academic year model approved.
    - [x] `academic.calendar`: calendar model approved (district/campus/department scope rules).
    - [x] `academic.day`: calendar day model approved (day metadata and constraints).
    - [x] `academic.term`: academic term/period model approved (OneRoster-aligned hybrid).
-6. [ ] `contacts`: address/contact model baseline approved.
+6. [ ] `contacts`: contact/relationship model baseline approved (with location-owned address model).
    - [ ] `contacts.phone_code`: phone code-table model approved (system/district managed).
    - [ ] `contacts.phone`: phone model approved (SMS consent fields and constraints).
    - [ ] `contacts.email_code`: email code-table model approved (system/district managed).
    - [ ] `contacts.email`: additional email model approved (typed emails + constraints).
-   - [ ] `contacts.country_code`: country code-table model approved (system/district managed).
-   - [ ] `contacts.state_code`: state code-table model approved (system/district managed).
-   - [ ] `contacts.address`: address baseline model approved.
+   - [ ] `contacts.user_address`: user-address relationship model approved.
+   - [ ] `contacts.student_relationship`: student-to-student relationship model approved.
+   - [ ] `contacts.student_guardian_relationship`: student-to-guardian relationship model approved.
+   - [ ] `contacts.staff_assignment`: staff-to-organization/facility relationship model approved.
 7. [ ] `enrollment`: enrollment relationship model baseline approved.
-   - [ ] `enrollment.student_enrollment`: student enrollment relationship model approved.
-   - [ ] `enrollment.guardian_link`: guardian-student relationship/link model approved.
-   - [ ] `enrollment.staff_assignment`: staff-to-campus/department assignment model approved.
+   - [ ] `enrollment.user_enrollment`: user enrollment relationship model approved.
 8. [ ] `instruction`: course/section/scheduling model baseline approved.
    - [ ] `instruction.course`: course catalog model approved.
    - [ ] `instruction.section`: section/class instance model approved.

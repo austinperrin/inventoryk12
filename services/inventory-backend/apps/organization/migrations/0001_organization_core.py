@@ -417,6 +417,8 @@ class Migration(migrations.Migration):
                     ),
                 ),
                 ("is_primary", models.BooleanField(default=False)),
+                ("source_system", models.CharField(blank=True, max_length=50)),
+                ("source_record_id", models.CharField(blank=True, max_length=128)),
                 ("starts_on", models.DateField(blank=True, null=True)),
                 ("ends_on", models.DateField(blank=True, null=True)),
                 (
@@ -477,6 +479,8 @@ class Migration(migrations.Migration):
                     ),
                 ),
                 ("is_primary", models.BooleanField(default=False)),
+                ("source_system", models.CharField(blank=True, max_length=50)),
+                ("source_record_id", models.CharField(blank=True, max_length=128)),
                 ("starts_on", models.DateField(blank=True, null=True)),
                 ("ends_on", models.DateField(blank=True, null=True)),
                 ("history_id", models.AutoField(primary_key=True, serialize=False)),

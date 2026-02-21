@@ -69,14 +69,14 @@ class PersonaDetailModel(BaseModel, AuditModel):
     )
     date_of_birth = models.DateField(null=True, blank=True)
     birth_country = models.ForeignKey(
-        "contacts.CountryCode",
+        "locations.CountryCode",
         on_delete=models.PROTECT,
         related_name="%(class)s_records",
         null=True,
         blank=True,
     )
     birth_state = models.ForeignKey(
-        "contacts.StateCode",
+        "locations.StateCode",
         on_delete=models.PROTECT,
         related_name="%(class)s_records",
         null=True,

@@ -8,7 +8,7 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
     dependencies = [
-        ("contacts", "0002_email"),
+        ("locations", "0001_locations_core"),
         ("identity", "0006_role_assignment"),
     ]
 
@@ -86,11 +86,11 @@ class Migration(migrations.Migration):
                 ("local_id", models.CharField(blank=True, db_index=True, max_length=64)),
                 (
                     "birth_country",
-                    models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.PROTECT, related_name="%(class)s_records", to="contacts.countrycode"),
+                    models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.PROTECT, related_name="%(class)s_records", to="locations.countrycode"),
                 ),
                 (
                     "birth_state",
-                    models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.PROTECT, related_name="%(class)s_records", to="contacts.statecode"),
+                    models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.PROTECT, related_name="%(class)s_records", to="locations.statecode"),
                 ),
                 (
                     "created_by",
@@ -134,11 +134,11 @@ class Migration(migrations.Migration):
                 ("local_id", models.CharField(blank=True, db_index=True, max_length=64)),
                 (
                     "birth_country",
-                    models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.PROTECT, related_name="%(class)s_records", to="contacts.countrycode"),
+                    models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.PROTECT, related_name="%(class)s_records", to="locations.countrycode"),
                 ),
                 (
                     "birth_state",
-                    models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.PROTECT, related_name="%(class)s_records", to="contacts.statecode"),
+                    models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.PROTECT, related_name="%(class)s_records", to="locations.statecode"),
                 ),
                 (
                     "created_by",
@@ -182,11 +182,11 @@ class Migration(migrations.Migration):
                 ("local_id", models.CharField(blank=True, db_index=True, max_length=64)),
                 (
                     "birth_country",
-                    models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.PROTECT, related_name="%(class)s_records", to="contacts.countrycode"),
+                    models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.PROTECT, related_name="%(class)s_records", to="locations.countrycode"),
                 ),
                 (
                     "birth_state",
-                    models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.PROTECT, related_name="%(class)s_records", to="contacts.statecode"),
+                    models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.PROTECT, related_name="%(class)s_records", to="locations.statecode"),
                 ),
                 (
                     "created_by",
@@ -304,7 +304,7 @@ class Migration(migrations.Migration):
                 ("history_type", models.CharField(choices=[("+", "Created"), ("~", "Changed"), ("-", "Deleted")], max_length=1)),
                 (
                     "birth_country",
-                    models.ForeignKey(blank=True, db_constraint=False, null=True, on_delete=django.db.models.deletion.DO_NOTHING, related_name="+", to="contacts.countrycode"),
+                    models.ForeignKey(blank=True, db_constraint=False, null=True, on_delete=django.db.models.deletion.DO_NOTHING, related_name="+", to="locations.countrycode"),
                 ),
                 (
                     "created_by",
@@ -312,7 +312,7 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "birth_state",
-                    models.ForeignKey(blank=True, db_constraint=False, null=True, on_delete=django.db.models.deletion.DO_NOTHING, related_name="+", to="contacts.statecode"),
+                    models.ForeignKey(blank=True, db_constraint=False, null=True, on_delete=django.db.models.deletion.DO_NOTHING, related_name="+", to="locations.statecode"),
                 ),
                 (
                     "suffix",
@@ -360,7 +360,7 @@ class Migration(migrations.Migration):
                 ("history_type", models.CharField(choices=[("+", "Created"), ("~", "Changed"), ("-", "Deleted")], max_length=1)),
                 (
                     "birth_country",
-                    models.ForeignKey(blank=True, db_constraint=False, null=True, on_delete=django.db.models.deletion.DO_NOTHING, related_name="+", to="contacts.countrycode"),
+                    models.ForeignKey(blank=True, db_constraint=False, null=True, on_delete=django.db.models.deletion.DO_NOTHING, related_name="+", to="locations.countrycode"),
                 ),
                 (
                     "created_by",
@@ -368,7 +368,7 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "birth_state",
-                    models.ForeignKey(blank=True, db_constraint=False, null=True, on_delete=django.db.models.deletion.DO_NOTHING, related_name="+", to="contacts.statecode"),
+                    models.ForeignKey(blank=True, db_constraint=False, null=True, on_delete=django.db.models.deletion.DO_NOTHING, related_name="+", to="locations.statecode"),
                 ),
                 (
                     "suffix",
@@ -416,7 +416,7 @@ class Migration(migrations.Migration):
                 ("history_type", models.CharField(choices=[("+", "Created"), ("~", "Changed"), ("-", "Deleted")], max_length=1)),
                 (
                     "birth_country",
-                    models.ForeignKey(blank=True, db_constraint=False, null=True, on_delete=django.db.models.deletion.DO_NOTHING, related_name="+", to="contacts.countrycode"),
+                    models.ForeignKey(blank=True, db_constraint=False, null=True, on_delete=django.db.models.deletion.DO_NOTHING, related_name="+", to="locations.countrycode"),
                 ),
                 (
                     "created_by",
@@ -424,7 +424,7 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "birth_state",
-                    models.ForeignKey(blank=True, db_constraint=False, null=True, on_delete=django.db.models.deletion.DO_NOTHING, related_name="+", to="contacts.statecode"),
+                    models.ForeignKey(blank=True, db_constraint=False, null=True, on_delete=django.db.models.deletion.DO_NOTHING, related_name="+", to="locations.statecode"),
                 ),
                 (
                     "suffix",

@@ -104,6 +104,8 @@ class OrganizationAddress(BaseModel, AuditModel):
     address_id = models.BigIntegerField(db_index=True)
     address_type = models.CharField(max_length=20, choices=AddressType.choices, default=AddressType.PHYSICAL)
     is_primary = models.BooleanField(default=False)
+    source_system = models.CharField(max_length=50, blank=True)
+    source_record_id = models.CharField(max_length=128, blank=True)
     starts_on = models.DateField(null=True, blank=True)
     ends_on = models.DateField(null=True, blank=True)
     history = HistoricalRecords(

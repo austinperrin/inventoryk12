@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import Q
 from simple_history.models import HistoricalRecords
 
 from apps.common.models import AuditModel, BaseModel
@@ -59,5 +60,10 @@ class Email(BaseModel, AuditModel):
             models.UniqueConstraint(
                 fields=["user", "email_address", "email_code"],
                 name="ct_usr_em_unique_val",
-            )
+            ),
+            models.UniqueConstraint(
+                fields=["user"],
+                condition=Q(is_primary=True),
+                name="ct_usr_em_primary_unique",
+            ),
         ]

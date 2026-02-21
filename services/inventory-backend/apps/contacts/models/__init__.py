@@ -1,12 +1,15 @@
+from .address import UserAddress
 from .email import Email, EmailCode
-from .location import CountryCode, StateCode
 from .phone import Phone, PhoneCode
+from .relationships import StaffAssignment, StudentGuardianRelationship, StudentRelationship
 
 __all__ = [
-    "CountryCode",
     "Email",
     "EmailCode",
     "Phone",
     "PhoneCode",
-    "StateCode",
+    "StaffAssignment",
+    "StudentGuardianRelationship",
+    "StudentRelationship",
+    "UserAddress",
 ]

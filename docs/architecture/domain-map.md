@@ -12,8 +12,8 @@ Use this map when deciding where new tables, services, and APIs belong.
 - `locations`: physical location hierarchy (campus/building/floor/room), location lifecycle, org-location links
 - `academic`: academic years, calendars, terms, day metadata
 - `instruction`: courses, sections/classes, schedules, instructional structure
-- `enrollment`: student/staff enrollment and assignment relationships
-- `contacts`: addresses, phone/email records, communication preferences
+- `enrollment`: instructional enrollment windows and roster membership relationships
+- `contacts`: addresses, phone/email records, communication preferences, and person relationship links
 - `inventory`: assets, asset catalog, tag lifecycle, custody state
 - `operations`: audits, incidents, workflows, tasks, action logs
 - `integrations`: source mappings, import/export jobs, sync state
@@ -70,9 +70,9 @@ subdomains to keep boundaries clear:
 - Organization types are modeled in `organization_type_code` and support both
   system-managed and district-managed records.
 - Lifecycle windows are modeled separately in `organization_lifecycle`
-  (`starts_on`, `ends_on`, `status`) to support reopen scenarios.
+  (`starts_on`, `ends_on`) to support reopen scenarios.
 - Organization addresses are linked via `organization_address` and should point
-  to records in the `contacts` domain address model.
+  to records in the `locations` domain address model.
 - Additional IDs are modeled in `organization_additional_identifier`
   (for example SIS ID, OneRoster sourcedId, NCES ID).
 - Physical place hierarchy is modeled in `locations_facility` and typed by
@@ -81,3 +81,12 @@ subdomains to keep boundaries clear:
   `locations_facility_additional_identifier`.
 - Organization-to-location relationships are modeled in
   `locations_organization_facility`.
+- Contacts baseline includes reusable code tables (`contacts_phone_code`,
+  `contacts_email_code`), link tables (`contacts_user_address`), and person
+  relationship links (`contacts_student_relationship`,
+  `contacts_student_guardian_relationship`, `contacts_staff_assignment`), and
+  no instructional enrollment relationships.
+- Location baseline includes reusable country/state classification
+  (`locations_country_code`, `locations_state_code`), rich address storage
+  (`locations_address`), and address validation/caching support
+  (`locations_address_catalog`, `locations_address_validation_run`).

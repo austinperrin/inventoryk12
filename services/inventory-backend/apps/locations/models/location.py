@@ -5,6 +5,50 @@ from simple_history.models import HistoricalRecords
 from apps.common.models import AuditModel, BaseModel
 
 
+class CountryCode(BaseModel, AuditModel):
+    code = models.CharField(max_length=100)
+    label = models.CharField(max_length=100, blank=True)
+    description = models.CharField(max_length=255, blank=True)
+    sort_order = models.PositiveIntegerField(default=0)
+    is_system_managed = models.BooleanField(default=True)
+    is_active = models.BooleanField(default=True)
+    history = HistoricalRecords(
+        excluded_fields=["created_at", "updated_at"],
+        table_name="hist_locations_country_code",
+    )
+
+    class Meta:
+        db_table = "locations_country_code"
+        verbose_name = "Country Code"
+        verbose_name_plural = "Country Codes"
+        ordering = ["sort_order", "code"]
+
+    def __str__(self) -> str:
+        return self.label or self.code
+
+
+class StateCode(BaseModel, AuditModel):
+    code = models.CharField(max_length=100)
+    label = models.CharField(max_length=100, blank=True)
+    description = models.CharField(max_length=255, blank=True)
+    sort_order = models.PositiveIntegerField(default=0)
+    is_system_managed = models.BooleanField(default=True)
+    is_active = models.BooleanField(default=True)
+    history = HistoricalRecords(
+        excluded_fields=["created_at", "updated_at"],
+        table_name="hist_locations_state_code",
+    )
+
+    class Meta:
+        db_table = "locations_state_code"
+        verbose_name = "State Code"
+        verbose_name_plural = "State Codes"
+        ordering = ["sort_order", "code"]
+
+    def __str__(self) -> str:
+        return self.label or self.code
+
+
 class FacilityTypeCode(BaseModel, AuditModel):
     code = models.CharField(max_length=100)
     label = models.CharField(max_length=100, blank=True)
@@ -124,6 +168,8 @@ class FacilityAddress(BaseModel, AuditModel):
     address_id = models.BigIntegerField(db_index=True)
     address_type = models.CharField(max_length=20, choices=AddressType.choices, default=AddressType.PHYSICAL)
     is_primary = models.BooleanField(default=False)
+    source_system = models.CharField(max_length=50, blank=True)
+    source_record_id = models.CharField(max_length=128, blank=True)
     starts_on = models.DateField(null=True, blank=True)
     ends_on = models.DateField(null=True, blank=True)
     history = HistoricalRecords(
