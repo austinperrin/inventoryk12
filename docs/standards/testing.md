@@ -39,3 +39,5 @@
 - PRs should pass lint, type-check, and test checks before merge.
 - Failing tests block merge unless explicitly waived and tracked.
 - If checks are intentionally skipped, document reason and follow-up in PR.
+- Local developer default path is Docker-based checks (`pnpm dev:checks`).
+- CI pipelines run checks with CI-managed dependencies (GitHub Actions).

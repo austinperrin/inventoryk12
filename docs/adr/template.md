@@ -8,11 +8,15 @@
 
 ## Decision
 
+## Model and Field Breakdown
+
 ## Consequences
 
 ## Alternatives Considered
 
 ## Follow-Up
+
+## Domain Review Sign-off Checklist
 
 ## Related
 

@@ -39,10 +39,9 @@ both system defaults and district-level flexibility.
 
 ## Related
 - `docs/adr/0002-core-data-model.md`
-- `docs/adr/0004-identity-domain-model-v1.md`
+- `docs/adr/0018-identity-domain-model-v2.md`
 - `docs/adr/0005-contact-and-address-model-v1.md`
 - `docs/standards/security.md`
 
 ## References
 - `docs/overview/feature-candidates.md`
-

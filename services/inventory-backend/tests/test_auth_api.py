@@ -36,6 +36,8 @@ class AuthApiTests(APITestCase):
         self.assertIn("refresh", response.data)
         self.assertEqual(response.data["user"]["email"], self.user.email)
         self.assertEqual(response.data["user"]["full_name"], "Taylor Teacher")
+        self.assertEqual(response.data["user"]["uuid"], str(self.user.uuid))
+        self.assertNotIn("id", response.data["user"])
 
     def test_login_rejects_invalid_credentials(self) -> None:
         response = self.client.post(
@@ -60,6 +62,8 @@ class AuthApiTests(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data["email"], self.user.email)
         self.assertEqual(response.data["roles"], ["teacher"])
+        self.assertEqual(response.data["uuid"], str(self.user.uuid))
+        self.assertNotIn("id", response.data)
 
     def test_refresh_issues_new_access_token(self) -> None:
         refresh = RefreshToken.for_user(self.user)

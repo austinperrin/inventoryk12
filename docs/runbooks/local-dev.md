@@ -49,6 +49,11 @@ Run the aggregate CI gate before requesting approval:
 
 - `pnpm ci:checks`
 
+CI note:
+- `pnpm ci:*` scripts are intended to mirror CI behavior and are primarily
+  validated in GitHub Actions.
+- Local day-to-day verification should use Docker-based `pnpm dev:checks`.
+
 ## Notes
 
 - Local and production runtime expectations are containerized (Docker-based).

@@ -16,6 +16,7 @@ Roadmap governance:
 References:
 - Primary index: `docs/index.md`
 - Core roadmap context lives in `docs/overview/`, `docs/adr/`, and `docs/standards/`.
+- Flow redesign draft: `docs/overview/roadmap-flow-v2-proposal.md`
 
 ## Guiding Rules
 - Keep scope tight and milestone-driven.
@@ -23,6 +24,12 @@ References:
 - Prefer small, reviewable PRs and incremental delivery.
 - Require ADR updates for architecture-impacting decisions.
 - Treat every task item as executable work with clear entry and exit criteria.
+- Treat domain checklist checkboxes as explicit review gates. Code can exist before
+  an item is checked, but an item is marked done only after deliberate model review.
+- Keep local development and operations Docker-first. Local host toolchains are
+  optional and should not be required for normal dev/ops workflows.
+- Keep CI checks (`pnpm ci:*`) aligned to CI environment dependencies (GitHub
+  Actions today) rather than local workstation assumptions.
 
 ## Team Model (Enterprise Layout)
 
@@ -47,16 +54,15 @@ using these team names directly.
 
 Use this table as the canonical timeline and status view.
 
-| Milestone | Phase | Estimate | Planned Start | Planned End | Actual Start | Actual End | Variance | Status |
+| Milestone | Stage/Phase | Estimate | Planned Start | Planned End | Actual Start | Actual End | Variance | Status |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | [Milestone 0: Foundation Alignment](#milestone-0-foundation-alignment-estimated-1-week) |  | 1 week | TBD | TBD | 2026-02-13 | 2026-02-13 | On Track | Complete |
 |  | [Phase 1: Scope and Decision Lock](#m0-phase-1) | 2-3 days | TBD | TBD | 2026-02-13 | 2026-02-13 | On Track | Complete |
 |  | [Phase 2: Planning and Risk Setup](#m0-phase-2) | 2-3 days | TBD | TBD | 2026-02-13 | 2026-02-13 | On Track | Complete |
 | [Milestone 1: MVP Delivery](#milestone-1-mvp-delivery-estimated-6-8-weeks) |  | 6-8 weeks | TBD | TBD | 2026-02-14 | TBD | TBD | In Progress |
-|  | [Phase 0: Domain Foundation Lock](#m1-phase-0) | 1-2 weeks | TBD | TBD | 2026-02-14 | TBD | TBD | In Progress |
-|  | [Phase 1: Workflow Backbone](#m1-phase-1) | 1-2 weeks | TBD | TBD | TBD | TBD | TBD | Planned |
-|  | [Phase 2: UI and Ingestion Integration](#m1-phase-2) | 2-3 weeks | TBD | TBD | TBD | TBD | TBD | Planned |
-|  | [Phase 3: MVP Quality Gate](#m1-phase-3) | 2-3 weeks | TBD | TBD | TBD | TBD | TBD | Planned |
+|  | [Stage A: Domain Review Loops](#m1-stage-a) | 1-2 weeks | TBD | TBD | 2026-02-14 | TBD | TBD | In Progress |
+|  | [Stage B: Vertical Slice Delivery](#m1-stage-b) | 3-5 weeks | TBD | TBD | TBD | TBD | TBD | Planned |
+|  | [Stage C: Quality and Readiness Gate](#m1-stage-c) | 2-3 weeks | TBD | TBD | TBD | TBD | TBD | Planned |
 | [Milestone 2: Pilot Readiness](#milestone-2-pilot-readiness-estimated-6-8-weeks) |  | 6-8 weeks | TBD | TBD | TBD | TBD | TBD | Planned |
 |  | [Phase 1: Pilot Controls Hardening](#m2-phase-1) | 2-3 weeks | TBD | TBD | TBD | TBD | TBD | Planned |
 |  | [Phase 2: Operator Productivity](#m2-phase-2) | 2-3 weeks | TBD | TBD | TBD | TBD | TBD | Planned |
@@ -191,9 +197,9 @@ Deliver a demoable end-to-end workflow for one district.
 - [x] Team labels and ownership map are unchanged or explicitly updated in this file.
 - [ ] Temporary shortcuts are documented with a removal target milestone.
 
-<a id="m1-phase-0"></a>
-### Phase 0: Domain Foundation Lock (1-2 weeks)
-Goal: finalize prerequisite domain foundations required by milestone-1 feature delivery.
+<a id="m1-stage-a"></a>
+### Stage A: Domain Review Loops (1-2 weeks)
+Goal: finalize prerequisite domain foundations with explicit review-gate completion.
 
 Architecture:
 - [ ] Lock identity, organization, locations, and academic baseline data models and constraints.
@@ -206,14 +212,19 @@ Backend Engineering:
 - [ ] Track per-domain seed-data candidates during each domain review (defer implementation until all domains are approved).
 
 Docs + Standards:
-- [ ] Update roadmap, ADRs, and standards to reflect prerequisite scope and sequence.
+- [ ] Update roadmap, ADRs, and standards to reflect prerequisite scope and sequence
+  (including domain-level ADR decomposition where needed to prevent model drift).
 
 QA + Testing:
-- [ ] Confirm tests were added or updated for this phase where behavior changed.
+- [ ] Confirm tests were added or updated for this stage where behavior changed.
 
-Domain Foundation Checklist (Review Order):
-1. [x] `common`: shared model conventions approved (`id`, `uuid`, audit fields, history conventions).
-2. [x] `identity`: user/account, profile, demographics, and role-scope models approved.
+Domain Foundation Checklist (Review Order + ADR Links):
+Review rule:
+- Check items only after model and migration review is complete for that domain.
+- Unchecked items may still have scaffolding or implementation-in-progress.
+
+1. [x] `common`: shared model conventions approved (`id`, `uuid`, audit fields, history conventions). ADR link: `docs/adr/0002-core-data-model.md`.
+2. [x] `identity`: user/account, profile, demographics, and role-scope models approved. ADR link: `docs/adr/0018-identity-domain-model-v2.md`.
    - [x] `identity.user`: account fields, lifecycle fields, email uniqueness, and password-reset enforcement approved.
    - [x] `identity.profile`: profile-purpose fields approved (and non-auth fields kept out of user table).
    - [x] `identity.details`: student/staff/guardian detail models approved for core person fields (birth country/state via shared `locations` code-table FKs + text birth city).
@@ -227,13 +238,13 @@ Domain Foundation Checklist (Review Order):
    - [x] `identity.login_locks`: user/role login lock models approved.
    - [x] `identity.role_assignment`: role window + organization scope model approved.
    - [x] `identity.role_assignment_organization`: role-assignment to organization scope-link model approved.
-3. [x] `organization`: organization type/core, lifecycle, address links, and additional IDs approved.
+3. [x] `organization`: organization type/core, lifecycle, address links, and additional IDs approved. ADR link: `docs/adr/0010-organization-domain-model-v1.md`.
    - [x] `organization.organization_type_code`: organization type code-table model approved (system/district managed).
    - [x] `organization.organization`: core organization hierarchy model approved.
    - [x] `organization.organization_lifecycle`: organization lifecycle windows approved.
    - [x] `organization.organization_address`: organization-address link model approved.
    - [x] `organization.organization_additional_identifier`: additional identifier mapping model approved.
-4. [x] `locations`: location hierarchy and organization-link models approved.
+4. [x] `locations`: location hierarchy and organization-link models approved. ADR link: `docs/adr/0011-locations-domain-model-v1.md`.
    - [x] `locations.facility_type_code`: location type code-table model approved (system/district managed).
    - [x] `locations.facility`: core location hierarchy model approved (campus/building/floor/room pattern).
    - [x] `locations.facility_detail`: profile/detail fields approved (floor plan, capacity, delivery, website, notes).
@@ -246,12 +257,12 @@ Domain Foundation Checklist (Review Order):
    - [ ] `locations.address`: address baseline model approved (raw + parsed + validation metadata).
    - [ ] `locations.address_catalog`: local address catalog model approved.
    - [ ] `locations.address_validation_run`: validation run tracking model approved (provider placeholders).
-5. [x] `academic`: year/calendar/day/term models and date-window rules approved.
+5. [x] `academic`: year/calendar/day/term models and date-window rules approved. ADR link: `docs/adr/0019-academic-time-model-v2.md`.
    - [x] `academic.year`: academic year model approved.
    - [x] `academic.calendar`: calendar model approved (district/campus/department scope rules).
    - [x] `academic.day`: calendar day model approved (day metadata and constraints).
    - [x] `academic.term`: academic term/period model approved (OneRoster-aligned hybrid).
-6. [ ] `contacts`: contact/relationship model baseline approved (with location-owned address model).
+6. [ ] `contacts`: contact/relationship model baseline approved (with location-owned address model). ADR link: `docs/adr/0012-contacts-domain-model-v1.md`.
    - [ ] `contacts.phone_code`: phone code-table model approved (system/district managed).
    - [ ] `contacts.phone`: phone model approved (SMS consent fields and constraints).
    - [ ] `contacts.email_code`: email code-table model approved (system/district managed).
@@ -260,34 +271,34 @@ Domain Foundation Checklist (Review Order):
    - [ ] `contacts.student_relationship`: student-to-student relationship model approved.
    - [ ] `contacts.student_guardian_relationship`: student-to-guardian relationship model approved.
    - [ ] `contacts.staff_assignment`: staff-to-organization/facility relationship model approved.
-7. [ ] `enrollment`: enrollment relationship model baseline approved.
+7. [ ] `enrollment`: enrollment relationship model baseline approved. ADR link: `docs/adr/0013-enrollment-domain-model-v1.md`.
    - [ ] `enrollment.user_enrollment`: user enrollment relationship model approved.
-8. [ ] `instruction`: course/section/scheduling model baseline approved.
+8. [ ] `instruction`: course/section/scheduling model baseline approved. ADR link: `docs/adr/0014-instruction-domain-model-v1.md`.
    - [ ] `instruction.course`: course catalog model approved.
    - [ ] `instruction.section`: section/class instance model approved.
    - [ ] `instruction.schedule`: bell/schedule period model approved.
    - [ ] `instruction.term_linking`: section/course to academic term linking approved.
-9. [ ] `inventory`: asset and custody model baseline approved.
+9. [ ] `inventory`: asset and custody model baseline approved. ADR link: `docs/adr/0015-inventory-domain-model-v1.md`.
    - [ ] `inventory.asset`: asset master model approved.
    - [ ] `inventory.asset_type`: asset type/code model approved.
    - [ ] `inventory.custody`: assignment/custody lifecycle model approved.
    - [ ] `inventory.audit`: audit count/discrepancy model baseline approved.
-10. [ ] `operations`: audit/incident/workflow model baseline approved.
+10. [ ] `operations`: audit/incident/workflow model baseline approved. ADR link: `docs/adr/0016-operations-domain-model-v1.md`.
    - [ ] `operations.incident`: incident reporting model approved.
    - [ ] `operations.workflow`: operational workflow/state model approved.
    - [ ] `operations.activity_log`: cross-domain activity logging model approved.
-11. [ ] `integrations`: source-mapping/import-export/sync tracking baseline approved.
+11. [ ] `integrations`: source-mapping/import-export/sync tracking baseline approved. ADR link: `docs/adr/0017-integrations-domain-model-v1.md`.
    - [ ] `integrations.source_system`: source system registry model approved.
    - [ ] `integrations.import_job`: import job + status tracking model approved.
    - [ ] `integrations.record_map`: source-to-local record mapping model approved.
    - [ ] `integrations.sync_log`: synchronization result/error logging model approved.
 12. [ ] Domain migration chains validated cleanly after each domain approval checkpoint.
-13. [ ] All approved domain decisions cross-linked in ADRs and standards before Phase 1 start.
+13. [ ] All approved domain decisions cross-linked in ADRs and standards before Stage B start.
 14. [ ] Seed-data plan compiled for all approved domains (implementation deferred until domain reviews are complete).
 
-<a id="m1-phase-1"></a>
-### Phase 1: Workflow Backbone (1-2 weeks)
-Goal: deliver core backend workflows that form the MVP foundation.
+<a id="m1-stage-b"></a>
+### Stage B: Vertical Slice Delivery (3-5 weeks)
+Goal: deliver end-to-end vertical slices after required domain review gates are complete.
 
 Backend Engineering:
 - [ ] Implement check-in/check-out workflow for staff and students.
@@ -295,13 +306,6 @@ Backend Engineering:
 - [ ] Implement incident reporting (damage/loss/theft lifecycle).
 - [ ] Deliver MVP auth endpoints and role-based portal access baseline.
 - [ ] Enforce user/role login lockout checks in authentication flow and active sessions.
-
-QA + Testing:
-- [ ] Confirm tests were added or updated for this phase where behavior changed.
-
-<a id="m1-phase-2"></a>
-### Phase 2: UI and Ingestion Integration (2-3 weeks)
-Goal: connect ingestion and frontend flows into a usable end-to-end experience.
 
 Data + Integrations:
 - [ ] Implement asset intake and tagging flow (CSV import + barcode/QR support).
@@ -311,10 +315,10 @@ Frontend Engineering:
 - [ ] Implement minimal reporting views (asset list, assignment history, audit discrepancy, incidents).
 
 QA + Testing:
-- [ ] Confirm tests were added or updated for this phase where behavior changed.
+- [ ] Confirm tests were added or updated for this stage where behavior changed.
 
-<a id="m1-phase-3"></a>
-### Phase 3: MVP Quality Gate (2-3 weeks)
+<a id="m1-stage-c"></a>
+### Stage C: Quality and Readiness Gate (2-3 weeks)
 Goal: verify MVP quality, safety, and demo readiness.
 
 Security + Compliance:
@@ -323,11 +327,11 @@ Security + Compliance:
 QA + Testing:
 - [ ] Add backend unit tests for auth, ingestion validation, and assignment flows.
 - [ ] Add frontend tests for route rendering and critical forms.
-- [ ] Confirm tests were added or updated for this phase where behavior changed.
+- [ ] Confirm tests were added or updated for this stage where behavior changed.
 
 ### Entry Criteria
 - Milestone 0 exit criteria complete.
-- Milestone 1 Phase 0 exit criteria complete.
+- Milestone 1 Stage A exit criteria complete.
 - Local dev and checks pass via runbook baseline.
 
 ### Exit Criteria

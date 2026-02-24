@@ -7,6 +7,7 @@
   - `docs/overview/feature-candidates.md`
   - `docs/overview/nice-to-have-register.md`
   - `docs/overview/roadmap.md`
+  - `docs/overview/roadmap-flow-v2-proposal.md`
   - `docs/overview/glossary.md`
   - `docs/overview/sprints/README.md`
   - `docs/overview/sprints/sprint-000-foundation-alignment.md`
@@ -37,8 +38,19 @@
   - `docs/adr/0001-auth-strategy.md`
   - `docs/adr/0002-core-data-model.md`
   - `docs/adr/0003-ingestion-architecture.md`
-  - `docs/adr/0004-identity-domain-model-v1.md`
+  - `docs/adr/0004-identity-domain-model-v1.md` (Deprecated; superseded by `docs/adr/0018-identity-domain-model-v2.md`)
   - `docs/adr/0005-contact-and-address-model-v1.md`
   - `docs/adr/0006-code-table-governance-v1.md`
-  - `docs/adr/0007-academic-time-model-v1.md`
+  - `docs/adr/0007-academic-time-model-v1.md` (Deprecated; superseded by `docs/adr/0019-academic-time-model-v2.md`)
   - `docs/adr/0008-domain-boundaries-v1.md`
+  - `docs/adr/0009-domain-adr-decomposition-policy-v1.md`
+  - `docs/adr/0010-organization-domain-model-v1.md`
+  - `docs/adr/0011-locations-domain-model-v1.md`
+  - `docs/adr/0012-contacts-domain-model-v1.md`
+  - `docs/adr/0013-enrollment-domain-model-v1.md`
+  - `docs/adr/0014-instruction-domain-model-v1.md`
+  - `docs/adr/0015-inventory-domain-model-v1.md`
+  - `docs/adr/0016-operations-domain-model-v1.md`
+  - `docs/adr/0017-integrations-domain-model-v1.md`
+  - `docs/adr/0018-identity-domain-model-v2.md`
+  - `docs/adr/0019-academic-time-model-v2.md`

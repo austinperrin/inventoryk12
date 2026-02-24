@@ -8,7 +8,7 @@ from rest_framework_simplejwt.serializers import (  # type: ignore[import-untype
 
 
 class UserSummarySerializer(serializers.Serializer):  # type: ignore[misc]
-    id = serializers.UUIDField(read_only=True)
+    uuid = serializers.UUIDField(read_only=True)
     email = serializers.EmailField(read_only=True)
     first_name = serializers.CharField(read_only=True)
     last_name = serializers.CharField(read_only=True)

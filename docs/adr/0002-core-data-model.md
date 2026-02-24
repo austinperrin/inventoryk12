@@ -52,10 +52,10 @@ Planned follow-up ADR areas:
 - Add migration and compatibility checks per domain as models stabilize.
 - Reassess this strategy after Milestone 1 and either keep, amend, or deprecate it.
 - Initial follow-up ADRs accepted:
-  - `docs/adr/0004-identity-domain-model-v1.md`
+  - `docs/adr/0018-identity-domain-model-v2.md`
   - `docs/adr/0005-contact-and-address-model-v1.md`
   - `docs/adr/0006-code-table-governance-v1.md`
-  - `docs/adr/0007-academic-time-model-v1.md`
+  - `docs/adr/0019-academic-time-model-v2.md`
   - `docs/adr/0008-domain-boundaries-v1.md`
 
 ## Related

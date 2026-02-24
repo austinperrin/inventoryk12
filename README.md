@@ -36,6 +36,12 @@ backend/frontend, add-on services/modules, standards, and operational tooling.
 5. Start services (Docker required):
    - `pnpm dev:up -- --build --frontend`
 
+## Workflow Expectations
+
+- Local development and operations are Docker-based.
+- CI checks (`pnpm ci:*`) are validated in GitHub Actions with CI-managed
+  dependencies.
+
 ## Docs Index
 
 - Review `docs/index.md` for the documentation tree.

@@ -95,8 +95,8 @@ Enrollment modeling baseline:
 
 ## Related
 - `docs/adr/0002-core-data-model.md`
-- `docs/adr/0004-identity-domain-model-v1.md`
-- `docs/adr/0007-academic-time-model-v1.md`
+- `docs/adr/0018-identity-domain-model-v2.md`
+- `docs/adr/0019-academic-time-model-v2.md`
 - `docs/architecture/domain-map.md`
 
 ## References

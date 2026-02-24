@@ -1,8 +1,10 @@
 # ADR 0007: Academic Time Model v1
 
-- **Status**: Accepted
+- **Status**: Deprecated
 - **Date**: 2026-02-17
 - **Owners**: Architecture, Backend Engineering, Data + Integrations
+- **Deprecated Date**: 2026-02-23
+- **Superseded By**: `docs/adr/0019-academic-time-model-v2.md`
 
 ## Context
 InventoryK12 needs year-scoped operational data, year rollover controls, and
@@ -43,10 +45,9 @@ ingestion/reporting workflows.
 ## Related
 - `docs/adr/0002-core-data-model.md`
 - `docs/adr/0003-ingestion-architecture.md`
-- `docs/adr/0004-identity-domain-model-v1.md`
+- `docs/adr/0018-identity-domain-model-v2.md`
 - `docs/overview/roadmap.md`
 
 ## References
 - `https://www.imsglobal.org/lis/imsOneRosterv1p0/imsOneRosterCSV-v1p0.html`
 - `https://learn.microsoft.com/en-us/schooldatasync/data-ingestion-with-oneroster-1.2-csv`
-

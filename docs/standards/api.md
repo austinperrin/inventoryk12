@@ -8,6 +8,9 @@
 
 - Use plural nouns for resources: `/assets/`, `/organizations/`.
 - Use kebab-case or snake_case consistently in URLs (pick one when implementing).
+- API payload identifiers should expose `uuid` for records.
+- Internal numeric `id` values are for database/FK use and should not be used as
+  external record identifiers in API contracts.
 
 ## Errors
 

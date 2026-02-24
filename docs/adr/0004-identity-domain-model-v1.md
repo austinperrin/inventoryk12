@@ -1,8 +1,10 @@
 # ADR 0004: Identity Domain Model v1
 
-- **Status**: Accepted
+- **Status**: Deprecated
 - **Date**: 2026-02-16
 - **Owners**: Architecture, Backend Engineering, Security + Compliance
+- **Deprecated Date**: 2026-02-23
+- **Superseded By**: `docs/adr/0018-identity-domain-model-v2.md`
 
 ## Context
 Identity modeling for MVP needs to support authentication, profile UX, and
@@ -19,7 +21,7 @@ concerns and increased migration churn.
 3. Split persona-specific basic person fields into separate models:
    `StudentDetail`, `StaffDetail`, and `GuardianDetail`.
    Include core naming fields plus code-table-backed `prefix`, `suffix`,
-   birth country/state via shared `contacts` code tables, and free-text `birth_city`.
+   birth country/state via shared `locations` code tables, and free-text `birth_city`.
 4. Use shared audit attribution fields (`created_by`, `updated_by`) through
    common abstract models.
 5. Keep lifecycle fields (`activated_at`, `inactivated_at`, `inactivated_by`)
