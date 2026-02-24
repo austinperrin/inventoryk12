@@ -1,11 +1,28 @@
-Proprietary License
-
 Copyright (c) 2026 Austin Perrin. All rights reserved.
 
-This software and associated documentation files (the "Software") are proprietary
-and confidential. Unauthorized copying, modification, distribution, or use of the
-Software, in source or binary form, is strictly prohibited without prior written
+Proprietary Software License
+
+This software and associated documentation files (the "Software") are proprietary and confidential.
+No permission is granted to use, copy, modify, merge, publish, distribute, sublicense, sell,
+or create derivative works of the Software, in whole or in part, except with prior written
 permission from the copyright holder.
 
-NO LICENSE GRANTED. This Software is not licensed for use, and no rights are granted
-to any person or entity except by explicit written agreement with the copyright holder.
+Permitted Use
+- The copyright holder may use this Software to operate a hosted commercial SaaS offering.
+- End users may access the hosted service solely under applicable Terms of Service.
+
+Restrictions
+- You may not self-host, redistribute, resell, or offer the Software as a managed service.
+- You may not remove or alter any copyright, trademark, or proprietary notices.
+
+No Warranty
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR
+PURPOSE, AND NON-INFRINGEMENT.
+
+Limitation of Liability
+IN NO EVENT SHALL THE COPYRIGHT HOLDER BE LIABLE FOR ANY CLAIM, DAMAGES, OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT, OR OTHERWISE, ARISING FROM, OUT OF,
+OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+For commercial licensing inquiries, contact the copyright holder.
