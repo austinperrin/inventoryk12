@@ -16,7 +16,7 @@
 
 ## Follow-Up
 
-## Domain Review Sign-off Checklist
+## Review Sign-off Checklist
 
 ## Related
 
