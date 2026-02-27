@@ -14,7 +14,7 @@ backend/frontend, add-on services/modules, standards, and operational tooling.
 
 - `services/` InventoryK12 core services and add-on services/modules
 - `packages/` shared libraries and add-on modules used by InventoryK12
-- `configs/` environment and policy configuration
+- `configs/` runtime/environment configuration templates
 - `docs/` documentation, standards, and compliance
 - `infra/` infrastructure (docker, terraform)
 - `scripts/` automation hooks
