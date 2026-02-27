@@ -1,20 +1,11 @@
 # Documentation Index
 
 - `docs/overview/` product and project overview
-  - `docs/overview/project.md`
-  - `docs/overview/monorepo-blueprint.md`
-  - `docs/overview/inventoryk12-blueprint.md`
-  - `docs/overview/feature-candidates.md`
-  - `docs/overview/nice-to-have-register.md`
-  - `docs/overview/roadmap.md`
-  - `docs/overview/roadmap-flow-v2-proposal.md`
-  - `docs/overview/glossary.md`
-  - `docs/overview/sprints/README.md`
-  - `docs/overview/sprints/sprint-000-foundation-alignment.md`
+  - `docs/overview/README.md`
+- `docs/roadmap/` milestone and phase execution roadmap
+  - `docs/roadmap/index.md`
 - `docs/architecture/` system architecture notes
   - `docs/architecture/README.md`
-  - `docs/architecture/overview.md`
-  - `docs/architecture/domain-map.md`
 - `docs/standards/` coding, security, and collaboration standards
   - `docs/standards/coding-standards.md`
   - `docs/standards/commits.md`
@@ -22,35 +13,10 @@
   - `docs/standards/api.md`
   - `docs/standards/security.md`
   - `docs/standards/data.md`
-  - `docs/standards/observability.md`
-  - `docs/standards/review.md`
   - `docs/standards/scripts.md` scripting conventions
-  - `docs/standards/migrations.md` migrations policy
   - `docs/standards/adr.md` ADR lifecycle and follow-up conventions
-  - `docs/standards/git-workflow.md` branching, PR, and release flow
 - `docs/security/` compliance and privacy controls
-  - `docs/security/states/` state-specific requirements (Texas first)
+  - `docs/security/README.md`
 - `docs/runbooks/` operational runbooks
-  - `docs/runbooks/local-dev.md`
-  - `docs/runbooks/deploy.md`
-  - `docs/runbooks/incident-response.md`
-- `docs/adr/` architecture decision records (use `docs/adr/template.md`)
-  - `docs/adr/0001-auth-strategy.md`
-  - `docs/adr/0002-core-data-model.md`
-  - `docs/adr/0003-ingestion-architecture.md`
-  - `docs/adr/0004-identity-domain-model-v1.md` (Deprecated; superseded by `docs/adr/0018-identity-domain-model-v2.md`)
-  - `docs/adr/0005-contact-and-address-model-v1.md`
-  - `docs/adr/0006-code-table-governance-v1.md`
-  - `docs/adr/0007-academic-time-model-v1.md` (Deprecated; superseded by `docs/adr/0019-academic-time-model-v2.md`)
-  - `docs/adr/0008-domain-boundaries-v1.md`
-  - `docs/adr/0009-domain-adr-decomposition-policy-v1.md`
-  - `docs/adr/0010-organization-domain-model-v1.md`
-  - `docs/adr/0011-locations-domain-model-v1.md`
-  - `docs/adr/0012-contacts-domain-model-v1.md`
-  - `docs/adr/0013-enrollment-domain-model-v1.md`
-  - `docs/adr/0014-instruction-domain-model-v1.md`
-  - `docs/adr/0015-inventory-domain-model-v1.md`
-  - `docs/adr/0016-operations-domain-model-v1.md`
-  - `docs/adr/0017-integrations-domain-model-v1.md`
-  - `docs/adr/0018-identity-domain-model-v2.md`
-  - `docs/adr/0019-academic-time-model-v2.md`
+  - `docs/runbooks/README.md`
+- `docs/adr/` architecture decision records
