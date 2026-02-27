@@ -1,12 +1,52 @@
 # Project Overview
 
-InventoryK12 is a single-product monorepo focused initially on Texas school
-districts, with a compliance model designed to expand to other states.
+## Purpose
 
-InventoryK12 add-ons and supporting services are intended to be housed within
-the InventoryK12 monorepo and integrated through InventoryK12 APIs/events.
+Define what InventoryK12 is, who it serves, and what success looks like.
 
-## Data and Environments
+## Vision
 
-- Development uses a remote Postgres database for parity with production.
-- Developers can run Postgres locally and connect via `host.docker.internal` from Docker.
+InventoryK12 provides K-12 districts with a reliable system to track assets,
+custody, and operational workflows across schools.
+
+## Problem Statement
+
+Districts need consistent asset visibility, accountable custody history, and
+clear operational processes without fragmented tooling.
+
+## Users
+
+- District administrators
+- Campus/site administrators
+- School staff
+- Students and guardians (limited visibility use cases)
+
+## In Scope
+
+- Asset lifecycle tracking
+- Assignment and custody records
+- Audit and incident workflows
+- Core reporting for inventory operations
+
+## Out of Scope (Current Phase)
+
+- Features not required for baseline inventory operations
+- Non-core integrations that do not unblock core workflows
+
+## Success Criteria
+
+- Core workflows are reliable and auditable.
+- Role-based access is enforced for sensitive actions.
+- District and campus users can complete key inventory tasks end-to-end.
+
+## Constraints
+
+- Docker-first local development workflow
+- Security-first handling of sensitive data
+- Incremental architecture decisions captured in ADRs
+
+## References
+
+- `docs/adr/README.md`
+- `docs/standards/adr.md`
+- `docs/standards/security.md`
