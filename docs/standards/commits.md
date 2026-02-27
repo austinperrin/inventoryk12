@@ -1,6 +1,7 @@
 # Commit Standards
 
-We use Conventional Commits to keep history readable and enable automation.
+Use one Git standard for branch naming, commit messages, PR flow, and merge.
+This keeps process definitions in one place and defers checklists to `.github/`.
 
 ## Format
 
@@ -70,7 +71,19 @@ Examples:
 Milestone/phase example:
 - `docs/roadmap-m0-p1-finalize-adr-0002`
 
-## PR Merge Strategy
+## Pull Requests
+
+- Every change goes through a PR.
+- Keep PR scope focused; avoid mixed concerns.
+- Use the relevant PR template:
+  - `.github/PULL_REQUEST_TEMPLATE/default.md`
+  - `.github/PULL_REQUEST_TEMPLATE/backend.md`
+  - `.github/PULL_REQUEST_TEMPLATE/frontend.md`
+  - `.github/PULL_REQUEST_TEMPLATE/infra.md`
+  - `.github/PULL_REQUEST_TEMPLATE/docs.md`
+- CI requirements are defined in `.github/workflows/ci.yml`.
+
+## Merge Strategy
 
 - Use squash merge for pull requests into `main`.
 - Before merging, edit the squash commit message to follow Conventional Commit format.

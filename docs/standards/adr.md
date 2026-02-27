@@ -15,9 +15,6 @@ Use ADRs to record architecture and design decisions with lasting impact.
 - `Accepted`: active decision for implementation.
 - `Rejected`: reviewed and intentionally not adopted.
 - `Deprecated`: previously accepted but superseded or retired.
-- AI companions should keep ADRs as `Proposed` by default.
-- AI companions may set `Accepted` only when explicitly instructed by the
-  project owner/user in the active task context.
 
 ## Metadata Requirements
 
@@ -57,7 +54,6 @@ Use ADRs to record architecture and design decisions with lasting impact.
 
 - Architecture-impacting PRs should include ADR updates when applicable.
 - ADR changes should be reviewed for consistency with:
-  - `docs/overview/roadmap.md`
   - `docs/overview/*`
   - `docs/standards/*`
   - relevant runbooks and security docs

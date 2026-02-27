@@ -15,18 +15,9 @@
    - Backend: endpoint and permission tests for DRF workflows.
    - Frontend: route/component integration tests for critical user paths.
 3. Smoke checks
-   - Verify app startup and critical health endpoints after deploy changes.
+   - Verify startup and critical health paths after deploy-impacting changes.
 4. Security checks
-   - Dependency audits and policy checks must run in CI and pre-release.
-
-## Coverage Targets
-
-- MVP baseline:
-  - Backend: meaningful coverage for auth, ingestion validation, assignments.
-  - Frontend: coverage for route rendering and critical forms.
-- Post-MVP target:
-  - Backend domain apps trend toward 80%+ line coverage.
-  - Frontend trends toward 70%+ line coverage, then increase by milestone.
+   - Dependency and security checks run in CI.
 
 ## Locations and Naming
 
@@ -36,8 +27,9 @@
 
 ## CI Enforcement
 
-- PRs should pass lint, type-check, and test checks before merge.
-- Failing tests block merge unless explicitly waived and tracked.
-- If checks are intentionally skipped, document reason and follow-up in PR.
-- Local developer default path is Docker-based checks (`pnpm dev:checks`).
-- CI pipelines run checks with CI-managed dependencies (GitHub Actions).
+- Required checks and merge gates are defined in:
+  - `.github/workflows/ci.yml`
+  - `.github/PULL_REQUEST_TEMPLATE/*.md`
+- PRs should pass required checks before merge.
+- If a check is intentionally skipped or waived, document reason and follow-up in the PR.
+- Local default verification path is Docker-based checks (`pnpm dev:checks`).
