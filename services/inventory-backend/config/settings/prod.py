@@ -4,8 +4,6 @@
 # should be provided via environment variables.
 # ======================================================================
 
-from datetime import timedelta
-
 from . import base as base_settings
 
 BASE_DIR = base_settings.BASE_DIR
@@ -64,30 +62,11 @@ SECURE_HSTS_PRELOAD = env.bool("DJANGO_SECURE_HSTS_PRELOAD", default=False)
 # ----------------------------------------------------------------------
 # DJANGO REST FRAMEWORK (production defaults)
 # ----------------------------------------------------------------------
-REST_FRAMEWORK.setdefault("DEFAULT_AUTHENTICATION_CLASSES", [])
-REST_FRAMEWORK["DEFAULT_AUTHENTICATION_CLASSES"] = list(
-    REST_FRAMEWORK["DEFAULT_AUTHENTICATION_CLASSES"]
-)
-REST_FRAMEWORK["DEFAULT_AUTHENTICATION_CLASSES"].append(
-    "rest_framework_simplejwt.authentication.JWTAuthentication"
-)
-
 REST_FRAMEWORK.setdefault("DEFAULT_PERMISSION_CLASSES", [])
 REST_FRAMEWORK["DEFAULT_PERMISSION_CLASSES"] = list(REST_FRAMEWORK["DEFAULT_PERMISSION_CLASSES"])
 REST_FRAMEWORK["DEFAULT_PERMISSION_CLASSES"].append(
     "rest_framework.permissions.IsAuthenticated",
 )
-
-# ----------------------------------------------------------------------
-# SIMPLE JWT (production lifetimes)
-# ----------------------------------------------------------------------
-SIMPLE_JWT = {
-    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=5),
-    "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
-    "ROTATE_REFRESH_TOKENS": True,
-    "BLACKLIST_AFTER_ROTATION": True,
-    "AUTH_HEADER_TYPES": ("Bearer",),
-}
 
 # ----------------------------------------------------------------------
 # CORS (production)

@@ -4,8 +4,6 @@
 # behavior such as debugging, browsable API support, and relaxed options.
 # ======================================================================
 
-from datetime import timedelta
-
 from . import base as base_settings
 
 BASE_DIR = base_settings.BASE_DIR
@@ -49,32 +47,12 @@ ALLOWED_HOSTS = ["*"]
 REST_FRAMEWORK["DEFAULT_RENDERER_CLASSES"] = list(REST_FRAMEWORK["DEFAULT_RENDERER_CLASSES"])
 REST_FRAMEWORK["DEFAULT_RENDERER_CLASSES"].append("rest_framework.renderers.BrowsableAPIRenderer")
 
-# Enable JWT authentication in development.
-REST_FRAMEWORK.setdefault("DEFAULT_AUTHENTICATION_CLASSES", [])
-REST_FRAMEWORK["DEFAULT_AUTHENTICATION_CLASSES"] = list(
-    REST_FRAMEWORK["DEFAULT_AUTHENTICATION_CLASSES"]
-)
-REST_FRAMEWORK["DEFAULT_AUTHENTICATION_CLASSES"].append(
-    "rest_framework_simplejwt.authentication.JWTAuthentication"
-)
-
 # Relaxed default permissions in development. Override as needed.
 REST_FRAMEWORK.setdefault("DEFAULT_PERMISSION_CLASSES", [])
 REST_FRAMEWORK["DEFAULT_PERMISSION_CLASSES"] = list(REST_FRAMEWORK["DEFAULT_PERMISSION_CLASSES"])
 REST_FRAMEWORK["DEFAULT_PERMISSION_CLASSES"].append(
     "rest_framework.permissions.IsAuthenticatedOrReadOnly"
 )
-
-# ----------------------------------------------------------------------
-# SIMPLE JWT (development lifetimes)
-# ----------------------------------------------------------------------
-SIMPLE_JWT = {
-    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=30),
-    "REFRESH_TOKEN_LIFETIME": timedelta(days=7),
-    "ROTATE_REFRESH_TOKENS": False,
-    "BLACKLIST_AFTER_ROTATION": False,
-    "AUTH_HEADER_TYPES": ("Bearer",),
-}
 
 # ----------------------------------------------------------------------
 # EMAIL

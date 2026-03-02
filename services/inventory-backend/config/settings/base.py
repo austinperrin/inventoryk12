@@ -64,25 +64,14 @@ INSTALLED_APPS = [
     # Third-party apps
     "corsheaders",
     "rest_framework",
-    "rest_framework_simplejwt",
-    "rest_framework_simplejwt.token_blacklist",
     "simple_history",
     # Project apps
     "apps.common",
-    "apps.identity",
-    "apps.organization",
-    "apps.academic",
-    "apps.instruction",
-    "apps.enrollment",
-    "apps.contacts",
-    "apps.locations",
-    "apps.inventory",
-    "apps.operations",
-    "apps.integrations",
 ]
 
-# Custom user model
-AUTH_USER_MODEL = "identity.User"
+# Scaffold baseline uses Django's default user model until identity is built.
+# Auth-specific packages and settings are added when the auth milestone is implemented.
+AUTH_USER_MODEL = "auth.User"
 
 # ----------------------------------------------------------------------
 # MIDDLEWARE

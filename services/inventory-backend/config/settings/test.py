@@ -32,10 +32,3 @@ PASSWORD_HASHERS = [
 # EMAIL
 # ----------------------------------------------------------------------
 EMAIL_BACKEND = "django.core.mail.backends.locmem.EmailBackend"
-
-# ----------------------------------------------------------------------
-# DJANGO REST FRAMEWORK
-# ----------------------------------------------------------------------
-REST_FRAMEWORK["DEFAULT_AUTHENTICATION_CLASSES"] = [  # noqa: F405
-    "rest_framework_simplejwt.authentication.JWTAuthentication",
-]

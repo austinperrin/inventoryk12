@@ -1,49 +1,39 @@
 # Backend Service
 
-Django + Django REST Framework API that powers the mono-repo. This document captures structural conventions and early scaffolding as the backend evolves.
+Django + Django REST Framework API scaffold for the monorepo. This document
+captures the backend baseline before domain implementation is rebuilt.
 
 ## Goals
 
-- Single-tenant deployments with per-tenant Postgres database.
-- Modular domain apps living under `services/inventory-backend/apps/`.
-- Consistent API versioning (`/api/v1/<domain>/...`).
-- Security-first defaults (JWT auth, RBAC, no Django admin UI).
+- Establish a clean backend scaffold for roadmap-driven implementation.
+- Keep API versioning consistent from the start.
+- Preserve security-first defaults without coupling the scaffold to unfinished domains.
 
 ## Layout
 
-The domain app structure below reflects current scaffolding and planned
-domain growth.
+The backend currently keeps only shared scaffold components in place. Domain
+apps will be reintroduced milestone by milestone as roadmap work is completed.
 
 ```
 services/inventory-backend/
 ├── apps/
-│   ├── common/          # cross-cutting utilities (RBAC base classes, audit helpers)
-│   ├── identity/        # tenant identity/IAM domain (users, profiles, SSO connectors)
-│   └── ...
+│   ├── common/          # cross-cutting utilities and health endpoints
 ├── config/             # Django project settings module (env aware)
 ├── manage.py
 └── docker/             # service-specific Docker assets if needed
 ```
 
-- `apps/<domain>`: each domain is a Django app with its own `api/v1/<domain>/` namespace (routers, serializers, views).
+- `apps/common`: shared models, audit helpers, and baseline service endpoints.
 - `config/settings/`: split settings for `base.py`, `dev.py`, `test.py`, `prod.py`, referencing shared env vars loaded via `configs/`.
 - `docker/`: overrides or extra compose snippets specific to the backend service.
 
 ## API Conventions
 
-- REST endpoints under `/api/v1/<domain>/` by default; bump versions via ADR when breaking changes occur.
-- JWT-based auth with pluggable identity providers per tenant (default Django auth + optional SSO integrations) (planned).
-- RBAC enforced in DRF permissions; admin-only features exposed via same endpoints but gated by permissions.
-
-## Auth API (MVP Baseline)
-
-Implemented endpoints:
-
-- `POST /api/v1/auth/login/`
-- `POST /api/v1/auth/refresh/`
-- `POST /api/v1/auth/logout/`
-- `GET /api/v1/auth/me/`
-- `GET /api/v1/auth/rbac-check/` (elevated-role guard baseline)
+- Shared scaffold endpoints live under `/api/v1/common/`.
+- Domain endpoints are added under `/api/v1/<domain>/` as milestone work is implemented.
+- Breaking API changes should be introduced through ADR review and version planning.
+- Auth-specific runtime wiring is intentionally deferred to the roadmap platform
+  baseline milestone and ADR 0001.
 
 ## Security Expectations
 
@@ -54,9 +44,10 @@ Implemented endpoints:
 
 ## Next Steps
 
-- Expand identity models as IAM scope grows (providers, external identities).
-- Add auth endpoints and RBAC enforcement as the roadmap advances.
-- Integrate testing/linting workflow (pytest, mypy, bandit) aligned with CI/CD.
+- Reintroduce backend domain apps in roadmap order.
+- Add auth runtime plumbing during the platform baseline milestone and expand
+  RBAC behavior during the access-control milestone.
+- Expand test coverage as service capabilities are added.
 
 ## Local Tooling
 
