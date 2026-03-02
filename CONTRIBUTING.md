@@ -7,7 +7,7 @@ Thanks for your interest in contributing.
 1. Review `README.md` and `docs/index.md`.
 2. Create env files:
    - `pnpm bootstrap:env`
-   - `pnpm bootstrap:env --with-secrets`
+   - `pnpm bootstrap:env -- --with-secrets`
 3. Start local services (Docker-based):
    - `pnpm dev:up`
    - `pnpm dev:up -- --frontend`
@@ -20,6 +20,8 @@ Thanks for your interest in contributing.
 - Use topic branches and open a PR for all changes, including solo work.
 - Include testing evidence in PR descriptions.
 - Update or add ADRs for architecture-impacting decisions.
+- Use `.github/overview.md` and the matching PR template when workflow or CI
+  expectations are involved.
 
 ## Required Standards
 

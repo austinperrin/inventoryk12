@@ -81,6 +81,12 @@ Milestone/phase example:
   - `.github/PULL_REQUEST_TEMPLATE/frontend.md`
   - `.github/PULL_REQUEST_TEMPLATE/infra.md`
   - `.github/PULL_REQUEST_TEMPLATE/docs.md`
+- Template selection guidance:
+  - `docs.md` for documentation-only changes
+  - `backend.md` for backend-only code changes
+  - `frontend.md` for frontend-only code changes
+  - `infra.md` for Docker, env, runtime, or infrastructure changes
+  - `default.md` for mixed or cross-cutting changes
 - CI requirements are defined in `.github/workflows/ci.yml`.
 
 ## Branch Protection Expectations
