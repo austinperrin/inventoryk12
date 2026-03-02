@@ -122,11 +122,11 @@ Stand up baseline CI checks and ownership so quality gates are enforceable from 
 
 ## Milestone Review Checklist
 
-- [ ] All phase exit criteria are complete.
-- [ ] Milestone artifacts match roadmap index status.
-- [ ] Standards, ADR references, and docs remain consistent.
-- [ ] `chore/m0-integration` contains the merged output from all milestone phase branches.
-- [ ] Milestone review checklist updates are committed on `chore/m0-integration`.
+- [x] All phase exit criteria are complete.
+- [x] Milestone artifacts match roadmap index status.
+- [x] Standards, ADR references, and docs remain consistent.
+- [x] `chore/m0-integration` contains the merged output from all milestone phase branches.
+- [x] Milestone review checklist updates are committed on `chore/m0-integration`.
 - [ ] `chore/m0-integration` is merged to `main`.
 - [ ] Milestone status set to `Completed`.
 
