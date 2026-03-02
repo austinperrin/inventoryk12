@@ -45,13 +45,13 @@ Create stable backend/frontend application skeletons that can support incrementa
 ### Development Checklist
 
 #### Backend Engineering
-- [ ] Confirm backend service skeleton and app registration structure.
+- [x] Confirm backend service skeleton and app registration structure.
 
 #### Frontend Engineering
 - [ ] Confirm frontend app shell and route scaffolding.
 
 #### QA + Testing
-- [ ] Add baseline health/status verification tests.
+- [x] Add baseline health/status verification tests.
 
 ### Branch and PR Plan
 - Branches: `feat/m1-p1-backend-skeleton`, `feat/m1-p1-frontend-skeleton`

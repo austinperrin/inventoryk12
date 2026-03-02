@@ -24,12 +24,14 @@ services/inventory-backend/
 ```
 
 - `apps/common`: shared models, audit helpers, and baseline service endpoints.
+- `apps/common` is registered explicitly via `apps.common.apps.CommonConfig` in `config/settings/base.py`.
 - `config/settings/`: split settings for `base.py`, `dev.py`, `test.py`, `prod.py`, referencing shared env vars loaded via `configs/`.
 - `docker/`: overrides or extra compose snippets specific to the backend service.
 
 ## API Conventions
 
 - Shared scaffold endpoints live under `/api/v1/common/`.
+- The root URL config currently exposes only the scaffold common endpoints so later domain routes can be added incrementally without reshaping the service entrypoint.
 - Domain endpoints are added under `/api/v1/<domain>/` as milestone work is implemented.
 - Breaking API changes should be introduced through ADR review and version planning.
 - Auth-specific runtime wiring is intentionally deferred to the roadmap platform
