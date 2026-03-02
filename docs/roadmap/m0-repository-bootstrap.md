@@ -46,25 +46,25 @@ Establish the minimum repo structure and safety rails required for consistent de
 ### Development Checklist
 
 #### Docs + Standards
-- [ ] Confirm monorepo top-level structure documentation for services, infra, configs, docs.
+- [x] Confirm monorepo top-level structure documentation for services, infra, configs, docs.
 
 #### Backend Engineering
-- [ ] Add/update baseline backend tooling configuration files.
+- [x] Add/update baseline backend tooling configuration files.
 
 #### DevOps + SRE
-- [ ] Ensure protected branch and required-check expectations are documented.
+- [x] Ensure protected branch and required-check expectations are documented.
 
 ### Branch and PR Plan
 - Branch: `chore/m0-p1-repo-scaffold-guardrails`
 - PR Target: `chore/m0-integration`
 
 ### Review Checklist
-- [ ] Repo structure and conventions reviewed.
-- [ ] Standards references are correct.
-- [ ] No undocumented structural drift introduced.
+- [x] Repo structure and conventions reviewed.
+- [x] Standards references are correct.
+- [x] No undocumented structural drift introduced.
 
 ### Exit Criteria
-- [ ] Phase 1 deliverables and checklist updates are ready to merge into `chore/m0-integration`.
+- [x] Phase 1 deliverables and checklist updates are ready to merge into `chore/m0-integration`.
 
 <a id="m0-phase-2"></a>
 ## Phase 2: Standards and Workflow Wiring
