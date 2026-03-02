@@ -1,6 +1,6 @@
 # Milestone 1: Platform Baseline
 
-- Status: Not Started
+- Status: In Progress
 - Estimate: 2-3 weeks
 - Dependency: [Milestone 0: Repository Bootstrap](./m0-repository-bootstrap.md) `Completed`
 - Related ADRs: [ADR 0001](../adr/0001-tech-stack-and-runtime-baseline.md), [ADR 0002](../adr/0002-url-and-domain-topology.md)
@@ -17,11 +17,11 @@ Stand up backend/frontend runtime baseline and local-dev operations baseline.
 
 ## Milestone Pre-Checklist (Alignment + Drift Control)
 
-- [ ] Runtime stack versions are defined and documented.
-- [ ] Docker/dev workflow is documented and tested.
-- [ ] API/frontend integration contracts are baseline-defined.
-- [ ] Milestone branch and PR strategy is documented before implementation.
-- [ ] Roadmap status and owners are current.
+- [x] Runtime stack versions are defined and documented.
+- [x] Docker/dev workflow is documented and tested.
+- [x] API/frontend integration contracts are baseline-defined.
+- [x] Milestone branch and PR strategy is documented before implementation.
+- [x] Roadmap status and owners are current.
 
 ## Execution Model
 

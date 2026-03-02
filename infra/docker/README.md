@@ -4,6 +4,10 @@ Local development is orchestrated with Docker Compose.
 
 ## Commands
 
+- Default checks:
+  - `pnpm dev:checks`
+- Rebuild images, then run checks:
+  - `pnpm dev:checks -- --build`
 - Backend only:
   - `pnpm dev:up`
 - Backend + frontend:

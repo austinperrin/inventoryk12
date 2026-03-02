@@ -24,11 +24,11 @@ are excluded from phase and milestone estimates.
 
 | Milestone | Stage/Phase | Estimate | Planned Start | Planned End | Actual Start | Actual End | Variance | Status |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| [Milestone 0: Repository Bootstrap](./m0-repository-bootstrap.md) |  | 1-2 weeks | 2026-03-02 | 2026-03-13 | 2026-03-02 | TBD | On Track | In Progress |
+| [Milestone 0: Repository Bootstrap](./m0-repository-bootstrap.md) |  | 1-2 weeks | 2026-03-02 | 2026-03-13 | 2026-03-02 | 2026-03-02 | Completed Early | Completed |
 |  | [Phase 1: Repo Scaffold and Guardrails](./m0-repository-bootstrap.md#m0-phase-1) | 2-4 days | 2026-03-02 | 2026-03-05 | 2026-03-02 | 2026-03-02 | Completed Early | Completed |
 |  | [Phase 2: Standards and Workflow Wiring](./m0-repository-bootstrap.md#m0-phase-2) | 2-3 days | 2026-03-06 | 2026-03-10 | 2026-03-02 | 2026-03-02 | Completed Early | Completed |
 |  | [Phase 3: Baseline CI and Quality Gate](./m0-repository-bootstrap.md#m0-phase-3) | 2-3 days | 2026-03-11 | 2026-03-13 | 2026-03-02 | 2026-03-02 | Completed Early | Completed |
-| [Milestone 1: Platform Baseline](./m1-platform-baseline.md) |  | 2-3 weeks | 2026-03-16 | 2026-04-03 | TBD | TBD | TBD | Not Started |
+| [Milestone 1: Platform Baseline](./m1-platform-baseline.md) |  | 2-3 weeks | 2026-03-16 | 2026-04-03 | 2026-03-02 | TBD | Started Early | In Progress |
 |  | [Phase 1: Backend/Frontend Skeleton](./m1-platform-baseline.md#m1-phase-1) | 4-6 days | 2026-03-16 | 2026-03-20 | TBD | TBD | TBD | Not Started |
 |  | [Phase 2: Auth and Core Runtime Plumbing](./m1-platform-baseline.md#m1-phase-2) | 4-6 days | 2026-03-23 | 2026-03-27 | TBD | TBD | TBD | Not Started |
 |  | [Phase 3: Local Dev + Ops Baseline](./m1-platform-baseline.md#m1-phase-3) | 3-5 days | 2026-03-30 | 2026-04-03 | TBD | TBD | TBD | Not Started |

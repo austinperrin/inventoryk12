@@ -6,6 +6,11 @@ usage() {
 Usage: scripts/dev/dev-checks.sh
 
 Runs lint, typecheck, and tests inside Docker containers.
+
+Options:
+  --build   Rebuild Docker images before running checks.
+  --docker  Explicitly use the default Docker-based checks flow.
+  -h, --help  Show this help message.
 USAGE
 }
 
@@ -13,14 +18,31 @@ if [ "${1:-}" = "--" ]; then
   shift
 fi
 
-if [ "${1:-}" = "--help" ] || [ "${1:-}" = "-h" ]; then
-  usage
-  exit 0
-fi
-
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 # shellcheck source=../lib/common.sh
 . "$SCRIPT_DIR/../lib/common.sh"
+
+BUILD_IMAGES=0
+
+while [ $# -gt 0 ]; do
+  case "$1" in
+    --build)
+      BUILD_IMAGES=1
+      ;;
+    --docker)
+      ;;
+    --help|-h)
+      usage
+      exit 0
+      ;;
+    *)
+      log_error "Unknown option: $1"
+      usage
+      exit 1
+      ;;
+  esac
+  shift
+done
 
 ROOT="$(repo_root)"
 COMPOSE_FILE="$ROOT/infra/docker/docker-compose.dev.yml"
@@ -31,6 +53,13 @@ require_file "$COMPOSE_FILE"
 if ! docker info >/dev/null 2>&1; then
   log_error "Docker is not reachable. Ensure Docker Desktop is running and you have socket access."
   exit 1
+fi
+
+if [ "$BUILD_IMAGES" -eq 1 ]; then
+  log_info "Rebuilding Docker images for backend and checks"
+  set -x
+  docker compose -f "$COMPOSE_FILE" --profile checks build backend checks
+  { set +x; } 2>/dev/null
 fi
 
 log_info "Running backend checks in Docker"

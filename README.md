@@ -33,6 +33,7 @@ backend/frontend, add-on services/modules, standards, and operational tooling.
    - Example local host DB from Docker: `postgres://user:password@host.docker.internal:5432/dbname`
 4. Run checks:
    - `pnpm dev:checks`
+   - Rebuild Docker images first if dependencies changed: `pnpm dev:checks -- --build`
 5. Start services (Docker required):
    - `pnpm dev:up -- --build --frontend`
 

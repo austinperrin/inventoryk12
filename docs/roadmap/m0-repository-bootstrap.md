@@ -1,6 +1,6 @@
 # Milestone 0: Repository Bootstrap
 
-- Status: In Progress
+- Status: Completed
 - Estimate: 1-2 weeks
 - Dependencies: none
 - Related ADRs: [ADR 0001](../adr/0001-tech-stack-and-runtime-baseline.md)
@@ -127,8 +127,8 @@ Stand up baseline CI checks and ownership so quality gates are enforceable from 
 - [x] Standards, ADR references, and docs remain consistent.
 - [x] `chore/m0-integration` contains the merged output from all milestone phase branches.
 - [x] Milestone review checklist updates are committed on `chore/m0-integration`.
-- [ ] `chore/m0-integration` is merged to `main`.
-- [ ] Milestone status set to `Completed`.
+- [x] `chore/m0-integration` is merged to `main`.
+- [x] Milestone status set to `Completed`.
 
 ## Next Steps
 
