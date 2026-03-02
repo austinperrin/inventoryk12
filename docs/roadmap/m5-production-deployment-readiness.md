@@ -23,6 +23,19 @@ Prepare the MVP for production deployment with operational and security controls
 - [ ] Production dry-run criteria and rollback path are defined.
 - [ ] Roadmap status and owners are current.
 
+## Execution Model
+
+- Milestone pre-checklist updates should be completed on the milestone branch
+  `chore/m5-integration`.
+- Each phase branch should be created from `chore/m5-integration`.
+- Each phase should be completed on its recommended phase branch.
+- Phase-specific checklist and status updates should be committed in that same
+  phase branch instead of being deferred.
+- Each phase branch should merge back into `chore/m5-integration` after that
+  phase is complete.
+- The milestone branch `chore/m5-integration` is reserved for milestone-level
+  reconciliation, milestone review checklist updates, and the final PR to `main`.
+
 <a id="m5-phase-1"></a>
 ## Phase 1: Deployment Pipeline and Infra Baseline
 

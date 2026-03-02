@@ -18,11 +18,24 @@ small, predictable branch/PR increments.
 
 ## Milestone Pre-Checklist (Alignment + Drift Control)
 
-- [ ] `docs/index.md` and `docs/roadmap/index.md` are aligned.
-- [ ] Branch, commit, and PR standards are confirmed and current.
-- [ ] CI quality gates and required checks are defined.
-- [ ] ADR references for technical decisions are listed and valid.
-- [ ] Current milestone status in roadmap index matches actual execution state.
+- [x] `docs/index.md` and `docs/roadmap/index.md` are aligned.
+- [x] Branch, commit, and PR standards are confirmed and current.
+- [x] CI quality gates and required checks are defined.
+- [x] ADR references for technical decisions are listed and valid.
+- [x] Current milestone status in roadmap index matches actual execution state.
+
+## Execution Model
+
+- Milestone pre-checklist updates should be completed on the milestone branch
+  `chore/m0-integration`.
+- Each phase branch should be created from `chore/m0-integration`.
+- Each phase should be completed on its recommended phase branch.
+- Phase-specific checklist and status updates should be committed in that same
+  phase branch instead of being deferred.
+- Each phase branch should merge back into `chore/m0-integration` after that
+  phase is complete.
+- The milestone branch `chore/m0-integration` is reserved for milestone-level
+  reconciliation, milestone review checklist updates, and the final PR to `main`.
 
 <a id="m0-phase-1"></a>
 ## Phase 1: Repo Scaffold and Guardrails
@@ -51,7 +64,7 @@ Establish the minimum repo structure and safety rails required for consistent de
 - [ ] No undocumented structural drift introduced.
 
 ### Exit Criteria
-- [ ] Baseline structure and guardrails are merged.
+- [ ] Phase 1 deliverables and checklist updates are ready to merge into `chore/m0-integration`.
 
 <a id="m0-phase-2"></a>
 ## Phase 2: Standards and Workflow Wiring
@@ -78,7 +91,7 @@ Align working standards, templates, and process guidance so day-to-day execution
 - [ ] Workflow docs match actual repository automation.
 
 ### Exit Criteria
-- [ ] Standards and workflow docs are consistent and usable.
+- [ ] Phase 2 deliverables and checklist updates are ready to merge into `chore/m0-integration`.
 
 <a id="m0-phase-3"></a>
 ## Phase 3: Baseline CI and Quality Gate
@@ -105,13 +118,15 @@ Stand up baseline CI checks and ownership so quality gates are enforceable from 
 - [ ] Required quality gates are enforced and visible.
 
 ### Exit Criteria
-- [ ] Baseline quality gate is operational.
+- [ ] Phase 3 deliverables and checklist updates are ready to merge into `chore/m0-integration`.
 
 ## Milestone Review Checklist
 
 - [ ] All phase exit criteria are complete.
 - [ ] Milestone artifacts match roadmap index status.
 - [ ] Standards, ADR references, and docs remain consistent.
+- [ ] `chore/m0-integration` contains the merged output from all milestone phase branches.
+- [ ] Milestone review checklist updates are committed on `chore/m0-integration`.
 - [ ] `chore/m0-integration` is merged to `main`.
 - [ ] Milestone status set to `Completed`.
 
