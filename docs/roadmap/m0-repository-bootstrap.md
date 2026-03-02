@@ -103,7 +103,7 @@ Stand up baseline CI checks and ownership so quality gates are enforceable from 
 
 #### DevOps + SRE
 - [x] Define required CI checks for docs, lint, and tests.
-- [ ] Validate minimal green pipeline for baseline repo state.
+- [x] Validate minimal green pipeline for baseline repo state.
 
 #### Product Management + TPM
 - [x] Define failure ownership and triage flow.
@@ -113,12 +113,12 @@ Stand up baseline CI checks and ownership so quality gates are enforceable from 
 - PR Target: `chore/m0-integration`
 
 ### Review Checklist
-- [ ] CI checks pass.
+- [x] CI checks pass.
 - [x] Failure-handling guidance is documented.
-- [ ] Required quality gates are enforced and visible.
+- [x] Required quality gates are enforced and visible.
 
 ### Exit Criteria
-- [ ] Phase 3 deliverables and checklist updates are ready to merge into `chore/m0-integration`.
+- [x] Phase 3 deliverables and checklist updates are ready to merge into `chore/m0-integration`.
 
 ## Milestone Review Checklist
 
