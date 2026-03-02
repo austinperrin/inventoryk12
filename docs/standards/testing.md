@@ -30,6 +30,14 @@
 - Required checks and merge gates are defined in:
   - `.github/workflows/ci.yml`
   - `.github/PULL_REQUEST_TEMPLATE/*.md`
+- Baseline required checks for pull requests into `main` are:
+  - `docs`
+  - `backend-lint`
+  - `backend-tests`
+  - `backend-typecheck`
+  - `frontend-lint`
+  - `frontend-tests`
+  - `security`
 - PRs should pass required checks before merge.
 - If a check is intentionally skipped or waived, document reason and follow-up in the PR.
 - Local default verification path is Docker-based checks (`pnpm dev:checks`).

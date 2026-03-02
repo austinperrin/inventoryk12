@@ -20,3 +20,6 @@
 - `docs/runbooks/` operational runbooks
   - `docs/runbooks/README.md`
 - `docs/adr/` architecture decision records
+  - `docs/adr/README.md`
+- Repository workflow automation
+  - `.github/overview.md`

@@ -5,6 +5,7 @@
 # Testing
 
 - [ ] Not run (explain why)
+- [ ] `pnpm ci:docs`
 - [ ] `pnpm dev:checks` (Docker-based local checks)
 - [ ] `pnpm ci:checks` (final full CI-equivalent gate)
 

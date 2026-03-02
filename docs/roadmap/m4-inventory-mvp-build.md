@@ -23,6 +23,19 @@ Deliver a working inventory MVP workflow (backend + frontend + QA).
 - [ ] API contract and UI dependency plan is documented.
 - [ ] Roadmap status and owners are current.
 
+## Execution Model
+
+- Milestone pre-checklist updates should be completed on the milestone branch
+  `chore/m4-integration`.
+- Each phase branch should be created from `chore/m4-integration`.
+- Each phase should be completed on its recommended phase branch.
+- Phase-specific checklist and status updates should be committed in that same
+  phase branch instead of being deferred.
+- Each phase branch should merge back into `chore/m4-integration` after that
+  phase is complete.
+- The milestone branch `chore/m4-integration` is reserved for milestone-level
+  reconciliation, milestone review checklist updates, and the final PR to `main`.
+
 <a id="m4-phase-1"></a>
 ## Phase 1: Inventory + Operations Backend Slice
 

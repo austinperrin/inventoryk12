@@ -6,6 +6,7 @@
 
 # Checks
 
+- [ ] `pnpm ci:docs`
 - [ ] Links reviewed
 - [ ] Terminology consistent
 - [ ] `docs/index.md` updated if structure changed
