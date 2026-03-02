@@ -83,6 +83,13 @@ Milestone/phase example:
   - `.github/PULL_REQUEST_TEMPLATE/docs.md`
 - CI requirements are defined in `.github/workflows/ci.yml`.
 
+## Branch Protection Expectations
+
+- `main` is the protected default branch.
+- Changes should merge through reviewed pull requests rather than direct pushes.
+- Required status checks for `main` should be kept aligned with `.github/workflows/ci.yml`.
+- Use squash merge for pull requests that land in `main`.
+
 ## Merge Strategy
 
 - Use squash merge for pull requests into `main`.

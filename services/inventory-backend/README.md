@@ -52,3 +52,20 @@ services/inventory-backend/
 ## Local Tooling
 
 - Run backend checks through Docker: `pnpm dev:checks`.
+
+## Tooling Baseline
+
+- Python tooling policy lives in `pyproject.toml`:
+  - Python 3.14
+  - `black`, `ruff`, and `isort` formatting/linting baseline
+  - `mypy` with Django settings targeting `config.settings.dev`
+- Backend Python dependencies are split under `requirements/`:
+  - `requirements/base.txt` for runtime packages
+  - `requirements/dev.txt` for lint, typecheck, test, and audit tooling
+- Repo-root CI and ops wrappers are the supported entrypoints:
+  - `pnpm ci:backend`
+  - `pnpm ci:backend:lint`
+  - `pnpm ci:backend:typecheck`
+  - `pnpm ci:backend:test`
+  - `pnpm ops:makemigrations`
+  - `pnpm ops:migrate`
