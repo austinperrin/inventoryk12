@@ -75,23 +75,23 @@ Align working standards, templates, and process guidance so day-to-day execution
 ### Development Checklist
 
 #### Docs + Standards
-- [ ] Finalize commit/branch/PR standards references.
-- [ ] Add missing docs links to avoid process ambiguity.
+- [x] Finalize commit/branch/PR standards references.
+- [x] Add missing docs links to avoid process ambiguity.
 
 #### DevOps + SRE
-- [ ] Validate checklist/template alignment with `.github` workflows/templates.
+- [x] Validate checklist/template alignment with `.github` workflows/templates.
 
 ### Branch and PR Plan
 - Branch: `docs/m0-p2-standards-workflow-wiring`
 - PR Target: `chore/m0-integration`
 
 ### Review Checklist
-- [ ] Docs + standards review complete.
-- [ ] Junior-dev workflow is clear and executable.
-- [ ] Workflow docs match actual repository automation.
+- [x] Docs + standards review complete.
+- [x] Junior-dev workflow is clear and executable.
+- [x] Workflow docs match actual repository automation.
 
 ### Exit Criteria
-- [ ] Phase 2 deliverables and checklist updates are ready to merge into `chore/m0-integration`.
+- [x] Phase 2 deliverables and checklist updates are ready to merge into `chore/m0-integration`.
 
 <a id="m0-phase-3"></a>
 ## Phase 3: Baseline CI and Quality Gate
