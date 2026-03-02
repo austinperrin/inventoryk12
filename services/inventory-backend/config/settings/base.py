@@ -66,7 +66,7 @@ INSTALLED_APPS = [
     "rest_framework",
     "simple_history",
     # Project apps
-    "apps.common",
+    "apps.common.apps.CommonConfig",
 ]
 
 # Scaffold baseline uses Django's default user model until identity is built.
