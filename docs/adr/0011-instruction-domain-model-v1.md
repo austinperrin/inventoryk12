@@ -1,7 +1,7 @@
 # ADR 0011: Instruction Domain Model
 
 - **Status**: Proposed
-- **Date**: 2026-02-26
+- **Date**: 2026-02-28
 - **Owners**: Platform Team
 
 ## Context
@@ -67,8 +67,8 @@ sections/classes, schedules, and instructional metadata.
 
 ## Related ADRs
 
-- Dependencies: `docs/adr/0004-domain-boundaries-and-ownership.md`, `docs/adr/0007-organization-domain-model-v1.md`, `docs/adr/0010-academic-domain-model-v1.md`
-- Adjacent: `docs/adr/0012-enrollment-domain-model-v1.md`
+- Dependencies: [ADR 0004](./0004-domain-boundaries-and-ownership.md), [ADR 0007](./0007-organization-domain-model-v1.md), [ADR 0010](./0010-academic-domain-model-v1.md)
+- Adjacent: [ADR 0012](./0012-enrollment-domain-model-v1.md)
 
 ## References
 

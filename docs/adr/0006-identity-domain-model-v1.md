@@ -1,7 +1,7 @@
 # ADR 0006: Identity Domain Model
 
 - **Status**: Proposed
-- **Date**: 2026-02-26
+- **Date**: 2026-02-28
 - **Owners**: Platform Team
 
 ## Context
@@ -14,7 +14,7 @@ role assignment links, and identity metadata used across all other domains.
 - `identity` is the system-of-record domain for users and persona identity.
 - Identity is globally referenceable by other domains using stable identifiers.
 - Role assignment relationships are owned by identity, while permission policy is
-  defined by `docs/adr/0005-rbac-model-and-permission-enforcement.md`.
+  defined by [ADR 0005](./0005-rbac-model-and-permission-enforcement.md).
 - Identity stores account/persona detail and demographics data needed for
   product behavior and policy enforcement.
 - Authentication eligibility behavior is derived from:
@@ -88,8 +88,8 @@ role assignment links, and identity metadata used across all other domains.
 
 ## Related ADRs
 
-- Dependencies: `docs/adr/0004-domain-boundaries-and-ownership.md`, `docs/adr/0005-rbac-model-and-permission-enforcement.md`
-- Adjacent: `docs/adr/0007-organization-domain-model-v1.md`
+- Dependencies: [ADR 0004](./0004-domain-boundaries-and-ownership.md), [ADR 0005](./0005-rbac-model-and-permission-enforcement.md)
+- Adjacent: [ADR 0007](./0007-organization-domain-model-v1.md)
 
 ## References
 

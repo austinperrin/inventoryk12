@@ -1,7 +1,7 @@
 # ADR 0013: Inventory Domain Model
 
 - **Status**: Proposed
-- **Date**: 2026-02-26
+- **Date**: 2026-02-28
 - **Owners**: Platform Team
 
 ## Context
@@ -72,8 +72,8 @@ state, assignment/custody lineage, and catalog metadata.
 
 ## Related ADRs
 
-- Dependencies: `docs/adr/0004-domain-boundaries-and-ownership.md`, `docs/adr/0006-identity-domain-model-v1.md`, `docs/adr/0007-organization-domain-model-v1.md`, `docs/adr/0008-locations-domain-model-v1.md`
-- Adjacent: `docs/adr/0014-operations-domain-model-v1.md`
+- Dependencies: [ADR 0004](./0004-domain-boundaries-and-ownership.md), [ADR 0006](./0006-identity-domain-model-v1.md), [ADR 0007](./0007-organization-domain-model-v1.md), [ADR 0008](./0008-locations-domain-model-v1.md)
+- Adjacent: [ADR 0014](./0014-operations-domain-model-v1.md)
 
 ## References
 

@@ -32,7 +32,7 @@ Use ADRs to record architecture and design decisions with lasting impact.
   - `Related`
   - `References`
 - For domain-model ADRs, also include:
-  - `Domain Review Sign-off Checklist`
+  - `Review Sign-off Checklist`
 
 ## Follow-Up ADR Conventions
 

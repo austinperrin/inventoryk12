@@ -1,7 +1,7 @@
 # ADR 0004: Domain Boundaries and Ownership
 
-- **Status**: Proposed
-- **Date**: 2026-02-26
+- **Status**: Accepted
+- **Date**: 2026-02-28
 - **Owners**: Platform Team
 
 ## Context
@@ -85,25 +85,25 @@ interaction expectations.
 
 ## Review Sign-off Checklist
 
-- [ ] Domain list and ownership confirmed
-- [ ] Dependency order confirmed
-- [ ] Cross-domain ownership rules confirmed
-- [ ] Domain ADR sequencing confirmed
+- [x] Domain list and ownership confirmed
+- [x] Dependency order confirmed
+- [x] Cross-domain ownership rules confirmed
+- [x] Domain ADR sequencing confirmed
 
 ## Related
 
-- `docs/adr/0006-identity-domain-model-v1.md`
-- `docs/adr/0007-organization-domain-model-v1.md`
-- `docs/adr/0008-locations-domain-model-v1.md`
-- `docs/adr/0009-contacts-domain-model-v1.md`
-- `docs/adr/0010-academic-domain-model-v1.md`
-- `docs/adr/0011-instruction-domain-model-v1.md`
-- `docs/adr/0012-enrollment-domain-model-v1.md`
-- `docs/adr/0013-inventory-domain-model-v1.md`
-- `docs/adr/0014-operations-domain-model-v1.md`
-- `docs/adr/0015-integrations-domain-model-v1.md`
+- [ADR 0006](./0006-identity-domain-model-v1.md)
+- [ADR 0007](./0007-organization-domain-model-v1.md)
+- [ADR 0008](./0008-locations-domain-model-v1.md)
+- [ADR 0009](./0009-contacts-domain-model-v1.md)
+- [ADR 0010](./0010-academic-domain-model-v1.md)
+- [ADR 0011](./0011-instruction-domain-model-v1.md)
+- [ADR 0012](./0012-enrollment-domain-model-v1.md)
+- [ADR 0013](./0013-inventory-domain-model-v1.md)
+- [ADR 0014](./0014-operations-domain-model-v1.md)
+- [ADR 0015](./0015-integrations-domain-model-v1.md)
 
 ## References
 
-- `docs/overview/project.md`
+- [Project Overview](../overview/project.md)
 - `services/inventory-backend/apps/`

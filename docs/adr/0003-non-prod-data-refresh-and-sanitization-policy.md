@@ -1,7 +1,7 @@
 # ADR 0003: Non-Prod Data Refresh and Sanitization Policy
 
-- **Status**: Proposed
-- **Date**: 2026-02-26
+- **Status**: Accepted
+- **Date**: 2026-02-28
 - **Owners**: Platform Team
 
 ## Context
@@ -53,17 +53,17 @@ Not applicable.
 
 ## Review Sign-off Checklist
 
-- [ ] Non-prod refresh policy baseline confirmed
-- [ ] Security handling requirements for non-prod confirmed
-- [ ] Future masking/sanitization roadmap confirmed
+- [x] Non-prod refresh policy baseline confirmed
+- [x] Security handling requirements for non-prod confirmed
+- [x] Future masking/sanitization roadmap confirmed
 
 ## Related
 
-- `docs/adr/0001-tech-stack-and-runtime-baseline.md`
-- `docs/adr/0002-url-and-domain-topology.md`
-- `docs/adr/0005-rbac-model-and-permission-enforcement.md`
+- [ADR 0001](./0001-tech-stack-and-runtime-baseline.md)
+- [ADR 0002](./0002-url-and-domain-topology.md)
+- [ADR 0005](./0005-rbac-model-and-permission-enforcement.md)
 
 ## References
 
-- `docs/overview/project.md`
-- `docs/standards/security.md`
+- [Project Overview](../overview/project.md)
+- [Security Standards](../standards/security.md)

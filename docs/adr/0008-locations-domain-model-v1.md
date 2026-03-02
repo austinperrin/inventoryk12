@@ -1,7 +1,7 @@
 # ADR 0008: Locations Domain Model
 
 - **Status**: Proposed
-- **Date**: 2026-02-26
+- **Date**: 2026-02-28
 - **Owners**: Platform Team
 
 ## Context
@@ -85,8 +85,8 @@ organization, inventory assignment context, and operations workflows.
 
 ## Related ADRs
 
-- Dependencies: `docs/adr/0004-domain-boundaries-and-ownership.md`
-- Adjacent: `docs/adr/0007-organization-domain-model-v1.md`, `docs/adr/0013-inventory-domain-model-v1.md`
+- Dependencies: [ADR 0004](./0004-domain-boundaries-and-ownership.md)
+- Adjacent: [ADR 0007](./0007-organization-domain-model-v1.md), [ADR 0013](./0013-inventory-domain-model-v1.md)
 
 ## References
 

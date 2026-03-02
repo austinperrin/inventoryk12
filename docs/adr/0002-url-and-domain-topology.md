@@ -1,7 +1,7 @@
 # ADR 0002: URL and Domain Topology
 
-- **Status**: Proposed
-- **Date**: 2026-02-26
+- **Status**: Accepted
+- **Date**: 2026-02-28
 - **Owners**: Platform Team
 
 ## Context
@@ -84,21 +84,21 @@ Not applicable.
 - Define onboarding workflow for enabling optional non-prod environments per
   tenant.
 - Non-prod data refresh/sanitization policy is addressed in
-  `docs/adr/0003-non-prod-data-refresh-and-sanitization-policy.md`.
+  [ADR 0003](./0003-non-prod-data-refresh-and-sanitization-policy.md).
 
 ## Review Sign-off Checklist
 
-- [ ] URL topology baseline confirmed
-- [ ] Edge routing model confirmed
-- [ ] Environment path policy confirmed
-- [ ] Security guardrails confirmed
+- [x] URL topology baseline confirmed
+- [x] Edge routing model confirmed
+- [x] Environment path policy confirmed
+- [x] Security guardrails confirmed
 
 ## Related
 
-- `docs/adr/0001-tech-stack-and-runtime-baseline.md`
-- `docs/adr/0003-non-prod-data-refresh-and-sanitization-policy.md`
-- `docs/adr/0005-rbac-model-and-permission-enforcement.md`
+- [ADR 0001](./0001-tech-stack-and-runtime-baseline.md)
+- [ADR 0003](./0003-non-prod-data-refresh-and-sanitization-policy.md)
+- [ADR 0005](./0005-rbac-model-and-permission-enforcement.md)
 
 ## References
 
-- `docs/overview/project.md`
+- [Project Overview](../overview/project.md)

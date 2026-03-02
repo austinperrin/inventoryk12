@@ -1,7 +1,7 @@
 # ADR 0009: Contacts Domain Model
 
 - **Status**: Proposed
-- **Date**: 2026-02-26
+- **Date**: 2026-02-28
 - **Owners**: Platform Team
 
 ## Context
@@ -75,8 +75,8 @@ between users/personas relevant to student and staff contexts.
 
 ## Related ADRs
 
-- Dependencies: `docs/adr/0004-domain-boundaries-and-ownership.md`, `docs/adr/0006-identity-domain-model-v1.md`
-- Adjacent: `docs/adr/0012-enrollment-domain-model-v1.md`
+- Dependencies: [ADR 0004](./0004-domain-boundaries-and-ownership.md), [ADR 0006](./0006-identity-domain-model-v1.md)
+- Adjacent: [ADR 0012](./0012-enrollment-domain-model-v1.md)
 
 ## References
 

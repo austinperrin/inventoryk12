@@ -1,7 +1,7 @@
 # ADR 0014: Operations Domain Model
 
 - **Status**: Proposed
-- **Date**: 2026-02-26
+- **Date**: 2026-02-28
 - **Owners**: Platform Team
 
 ## Context
@@ -75,8 +75,8 @@ workflow actions) that act on core records across inventory and related domains.
 
 ## Related ADRs
 
-- Dependencies: `docs/adr/0004-domain-boundaries-and-ownership.md`, `docs/adr/0013-inventory-domain-model-v1.md`
-- Adjacent: `docs/adr/0015-integrations-domain-model-v1.md`
+- Dependencies: [ADR 0004](./0004-domain-boundaries-and-ownership.md), [ADR 0013](./0013-inventory-domain-model-v1.md)
+- Adjacent: [ADR 0015](./0015-integrations-domain-model-v1.md)
 
 ## References
 

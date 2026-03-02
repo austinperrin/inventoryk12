@@ -1,7 +1,7 @@
 # ADR 0015: Integrations Domain Model
 
 - **Status**: Proposed
-- **Date**: 2026-02-26
+- **Date**: 2026-02-28
 - **Owners**: Platform Team
 
 ## Context
@@ -72,8 +72,8 @@ and synchronization state needed for SIS and partner integrations.
 
 ## Related ADRs
 
-- Dependencies: `docs/adr/0004-domain-boundaries-and-ownership.md`, `docs/adr/0005-rbac-model-and-permission-enforcement.md`
-- Adjacent: `docs/adr/0014-operations-domain-model-v1.md`
+- Dependencies: [ADR 0004](./0004-domain-boundaries-and-ownership.md), [ADR 0005](./0005-rbac-model-and-permission-enforcement.md)
+- Adjacent: [ADR 0014](./0014-operations-domain-model-v1.md)
 
 ## References
 

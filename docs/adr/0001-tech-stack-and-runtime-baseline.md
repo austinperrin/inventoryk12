@@ -1,7 +1,7 @@
 # ADR 0001: Tech Stack and Runtime Baseline
 
-- **Status**: Proposed
-- **Date**: 2026-02-26
+- **Status**: Accepted
+- **Date**: 2026-02-28
 - **Owners**: Platform Team
 
 ## Context
@@ -28,6 +28,14 @@ The platform must support:
 - Runtime and packaging:
   - Services are containerized with Docker.
   - Local developer and operations flows are Docker-first.
+- Authentication baseline for web clients:
+  - Browser-based authentication uses secure `HttpOnly` cookies rather than
+    browser-managed token storage such as `localStorage`.
+  - Access tokens are short-lived.
+  - Refresh tokens are rotated.
+  - Refresh token revocation/blacklist support is required.
+  - Cookie security settings (`Secure`, `SameSite`, CSRF protections) are part
+    of the baseline web security model.
 - Asynchronous/background processing:
   - Use worker services for long-running jobs (imports/exports/scheduled tasks).
   - Celery + Redis is the baseline queue/worker model for v1.
@@ -49,7 +57,9 @@ The platform must support:
   - Storage implementation should preserve a clean path to object storage
     adoption later (for example S3-compatible backends).
 - URL and domain topology is intentionally defined separately in
-  `docs/adr/0002-url-and-domain-topology.md`.
+  [ADR 0002](./0002-url-and-domain-topology.md).
+- Detailed RBAC and permission policy is intentionally defined separately in
+  [ADR 0005](./0005-rbac-model-and-permission-enforcement.md).
 
 ## Model and Field Breakdown
 
@@ -61,6 +71,7 @@ Not applicable.
   - Uses mature, common enterprise technologies.
   - Keeps initial hosting and operations flexible for low-cost starts.
   - Supports gradual scale-up without immediate platform re-architecture.
+  - Makes the web authentication approach explicit for later implementation.
 - Tradeoffs:
   - Per-tenant/per-environment isolation increases deployment and operations
     overhead.
@@ -79,6 +90,10 @@ Not applicable.
 ## Follow-Up
 
 - Finalize runtime version policy (Python/Node/pnpm support window).
+- Define exact auth/session timings:
+  - access token lifetime
+  - refresh token lifetime
+  - idle timeout and forced re-authentication policy
 - Define deployment profiles:
   - single-server profile
   - split-service profile
@@ -91,18 +106,20 @@ Not applicable.
 
 ## Review Sign-off Checklist
 
-- [ ] Platform baseline confirmed
-- [ ] Deployment profile policy confirmed
-- [ ] Queue/worker baseline confirmed
-- [ ] Data isolation baseline confirmed
+- [x] Platform baseline confirmed
+- [x] Deployment profile policy confirmed
+- [x] Queue/worker baseline confirmed
+- [x] Data isolation baseline confirmed
+- [x] Auth/session transport baseline confirmed
 
 ## Related
 
-- `docs/overview/project.md`
-- `docs/adr/0002-url-and-domain-topology.md`
+- [Project Overview](../overview/project.md)
+- [ADR 0002](./0002-url-and-domain-topology.md)
+- [ADR 0005](./0005-rbac-model-and-permission-enforcement.md)
 
 ## References
 
-- `docs/standards/coding-standards.md`
-- `docs/standards/scripts.md`
-- `docs/standards/testing.md`
+- [Coding Standards](../standards/coding-standards.md)
+- [Script Standards](../standards/scripts.md)
+- [Testing Standards](../standards/testing.md)

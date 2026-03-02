@@ -1,7 +1,7 @@
 # ADR 0012: Enrollment Domain Model
 
 - **Status**: Proposed
-- **Date**: 2026-02-26
+- **Date**: 2026-02-28
 - **Owners**: Platform Team
 
 ## Context
@@ -66,8 +66,8 @@ and instructional offerings over effective time windows.
 
 ## Related ADRs
 
-- Dependencies: `docs/adr/0004-domain-boundaries-and-ownership.md`, `docs/adr/0006-identity-domain-model-v1.md`, `docs/adr/0011-instruction-domain-model-v1.md`
-- Adjacent: `docs/adr/0009-contacts-domain-model-v1.md`, `docs/adr/0010-academic-domain-model-v1.md`
+- Dependencies: [ADR 0004](./0004-domain-boundaries-and-ownership.md), [ADR 0006](./0006-identity-domain-model-v1.md), [ADR 0011](./0011-instruction-domain-model-v1.md)
+- Adjacent: [ADR 0009](./0009-contacts-domain-model-v1.md), [ADR 0010](./0010-academic-domain-model-v1.md)
 
 ## References
 

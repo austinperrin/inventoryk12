@@ -1,7 +1,7 @@
 # ADR 0005: RBAC Model and Permission Enforcement
 
 - **Status**: Proposed
-- **Date**: 2026-02-26
+- **Date**: 2026-02-28
 - **Owners**: Platform Team
 
 ## Context
@@ -113,10 +113,10 @@ Notes:
 
 ## Related
 
-- `docs/standards/security.md`
-- `docs/adr/0002-url-and-domain-topology.md`
-- `docs/adr/0003-non-prod-data-refresh-and-sanitization-policy.md`
-- `docs/adr/0006-identity-domain-model-v1.md`
+- [Security Standards](../standards/security.md)
+- [ADR 0002](./0002-url-and-domain-topology.md)
+- [ADR 0003](./0003-non-prod-data-refresh-and-sanitization-policy.md)
+- [ADR 0006](./0006-identity-domain-model-v1.md)
 
 ## References
 

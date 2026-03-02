@@ -1,7 +1,7 @@
 # ADR 0010: Academic Domain Model
 
 - **Status**: Proposed
-- **Date**: 2026-02-26
+- **Date**: 2026-02-28
 - **Owners**: Platform Team
 
 ## Context
@@ -73,8 +73,8 @@ that scope instructional, enrollment, and reporting behavior.
 
 ## Related ADRs
 
-- Dependencies: `docs/adr/0004-domain-boundaries-and-ownership.md`
-- Adjacent: `docs/adr/0011-instruction-domain-model-v1.md`, `docs/adr/0012-enrollment-domain-model-v1.md`
+- Dependencies: [ADR 0004](./0004-domain-boundaries-and-ownership.md)
+- Adjacent: [ADR 0011](./0011-instruction-domain-model-v1.md), [ADR 0012](./0012-enrollment-domain-model-v1.md)
 
 ## References
 
