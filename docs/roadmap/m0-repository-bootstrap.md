@@ -102,11 +102,11 @@ Stand up baseline CI checks and ownership so quality gates are enforceable from 
 ### Development Checklist
 
 #### DevOps + SRE
-- [ ] Define required CI checks for docs, lint, and tests.
+- [x] Define required CI checks for docs, lint, and tests.
 - [ ] Validate minimal green pipeline for baseline repo state.
 
 #### Product Management + TPM
-- [ ] Define failure ownership and triage flow.
+- [x] Define failure ownership and triage flow.
 
 ### Branch and PR Plan
 - Branch: `ci/m0-p3-baseline-quality-gates`
@@ -114,7 +114,7 @@ Stand up baseline CI checks and ownership so quality gates are enforceable from 
 
 ### Review Checklist
 - [ ] CI checks pass.
-- [ ] Failure-handling guidance is documented.
+- [x] Failure-handling guidance is documented.
 - [ ] Required quality gates are enforced and visible.
 
 ### Exit Criteria

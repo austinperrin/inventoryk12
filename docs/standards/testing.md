@@ -31,6 +31,7 @@
   - `.github/workflows/ci.yml`
   - `.github/PULL_REQUEST_TEMPLATE/*.md`
 - Baseline required checks for pull requests into `main` are:
+  - `docs`
   - `backend-lint`
   - `backend-tests`
   - `backend-typecheck`

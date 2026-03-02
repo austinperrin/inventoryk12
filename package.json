@@ -6,6 +6,13 @@
     "services/*",
     "packages/*"
   ],
+  "pnpm": {
+    "overrides": {
+      "minimatch@<3.1.4": "3.1.4",
+      "minimatch@>=9.0.0 <9.0.7": "9.0.7",
+      "rollup@>=4.0.0 <4.59.0": "4.59.0"
+    }
+  },
   "scripts": {
     "bootstrap:env": "bash scripts/bootstrap/bootstrap-env.sh",
     "bootstrap:secrets": "bash scripts/bootstrap/bootstrap-secrets.sh",
@@ -13,10 +20,11 @@
     "dev:checks": "bash scripts/dev/dev-checks.sh",
     "dev:format": "bash scripts/dev/dev-format.sh",
     "dev:reset": "bash scripts/dev/dev-reset.sh",
+    "ci:docs": "bash scripts/ci/docs-checks.sh",
     "ci:backend": "bash scripts/ci/ci-backend.sh",
     "ci:frontend": "bash scripts/ci/ci-frontend.sh",
     "ci:security": "bash scripts/ci/ci-security.sh",
-    "ci:checks": "pnpm ci:backend && pnpm ci:frontend && pnpm ci:security",
+    "ci:checks": "pnpm ci:docs && pnpm ci:backend && pnpm ci:frontend && pnpm ci:security",
     "ci:backend:lint": "bash scripts/ci/backend-lint.sh",
     "ci:backend:typecheck": "bash scripts/ci/backend-typecheck.sh",
     "ci:backend:test": "bash scripts/ci/backend-tests.sh",
