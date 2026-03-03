@@ -11,6 +11,10 @@ Thanks for your interest in contributing.
 3. Start local services (Docker-based):
    - `pnpm dev:up`
    - `pnpm dev:up -- --frontend`
+4. Apply backend migrations:
+   - `pnpm ops:migrate -- --docker`
+5. Follow the local smoke-test and troubleshooting runbook:
+   - `docs/runbooks/local-development.md`
 
 ## Principles and Workflow
 

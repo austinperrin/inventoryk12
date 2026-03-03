@@ -9,7 +9,7 @@ Scripts are grouped by intent and should be safe, idempotent, and well-documente
 - `dev/` local developer workflows
 - `ci/` CI entry points
 - `release/` versioning and release steps
-- `ops/` operational tasks (migrations, backups)
+- `ops/` operational tasks (migrations, backups, schema reset)
 - `security/` audits and security tooling
 - `compliance/` evidence checks and exports
 - `lib/` shared helpers
@@ -22,31 +22,105 @@ Scripts are grouped by intent and should be safe, idempotent, and well-documente
 - Prefer explicit flags and input validation.
 - Avoid writing output files unless explicitly requested.
 
-## Dev reset
+## Shared Helpers
 
-Run `pnpm dev:reset` to stop dev containers and remove Docker volumes.
+- `scripts/lib/common.sh`
+  - `log_info`, `log_warn`, `log_error`
+  - `require_cmd`, `require_file`, `repo_root`
 
-## Ops and release commands
+## Local Dev Flow
 
-- CI:
-  - `pnpm ci:docs`
-  - `pnpm ci:backend`
-  - `pnpm ci:frontend`
-  - `pnpm ci:security`
-  - `pnpm ci:checks`
-- Migrations:
-  - `pnpm ops:makemigrations`
-  - `pnpm ops:makemigrations -- --docker`
-  - `pnpm ops:migrate`
-  - `pnpm ops:migrate -- --docker`
-- Backup and restore:
-  - `pnpm ops:backup -- --output backups/dev.sql`
-  - `pnpm ops:restore -- --input backups/dev.sql --yes`
-- Security:
-  - `pnpm security:deps-audit`
-  - `pnpm security:sbom -- --output-dir artifacts/sbom`
-- Compliance:
-  - `pnpm compliance:checklist`
-  - `pnpm compliance:export -- --output artifacts/compliance-evidence.tar.gz`
-- Release:
-  - `pnpm release:prepare`
+The canonical startup, smoke-test, and troubleshooting flow is documented in
+`docs/runbooks/local-development.md`.
+
+## Bootstrap
+
+- `pnpm bootstrap:env`
+  - creates `.env.backend` and `.env.frontend` when missing
+  - options:
+    - `-- --with-secrets`
+- `pnpm bootstrap:secrets`
+  - generates or rotates the local backend secret key
+  - options:
+    - `-- --force`
+
+## Development
+
+- `pnpm dev:up`
+  - starts the local development stack
+  - options:
+    - `-- --frontend`
+    - `-- --build`
+- `pnpm dev:checks`
+  - runs Docker-first backend and frontend checks
+  - options:
+    - `-- --build`
+    - `-- --docker`
+- `pnpm dev:format`
+  - runs backend and frontend formatters in Docker
+- `pnpm dev:reset`
+  - stops local dev containers and removes volumes
+- `pnpm dev:seed-auth-user`
+  - creates or replaces the local auth smoke-test user
+  - options:
+    - `-- --docker`
+    - `-- --email <email>`
+    - `-- --password <password>`
+    - `-- --first-name <name>`
+    - `-- --last-name <name>`
+
+## CI Entry Points
+
+- `pnpm ci:docs`
+- `pnpm ci:backend`
+- `pnpm ci:frontend`
+- `pnpm ci:security`
+- `pnpm ci:checks`
+- `pnpm ci:backend:lint`
+- `pnpm ci:backend:typecheck`
+- `pnpm ci:backend:test`
+- `pnpm ci:frontend:lint`
+- `pnpm ci:frontend:test`
+
+## Operations
+
+- `pnpm ops:makemigrations`
+  - options:
+    - `-- --docker`
+- `pnpm ops:migrate`
+  - options:
+    - `-- --docker`
+- `pnpm ops:reset-schema`
+  - options:
+    - `-- --database <name>`
+    - `-- --force`
+    - `-- --yes`
+    - `-- --allow-remote`
+    - `-- --with-makemigrations`
+    - `-- --with-migrate`
+    - `-- --docker`
+- `pnpm ops:backup -- --output <file>`
+- `pnpm ops:restore -- --input <file> --yes`
+
+## Security
+
+- `pnpm security:deps-audit`
+- `pnpm security:sbom -- --output-dir <dir>`
+
+## Compliance
+
+- `pnpm compliance:checklist`
+- `pnpm compliance:export -- --output <file.tar.gz>`
+
+## Release
+
+- `pnpm release:prepare`
+  - options:
+    - `-- --skip-checks`
+
+## Root Convenience Commands
+
+- `pnpm lint`
+- `pnpm format`
+- `pnpm check`
+- `pnpm commitlint`
