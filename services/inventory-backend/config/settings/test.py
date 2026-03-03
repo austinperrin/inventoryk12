@@ -3,8 +3,8 @@
 # Fast, isolated configuration for automated test runs.
 # ======================================================================
 
-from .base import *  # noqa: F403
 from . import base as base_settings
+from .base import *  # noqa: F403
 
 # ----------------------------------------------------------------------
 # SECURITY AND DEBUG

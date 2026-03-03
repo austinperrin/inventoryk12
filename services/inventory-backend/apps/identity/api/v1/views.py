@@ -26,8 +26,15 @@ def _set_auth_cookie(response: Response, name: str, value: str, max_age: int) ->
     )
 
 
-def _set_auth_cookies(response: Response, access_token: str, refresh_token: str | None = None) -> None:
-    _set_auth_cookie(response, settings.AUTH_ACCESS_COOKIE_NAME, access_token, settings.AUTH_ACCESS_COOKIE_MAX_AGE)
+def _set_auth_cookies(
+    response: Response, access_token: str, refresh_token: str | None = None
+) -> None:
+    _set_auth_cookie(
+        response,
+        settings.AUTH_ACCESS_COOKIE_NAME,
+        access_token,
+        settings.AUTH_ACCESS_COOKIE_MAX_AGE,
+    )
     if refresh_token is not None:
         _set_auth_cookie(
             response,
@@ -86,7 +93,9 @@ class RefreshView(APIView):  # type: ignore[misc]
     def post(self, request: Request) -> Response:
         refresh_token = request.COOKIES.get(settings.AUTH_REFRESH_COOKIE_NAME)
         if not refresh_token:
-            response = Response({"detail": "Refresh token missing."}, status=status.HTTP_401_UNAUTHORIZED)
+            response = Response(
+                {"detail": "Refresh token missing."}, status=status.HTTP_401_UNAUTHORIZED
+            )
             _clear_auth_cookies(response)
             return response
 
@@ -94,7 +103,9 @@ class RefreshView(APIView):  # type: ignore[misc]
         try:
             serializer.is_valid(raise_exception=True)
         except Exception:
-            response = Response({"detail": "Refresh token invalid."}, status=status.HTTP_401_UNAUTHORIZED)
+            response = Response(
+                {"detail": "Refresh token invalid."}, status=status.HTTP_401_UNAUTHORIZED
+            )
             _clear_auth_cookies(response)
             return response
 
@@ -131,7 +142,9 @@ class SessionView(APIView):  # type: ignore[misc]
 
     def get(self, request: Request) -> Response:
         if request.user.is_authenticated:
-            return Response({"authenticated": True, "user": UserSummarySerializer(request.user).data})
+            return Response(
+                {"authenticated": True, "user": UserSummarySerializer(request.user).data}
+            )
         return Response({"authenticated": False, "user": None})
 
 

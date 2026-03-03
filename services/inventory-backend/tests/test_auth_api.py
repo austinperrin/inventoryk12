@@ -1,7 +1,6 @@
-from django.contrib.auth import get_user_model
 from django.conf import settings
+from django.contrib.auth import get_user_model
 from rest_framework.test import APIClient
-
 
 User = get_user_model()
 API_PREFIX = f"{settings.APP_ENV_PATH_PREFIX}/api/v1"
