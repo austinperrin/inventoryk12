@@ -16,6 +16,8 @@
 - Default local verification is `pnpm dev:checks`. Formatting is `pnpm dev:format`.
 - CI-equivalent entry points are `pnpm ci:backend`, `pnpm ci:frontend`, `pnpm ci:security`, and `pnpm ci:checks`.
 - Use wrapped ops commands instead of ad hoc database flows when possible: `pnpm ops:makemigrations`, `pnpm ops:migrate`, `pnpm ops:backup`, `pnpm ops:restore`, `pnpm ops:reset-schema`.
+- Use `pnpm dev:seed-auth-user -- --docker` for the default local browser-login smoke test instead of ad hoc shell commands.
+- Local browser URLs should mirror the tenant deployment shape, for example `http://demoisd.localhost:5173/dev/login` and `http://demoisd.localhost:8000/dev/api/v1/common/health/`.
 
 ## Shared Conventions
 - Shell scripts must stay small, idempotent, and defensive: start with `set -euo pipefail` and reuse `scripts/lib/common.sh` per `scripts/README.md` and `docs/standards/scripts.md`.

@@ -11,6 +11,7 @@
 - Keep local development changes aligned with `infra/docker/docker-compose.dev.yml` and `infra/docker/README.md`.
 - Preserve the Docker-first workflow expected by the repo-root commands such as `pnpm dev:up` and `pnpm dev:checks`.
 - Compose changes should continue to rely on root `.env.backend` and `.env.frontend` rather than ad hoc service-local env conventions.
+- Preserve the current tenant-style local URL model (`demoisd.localhost` plus `/dev`) unless roadmap or ADR work explicitly changes it.
 
 ## Terraform
 - Treat `infra/terraform/` as reserved structure until provider, state backend, and environment strategy are finalized.
