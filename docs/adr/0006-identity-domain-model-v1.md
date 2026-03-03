@@ -1,7 +1,7 @@
 # ADR 0006: Identity Domain Model
 
-- **Status**: Proposed
-- **Date**: 2026-02-28
+- **Status**: Accepted
+- **Date**: 2026-03-03
 - **Owners**: Platform Team
 
 ## Context
@@ -81,10 +81,10 @@ role assignment links, and identity metadata used across all other domains.
 
 ## Review Sign-off Checklist
 
-- [ ] Identity ownership boundaries confirmed
-- [ ] Role assignment lifecycle confirmed
-- [ ] Persona/demographics scope confirmed
-- [ ] Cross-domain identity linking rules confirmed
+- [x] Identity ownership boundaries confirmed
+- [x] Role assignment lifecycle confirmed
+- [x] Persona/demographics scope confirmed
+- [x] Cross-domain identity linking rules confirmed
 
 ## Related ADRs
 

@@ -1,7 +1,7 @@
 # ADR 0016: High-Assurance Auth and Session Security Baseline
 
 - **Status**: Proposed
-- **Date**: 2026-03-03
+- **Date**:
 - **Owners**: Security + Compliance, Architecture
 
 ## Context
