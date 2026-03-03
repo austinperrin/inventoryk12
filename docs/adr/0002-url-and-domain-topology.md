@@ -27,6 +27,12 @@ segmentation across marketing and product surfaces.
 - Origin/service routing baseline:
   - Each environment stack can use Nginx (or equivalent gateway) to route app,
     API, static/media, and service paths within that environment.
+  - Frontend, backend, and worker/add-on services may run on separate servers,
+    but tenant-facing browser traffic should stay on one public tenant origin.
+  - Example:
+    - browser origin: `https://demoisd.inventoryk12.com/prod`
+    - frontend server: serves app shell/routes behind that origin
+    - backend server: serves `/api/` behind that same origin
 - Environment isolation baseline:
   - Each environment maps to dedicated backend/frontend/service deployments.
   - Non-prod and prod do not share runtime resources by default.

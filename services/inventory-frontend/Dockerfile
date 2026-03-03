@@ -19,4 +19,4 @@ COPY services/inventory-frontend services/inventory-frontend
 
 WORKDIR /repo/services/inventory-frontend
 
-CMD ["pnpm", "run", "dev", "--", "--host", "0.0.0.0", "--port", "5173"]
+CMD ["pnpm", "exec", "vite", "--host", "0.0.0.0", "--port", "5173"]

@@ -8,9 +8,9 @@
   ],
   "pnpm": {
     "overrides": {
-      "minimatch@<3.1.4": "3.1.4",
-      "minimatch@>=9.0.0 <9.0.7": "9.0.7",
-      "rollup@>=4.0.0 <4.59.0": "4.59.0"
+      "minimatch@3.1.2": "3.1.4",
+      "minimatch@9.0.5": "9.0.7",
+      "rollup@4.57.1": "4.59.0"
     }
   },
   "scripts": {
@@ -20,6 +20,7 @@
     "dev:checks": "bash scripts/dev/dev-checks.sh",
     "dev:format": "bash scripts/dev/dev-format.sh",
     "dev:reset": "bash scripts/dev/dev-reset.sh",
+    "dev:seed-auth-user": "bash scripts/dev/dev-seed-auth-user.sh",
     "ci:docs": "bash scripts/ci/docs-checks.sh",
     "ci:backend": "bash scripts/ci/ci-backend.sh",
     "ci:frontend": "bash scripts/ci/ci-frontend.sh",

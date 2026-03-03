@@ -3,7 +3,7 @@
 - Status: Not Started
 - Estimate: 2-4 weeks
 - Dependency: [Milestone 2: Domain Foundation](./m2-domain-foundation.md) `Completed`
-- Related ADRs: [ADR 0002](../adr/0002-url-and-domain-topology.md), [ADR 0003](../adr/0003-non-prod-data-refresh-and-sanitization-policy.md), [ADR 0005](../adr/0005-rbac-model-and-permission-enforcement.md)
+- Related ADRs: [ADR 0002](../adr/0002-url-and-domain-topology.md), [ADR 0003](../adr/0003-non-prod-data-refresh-and-sanitization-policy.md), [ADR 0005](../adr/0005-rbac-model-and-permission-enforcement.md), [ADR 0016](../adr/0016-high-assurance-auth-and-session-security-baseline.md)
 
 ## Owners
 
@@ -13,14 +13,15 @@
 
 ## Goal
 
-Implement RBAC, URL/routing controls, and non-prod refresh controls needed for
-safe tenant operations.
+Implement RBAC, high-assurance auth/session controls, URL/routing controls,
+and non-prod refresh controls needed for safe tenant operations.
 
 ## Milestone Pre-Checklist (Alignment + Drift Control)
 
 - [ ] Permission model is aligned to ADR 0005.
 - [ ] URL topology decisions are aligned to ADR 0002.
 - [ ] Non-prod operational policy is aligned to ADR 0003.
+- [ ] High-assurance auth/session controls are aligned to ADR 0016.
 - [ ] Security review expectations and test scope are documented.
 - [ ] Roadmap status and owners are current.
 
@@ -38,22 +39,31 @@ safe tenant operations.
   reconciliation, milestone review checklist updates, and the final PR to `main`.
 
 <a id="m3-phase-1"></a>
-## Phase 1: RBAC Enforcement
+## Phase 1: RBAC and Auth Hardening
 
 ### Phase Goal
-Apply and validate RBAC enforcement for protected workflows and role delegation boundaries.
+Apply and validate RBAC enforcement, role delegation boundaries, and
+high-assurance auth/session controls required for MVP protected workflows.
 
 ### Development Checklist
 
 #### Backend Engineering
 - [ ] Implement permission enforcement checks for protected workflows.
 - [ ] Implement role delegation boundaries.
+- [ ] Implement session hardening controls (idle timeout, absolute lifetime, re-auth hooks).
+- [ ] Implement login abuse protections (rate limiting, throttling, or lockout policy).
+- [ ] Implement MFA and step-up auth support for privileged workflows.
+- [ ] Implement session/device revocation and privileged-session review hooks.
 
 #### QA + Testing
 - [ ] Add authorization failure/denial test coverage.
+- [ ] Add auth/session hardening test coverage for timeout, revocation, and step-up flows.
+- [ ] Add MFA/login-abuse coverage for success, failure, and recovery paths.
 
 #### Security + Compliance
 - [ ] Validate enforcement behavior against policy requirements.
+- [ ] Validate auth/session controls against ADR 0016.
+- [ ] Define MVP exceptions explicitly if any ADR 0016 controls are deferred.
 
 ### Branch and PR Plan
 - Branch: `feat/m3-p1-rbac-enforcement`
@@ -62,10 +72,11 @@ Apply and validate RBAC enforcement for protected workflows and role delegation 
 ### Review Checklist
 - [ ] Security review complete.
 - [ ] RBAC behavior matches ADR 0005.
+- [ ] Auth/session behavior matches ADR 0016.
 - [ ] Permission drift checks are complete.
 
 ### Exit Criteria
-- [ ] RBAC enforcement is active and verified.
+- [ ] RBAC and high-assurance auth controls are active, documented, and verified for MVP scope.
 
 <a id="m3-phase-2"></a>
 ## Phase 2: URL/Topology Routing Baseline

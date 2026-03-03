@@ -22,8 +22,8 @@ backend/frontend, add-on services/modules, standards, and operational tooling.
 ## First-Time Setup
 
 1. Install runtimes (needed to run repo scripts locally):
-   - Node 24.13.0
-   - pnpm 9.12.3
+   - Node 24.13.0 or the version currently required by the repo toolchain
+   - `pnpm@9.12.3` or the version pinned in `packageManager`
 2. Create env files:
    - `pnpm bootstrap:env`
    - `pnpm bootstrap:env -- --with-secrets`
@@ -33,15 +33,23 @@ backend/frontend, add-on services/modules, standards, and operational tooling.
    - Example local host DB from Docker: `postgres://user:password@host.docker.internal:5432/dbname`
 4. Run checks:
    - `pnpm dev:checks`
+   - Rebuild Docker images first if dependencies changed: `pnpm dev:checks -- --build`
 5. Start services (Docker required):
    - `pnpm dev:up -- --build --frontend`
+6. Apply backend migrations:
+   - `pnpm ops:migrate -- --docker`
+7. Use the local tenant URL shape:
+   - frontend: `http://demoisd.localhost:5173/dev/login`
+   - backend: `http://demoisd.localhost:8000/dev/api/v1/common/health/`
 
 ## Workflow Expectations
 
 - Local development and operations are Docker-based.
 - CI checks (`pnpm ci:*`) are validated in GitHub Actions with CI-managed
   dependencies.
+- The canonical startup/reset/troubleshooting flow is documented in
+  [docs/runbooks/local-development.md](./docs/runbooks/local-development.md).
 
 ## Docs Index
 
-- Review `docs/index.md` for the documentation tree.
+- Review [`docs/index.md`](./docs/index.md) for the documentation tree.

@@ -12,6 +12,9 @@
 - Keep frontend changes aligned with the current scaffold. Do not invent major state-management or auth-storage patterns ahead of the roadmap.
 - Route definitions belong in `src/routes/`; page-level UI belongs in `src/pages/`; shared app wiring starts at `src/main.tsx`.
 - Keep the frontend compatible with the Docker-first workspace flow rather than assuming a standalone package workflow.
+- Preserve the current environment-scoped router model:
+  - `VITE_APP_BASE_PATH` defines the browser-visible environment path such as `/dev` or `/prod`
+  - local development uses tenant-style hosts such as `demoisd.localhost`
 
 ## Build and Test
 - Run frontend-only commands from the repo root with workspace filtering: `pnpm --filter inventory-frontend build`, `pnpm --filter inventory-frontend lint`, `pnpm --filter inventory-frontend test`.
@@ -20,4 +23,5 @@
 
 ## Security
 - Do not introduce browser token storage patterns that conflict with ADR 0001. Browser auth is expected to use secure `HttpOnly` cookies with CSRF protections.
+- Keep frontend auth requests aligned to the configured tenant/environment origin rather than a private backend host.
 - Avoid leaking sensitive tenant or student data into logs, fixtures, mock data, or client-visible debug output.

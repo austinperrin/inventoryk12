@@ -18,3 +18,4 @@
 - Local development and ops flows should stay Docker-first.
 - CI scripts should map cleanly to the repo-root `pnpm ci:*` entrypoints.
 - If a script requires host-installed dependencies, document that in the closest README or runbook and keep a Docker-based path when possible.
+- Keep `scripts/README.md` and `docs/runbooks/local-development.md` aligned with any new developer-facing script such as local seeding or smoke-test helpers.

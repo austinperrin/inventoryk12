@@ -1,6 +1,6 @@
 # Milestone 1: Platform Baseline
 
-- Status: Not Started
+- Status: Completed
 - Estimate: 2-3 weeks
 - Dependency: [Milestone 0: Repository Bootstrap](./m0-repository-bootstrap.md) `Completed`
 - Related ADRs: [ADR 0001](../adr/0001-tech-stack-and-runtime-baseline.md), [ADR 0002](../adr/0002-url-and-domain-topology.md)
@@ -17,11 +17,11 @@ Stand up backend/frontend runtime baseline and local-dev operations baseline.
 
 ## Milestone Pre-Checklist (Alignment + Drift Control)
 
-- [ ] Runtime stack versions are defined and documented.
-- [ ] Docker/dev workflow is documented and tested.
-- [ ] API/frontend integration contracts are baseline-defined.
-- [ ] Milestone branch and PR strategy is documented before implementation.
-- [ ] Roadmap status and owners are current.
+- [x] Runtime stack versions are defined and documented.
+- [x] Docker/dev workflow is documented and tested.
+- [x] API/frontend integration contracts are baseline-defined.
+- [x] Milestone branch and PR strategy is documented before implementation.
+- [x] Roadmap status and owners are current.
 
 ## Execution Model
 
@@ -45,25 +45,25 @@ Create stable backend/frontend application skeletons that can support incrementa
 ### Development Checklist
 
 #### Backend Engineering
-- [ ] Confirm backend service skeleton and app registration structure.
+- [x] Confirm backend service skeleton and app registration structure.
 
 #### Frontend Engineering
-- [ ] Confirm frontend app shell and route scaffolding.
+- [x] Confirm frontend app shell and route scaffolding.
 
 #### QA + Testing
-- [ ] Add baseline health/status verification tests.
+- [x] Add baseline health/status verification tests.
 
 ### Branch and PR Plan
 - Branches: `feat/m1-p1-backend-skeleton`, `feat/m1-p1-frontend-skeleton`
 - PR Target: `chore/m1-integration`
 
 ### Review Checklist
-- [ ] Architecture and code review complete.
-- [ ] Baseline tests pass.
-- [ ] Skeleton implementation matches documented baseline.
+- [x] Architecture and code review complete.
+- [x] Baseline tests pass.
+- [x] Skeleton implementation matches documented baseline.
 
 ### Exit Criteria
-- [ ] Both services boot and pass baseline checks.
+- [x] Both services boot and pass baseline checks.
 
 <a id="m1-phase-2"></a>
 ## Phase 2: Auth and Core Runtime Plumbing
@@ -74,28 +74,28 @@ Wire core authentication and runtime integration paths between backend and front
 ### Development Checklist
 
 #### Backend Engineering
-- [ ] Wire authentication baseline flow according to ADR 0001.
-- [ ] Implement browser auth transport with secure `HttpOnly` cookies.
-- [ ] Implement short-lived access token and rotating refresh token behavior.
-- [ ] Add refresh token revocation/blacklist support.
+- [x] Wire authentication baseline flow according to ADR 0001.
+- [x] Implement browser auth transport with secure `HttpOnly` cookies.
+- [x] Implement short-lived access token and rotating refresh token behavior.
+- [x] Add refresh token revocation/blacklist support.
 
 #### Frontend Engineering
-- [ ] Wire API client/auth guard baseline around cookie-based browser auth.
+- [x] Wire API client/auth guard baseline around cookie-based browser auth.
 
 #### QA + Testing
-- [ ] Add baseline auth integration tests for login, refresh, logout, and revocation behavior.
+- [x] Add baseline auth integration tests for login, refresh, logout, and revocation behavior.
 
 ### Branch and PR Plan
 - Branch: `feat/m1-p2-auth-runtime-plumbing`
 - PR Target: `chore/m1-integration`
 
 ### Review Checklist
-- [ ] Security and auth review complete.
-- [ ] CI checks pass.
-- [ ] Auth behavior aligns with ADR and standards references.
+- [x] Security and auth review complete.
+- [x] CI checks pass.
+- [x] Auth behavior aligns with ADR and standards references.
 
 ### Exit Criteria
-- [ ] Auth baseline is functional end-to-end.
+- [x] Auth baseline is functional end-to-end.
 
 <a id="m1-phase-3"></a>
 ## Phase 3: Local Dev + Ops Baseline
@@ -106,33 +106,33 @@ Ensure local development and operational startup flows are documented and reprod
 ### Development Checklist
 
 #### DevOps + SRE
-- [ ] Finalize docker-compose local workflow.
+- [x] Finalize docker-compose local workflow.
 
 #### Docs + Standards
-- [ ] Document startup/reset/troubleshooting commands.
+- [x] Document startup/reset/troubleshooting commands.
 
 #### QA + Testing
-- [ ] Validate baseline runbook accuracy via smoke test.
+- [x] Validate baseline runbook accuracy via smoke test.
 
 ### Branch and PR Plan
 - Branch: `docs/m1-p3-local-dev-ops-baseline`
 - PR Target: `chore/m1-integration`
 
 ### Review Checklist
-- [ ] DevOps + Docs review complete.
-- [ ] New developer smoke test passes.
-- [ ] Runbooks match actual commands and expected outputs.
+- [x] DevOps + Docs review complete.
+- [x] New developer smoke test passes.
+- [x] Runbooks match actual commands and expected outputs.
 
 ### Exit Criteria
-- [ ] New engineer can boot stack from docs only.
+- [x] New engineer can boot stack from docs only.
 
 ## Milestone Review Checklist
 
-- [ ] All phase exit criteria are complete.
-- [ ] Milestone artifacts match roadmap index status.
-- [ ] Standards, ADR references, and docs remain consistent.
-- [ ] `chore/m1-integration` is merged to `main`.
-- [ ] Milestone status set to `Completed`.
+- [x] All phase exit criteria are complete.
+- [x] Milestone artifacts match roadmap index status.
+- [x] Standards, ADR references, and docs remain consistent.
+- [x] `chore/m1-integration` is merged to `main`.
+- [x] Milestone status set to `Completed`.
 
 ## Next Steps
 

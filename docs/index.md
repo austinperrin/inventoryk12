@@ -1,25 +1,27 @@
 # Documentation Index
 
-- `docs/overview/` product and project overview
-  - `docs/overview/README.md`
-- `docs/roadmap/` milestone and phase execution roadmap
-  - `docs/roadmap/index.md`
-- `docs/architecture/` system architecture notes
-  - `docs/architecture/README.md`
-- `docs/standards/` coding, security, and collaboration standards
-  - `docs/standards/coding-standards.md`
-  - `docs/standards/commits.md`
-  - `docs/standards/testing.md`
-  - `docs/standards/api.md`
-  - `docs/standards/security.md`
-  - `docs/standards/data.md`
-  - `docs/standards/scripts.md` scripting conventions
-  - `docs/standards/adr.md` ADR lifecycle and follow-up conventions
-- `docs/security/` compliance and privacy controls
-  - `docs/security/README.md`
-- `docs/runbooks/` operational runbooks
-  - `docs/runbooks/README.md`
-- `docs/adr/` architecture decision records
-  - `docs/adr/README.md`
+- [`docs/overview/`](./overview/) product and project overview
+  - [`docs/overview/README.md`](./overview/README.md)
+- [`docs/roadmap/`](./roadmap/) milestone and phase execution roadmap
+  - [`docs/roadmap/index.md`](./roadmap/index.md)
+- [`docs/architecture/`](./architecture/) system architecture notes
+  - [`docs/architecture/README.md`](./architecture/README.md)
+- [`docs/standards/`](./standards/) coding, security, and collaboration standards
+  - [`docs/standards/coding-standards.md`](./standards/coding-standards.md)
+  - [`docs/standards/commits.md`](./standards/commits.md)
+  - [`docs/standards/testing.md`](./standards/testing.md)
+  - [`docs/standards/api.md`](./standards/api.md)
+  - [`docs/standards/security.md`](./standards/security.md)
+  - [`docs/standards/data.md`](./standards/data.md)
+  - [`docs/standards/scripts.md`](./standards/scripts.md) scripting conventions
+  - [`docs/standards/adr.md`](./standards/adr.md) ADR lifecycle and follow-up conventions
+- [`docs/security/`](./security/) compliance and privacy controls
+  - [`docs/security/README.md`](./security/README.md)
+- [`docs/runbooks/`](./runbooks/) operational runbooks
+  - [`docs/runbooks/README.md`](./runbooks/README.md)
+  - [`docs/runbooks/local-development.md`](./runbooks/local-development.md)
+- [`docs/adr/`](./adr/) architecture decision records
+  - [`docs/adr/README.md`](./adr/README.md)
+  - [`docs/adr/0016-high-assurance-auth-and-session-security-baseline.md`](./adr/0016-high-assurance-auth-and-session-security-baseline.md)
 - Repository workflow automation
-  - `.github/overview.md`
+  - [`.github/overview.md`](../.github/overview.md)
