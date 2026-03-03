@@ -48,7 +48,7 @@ Create stable backend/frontend application skeletons that can support incrementa
 - [x] Confirm backend service skeleton and app registration structure.
 
 #### Frontend Engineering
-- [ ] Confirm frontend app shell and route scaffolding.
+- [x] Confirm frontend app shell and route scaffolding.
 
 #### QA + Testing
 - [x] Add baseline health/status verification tests.
