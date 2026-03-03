@@ -1,6 +1,6 @@
 # Milestone 1: Platform Baseline
 
-- Status: In Progress
+- Status: Completed
 - Estimate: 2-3 weeks
 - Dependency: [Milestone 0: Repository Bootstrap](./m0-repository-bootstrap.md) `Completed`
 - Related ADRs: [ADR 0001](../adr/0001-tech-stack-and-runtime-baseline.md), [ADR 0002](../adr/0002-url-and-domain-topology.md)
@@ -128,11 +128,11 @@ Ensure local development and operational startup flows are documented and reprod
 
 ## Milestone Review Checklist
 
-- [ ] All phase exit criteria are complete.
-- [ ] Milestone artifacts match roadmap index status.
-- [ ] Standards, ADR references, and docs remain consistent.
-- [ ] `chore/m1-integration` is merged to `main`.
-- [ ] Milestone status set to `Completed`.
+- [x] All phase exit criteria are complete.
+- [x] Milestone artifacts match roadmap index status.
+- [x] Standards, ADR references, and docs remain consistent.
+- [x] `chore/m1-integration` is merged to `main`.
+- [x] Milestone status set to `Completed`.
 
 ## Next Steps
 
