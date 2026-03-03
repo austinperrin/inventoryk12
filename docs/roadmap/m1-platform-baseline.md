@@ -58,12 +58,12 @@ Create stable backend/frontend application skeletons that can support incrementa
 - PR Target: `chore/m1-integration`
 
 ### Review Checklist
-- [ ] Architecture and code review complete.
-- [ ] Baseline tests pass.
-- [ ] Skeleton implementation matches documented baseline.
+- [x] Architecture and code review complete.
+- [x] Baseline tests pass.
+- [x] Skeleton implementation matches documented baseline.
 
 ### Exit Criteria
-- [ ] Both services boot and pass baseline checks.
+- [x] Both services boot and pass baseline checks.
 
 <a id="m1-phase-2"></a>
 ## Phase 2: Auth and Core Runtime Plumbing
