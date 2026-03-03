@@ -1,3 +1,6 @@
+import { Link } from 'react-router-dom';
+import { routeHomePath } from '../routes/paths';
+
 export default function NotFound() {
   return (
     <section className="hero hero--compact">
@@ -7,9 +10,9 @@ export default function NotFound() {
         The frontend skeleton includes a fallback route so new pages can be
         added without leaving unmatched URLs undefined.
       </p>
-      <a className="hero-link" href="/">
+      <Link className="hero-link" to={routeHomePath}>
         Return to the home route
-      </a>
+      </Link>
     </section>
   );
 }

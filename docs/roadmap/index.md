@@ -30,14 +30,14 @@ are excluded from phase and milestone estimates.
 |  | [Phase 3: Baseline CI and Quality Gate](./m0-repository-bootstrap.md#m0-phase-3) | 2-3 days | 2026-03-11 | 2026-03-13 | 2026-03-02 | 2026-03-02 | Completed Early | Completed |
 | [Milestone 1: Platform Baseline](./m1-platform-baseline.md) |  | 2-3 weeks | 2026-03-16 | 2026-04-03 | 2026-03-02 | TBD | Started Early | In Progress |
 |  | [Phase 1: Backend/Frontend Skeleton](./m1-platform-baseline.md#m1-phase-1) | 4-6 days | 2026-03-16 | 2026-03-20 | 2026-03-03 | 2026-03-03 | Completed Early | Completed |
-|  | [Phase 2: Auth and Core Runtime Plumbing](./m1-platform-baseline.md#m1-phase-2) | 4-6 days | 2026-03-23 | 2026-03-27 | TBD | TBD | TBD | Not Started |
+|  | [Phase 2: Auth and Core Runtime Plumbing](./m1-platform-baseline.md#m1-phase-2) | 4-6 days | 2026-03-23 | 2026-03-27 | 2026-03-03 | 2026-03-03 | Completed Early | Completed |
 |  | [Phase 3: Local Dev + Ops Baseline](./m1-platform-baseline.md#m1-phase-3) | 3-5 days | 2026-03-30 | 2026-04-03 | TBD | TBD | TBD | Not Started |
 | [Milestone 2: Domain Foundation](./m2-domain-foundation.md) |  | 3-5 weeks | 2026-04-06 | 2026-05-08 | TBD | TBD | TBD | Not Started |
 |  | [Phase 1: Identity and Organization](./m2-domain-foundation.md#m2-phase-1) | 1-2 weeks | 2026-04-06 | 2026-04-17 | TBD | TBD | TBD | Not Started |
 |  | [Phase 2: Locations, Contacts, Academic](./m2-domain-foundation.md#m2-phase-2) | 1-2 weeks | 2026-04-20 | 2026-05-01 | TBD | TBD | TBD | Not Started |
 |  | [Phase 3: Domain Validation and Migration Freeze](./m2-domain-foundation.md#m2-phase-3) | 4-6 days | 2026-05-04 | 2026-05-08 | TBD | TBD | TBD | Not Started |
 | [Milestone 3: Access and Environment Controls](./m3-access-and-environment-controls.md) |  | 2-4 weeks | 2026-05-11 | 2026-06-05 | TBD | TBD | TBD | Not Started |
-|  | [Phase 1: RBAC Enforcement](./m3-access-and-environment-controls.md#m3-phase-1) | 1-2 weeks | 2026-05-11 | 2026-05-22 | TBD | TBD | TBD | Not Started |
+|  | [Phase 1: RBAC and Auth Hardening](./m3-access-and-environment-controls.md#m3-phase-1) | 1-2 weeks | 2026-05-11 | 2026-05-22 | TBD | TBD | TBD | Not Started |
 |  | [Phase 2: URL/Topology Routing Baseline](./m3-access-and-environment-controls.md#m3-phase-2) | 4-6 days | 2026-05-25 | 2026-05-29 | TBD | TBD | TBD | Not Started |
 |  | [Phase 3: Non-Prod Refresh Operations](./m3-access-and-environment-controls.md#m3-phase-3) | 3-5 days | 2026-06-01 | 2026-06-05 | TBD | TBD | TBD | Not Started |
 | [Milestone 4: Inventory MVP Build](./m4-inventory-mvp-build.md) |  | 4-6 weeks | 2026-06-08 | 2026-07-17 | TBD | TBD | TBD | Not Started |
@@ -69,3 +69,15 @@ are excluded from phase and milestone estimates.
 - Review Checklist (quality and sign-off)
 - Exit Criteria
 - ADR links and ADR gap callouts
+
+## Security Scope Note
+
+- MVP security scope includes a high-assurance auth/session target tracked by
+  [ADR 0016](../adr/0016-high-assurance-auth-and-session-security-baseline.md).
+- The secure cookie/JWT transport baseline starts in
+  [Milestone 1](./m1-platform-baseline.md), but that does not satisfy the full
+  MVP security target on its own.
+- Application/runtime hardening is planned primarily in
+  [Milestone 3](./m3-access-and-environment-controls.md).
+- Production evidence, operational controls, and validation are planned
+  primarily in [Milestone 5](./m5-production-deployment-readiness.md).

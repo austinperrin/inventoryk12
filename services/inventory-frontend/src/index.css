@@ -4,12 +4,14 @@
   font-weight: 400;
   color: #1f2933;
   background:
-    radial-gradient(circle at top left, rgba(255, 209, 102, 0.35), transparent 28%),
-    linear-gradient(180deg, #f6efe4 0%, #f8f5ee 40%, #eef3f2 100%);
+    radial-gradient(circle at top left, rgba(230, 193, 108, 0.28), transparent 24%),
+    radial-gradient(circle at bottom right, rgba(17, 107, 122, 0.14), transparent 30%),
+    linear-gradient(180deg, #f7f1e3 0%, #f8faf7 42%, #edf5f4 100%);
   --color-ink: #1f2933;
   --color-muted: #52606d;
-  --color-accent: #a84e2f;
+  --color-accent: #116b7a;
   --color-border: rgba(31, 41, 51, 0.12);
+  --color-danger: #a12b2b;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;

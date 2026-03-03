@@ -90,12 +90,12 @@ Wire core authentication and runtime integration paths between backend and front
 - PR Target: `chore/m1-integration`
 
 ### Review Checklist
-- [ ] Security and auth review complete.
-- [ ] CI checks pass.
-- [ ] Auth behavior aligns with ADR and standards references.
+- [x] Security and auth review complete.
+- [x] CI checks pass.
+- [x] Auth behavior aligns with ADR and standards references.
 
 ### Exit Criteria
-- [ ] Auth baseline is functional end-to-end.
+- [x] Auth baseline is functional end-to-end.
 
 <a id="m1-phase-3"></a>
 ## Phase 3: Local Dev + Ops Baseline

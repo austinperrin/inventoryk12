@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react';
 import { Navigate } from 'react-router-dom';
 import { useAuth } from './useAuth';
+import { routeLoginPath } from '../routes/paths';
 
 export function AuthGuard({ children }: { children: ReactNode }) {
   const { status } = useAuth();
@@ -16,7 +17,7 @@ export function AuthGuard({ children }: { children: ReactNode }) {
   }
 
   if (status === 'guest') {
-    return <Navigate to="/login" replace />;
+    return <Navigate to={routeLoginPath} replace />;
   }
 
   return <>{children}</>;

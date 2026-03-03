@@ -1,4 +1,4 @@
-import { ApiError, apiRequest } from './api';
+import { apiRequest } from './api';
 import { getCsrfToken } from './csrf';
 
 export type AuthUser = {
@@ -13,15 +13,17 @@ type AuthEnvelope = {
   user: AuthUser;
 };
 
+type SessionEnvelope = {
+  authenticated: boolean;
+  user: AuthUser | null;
+};
+
 export async function primeCsrfCookie(): Promise<void> {
-  try {
-    await apiRequest<AuthEnvelope>('/api/v1/auth/me/');
-  } catch (error) {
-    if (error instanceof ApiError && error.status === 401) {
-      return;
-    }
-    throw error;
-  }
+  await apiRequest('/api/v1/auth/csrf/');
+}
+
+export async function getSession(): Promise<SessionEnvelope> {
+  return apiRequest<SessionEnvelope>('/api/v1/auth/session/');
 }
 
 export async function login(email: string, password: string): Promise<AuthUser> {

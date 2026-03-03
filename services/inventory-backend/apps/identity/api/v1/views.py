@@ -69,6 +69,16 @@ class LoginView(APIView):  # type: ignore[misc]
         return response
 
 
+@method_decorator(ensure_csrf_cookie, name="dispatch")
+class CsrfView(APIView):  # type: ignore[misc]
+    authentication_classes: list[type] = []
+    permission_classes = [AllowAny]
+
+    def get(self, request: Request) -> Response:
+        get_token(request)
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
 class RefreshView(APIView):  # type: ignore[misc]
     authentication_classes: list[type] = []
     permission_classes = [AllowAny]
@@ -113,6 +123,16 @@ class LogoutView(APIView):  # type: ignore[misc]
         response = Response(status=status.HTTP_200_OK)
         _clear_auth_cookies(response)
         return response
+
+
+@method_decorator(ensure_csrf_cookie, name="dispatch")
+class SessionView(APIView):  # type: ignore[misc]
+    permission_classes = [AllowAny]
+
+    def get(self, request: Request) -> Response:
+        if request.user.is_authenticated:
+            return Response({"authenticated": True, "user": UserSummarySerializer(request.user).data})
+        return Response({"authenticated": False, "user": None})
 
 
 @method_decorator(ensure_csrf_cookie, name="dispatch")

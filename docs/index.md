@@ -21,5 +21,6 @@
   - `docs/runbooks/README.md`
 - `docs/adr/` architecture decision records
   - `docs/adr/README.md`
+  - `docs/adr/0016-high-assurance-auth-and-session-security-baseline.md`
 - Repository workflow automation
   - `.github/overview.md`

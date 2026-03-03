@@ -20,8 +20,18 @@ Vite + React + TypeScript frontend for InventoryK12.
 
 ## Local Auth Baseline
 
-- Local frontend development expects `VITE_API_BASE_URL=http://127.0.0.1:8000`.
-- The phase 2 baseline uses cookie-backed auth with a guarded `/` route and a public `/login` route.
+- Local frontend development should mirror the tenant URL shape, for example
+  `http://demoisd.localhost:5173/dev/login`.
+- `VITE_API_BASE_URL` should include both the tenant-style host and the
+  environment path, for example `http://demoisd.localhost:8000/dev`.
+- The phase 2 baseline uses cookie-backed auth with a guarded `/dev` route and
+  a public `/dev/login` route by default.
+
+## Deployment Routing Baseline
+
+- The browser should use one public tenant origin, for example `https://demoisd.inventoryk12.com/prod`.
+- `VITE_API_BASE_URL` should point at that shared public origin or the same-origin API path, not a private backend server hostname.
+- Edge or gateway routing should send app traffic to the frontend server and `/api/` traffic to the backend server while preserving one browser-visible origin for cookie auth.
 
 ## TypeScript
 

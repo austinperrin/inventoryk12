@@ -31,6 +31,7 @@ STATIC_ROOT = base_settings.STATIC_ROOT
 MEDIA_URL = base_settings.MEDIA_URL
 MEDIA_ROOT = base_settings.MEDIA_ROOT
 DEFAULT_AUTO_FIELD = base_settings.DEFAULT_AUTO_FIELD
+APP_ENV_PATH_PREFIX = base_settings.APP_ENV_PATH_PREFIX
 AUTH_ACCESS_COOKIE_NAME = base_settings.AUTH_ACCESS_COOKIE_NAME
 AUTH_REFRESH_COOKIE_NAME = base_settings.AUTH_REFRESH_COOKIE_NAME
 AUTH_COOKIE_DOMAIN = base_settings.AUTH_COOKIE_DOMAIN
@@ -79,9 +80,13 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
     "http://127.0.0.1:5173",
 ]
+CORS_ALLOWED_ORIGIN_REGEXES = [
+    r"^http://[a-z0-9-]+\.localhost:5173$",
+]
 CSRF_TRUSTED_ORIGINS = [
     "http://localhost:5173",
     "http://127.0.0.1:5173",
+    "http://*.localhost:5173",
 ]
 
 # ----------------------------------------------------------------------

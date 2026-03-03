@@ -201,10 +201,23 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 # ----------------------------------------------------------------------
 # AUTHENTICATION / JWT COOKIES
 # ----------------------------------------------------------------------
+def _normalize_path_prefix(value: str) -> str:
+    cleaned = value.strip()
+    if not cleaned or cleaned == "/":
+        return "/"
+
+    with_leading_slash = cleaned if cleaned.startswith("/") else f"/{cleaned}"
+    return with_leading_slash.rstrip("/")
+
+
+APP_ENV_PATH_PREFIX = _normalize_path_prefix(env("APP_ENV_PATH_PREFIX", default="/dev"))
 AUTH_ACCESS_COOKIE_NAME = env("AUTH_ACCESS_COOKIE_NAME", default="ik12_access")
 AUTH_REFRESH_COOKIE_NAME = env("AUTH_REFRESH_COOKIE_NAME", default="ik12_refresh")
 AUTH_COOKIE_DOMAIN = env("AUTH_COOKIE_DOMAIN", default=None)
-AUTH_COOKIE_PATH = env("AUTH_COOKIE_PATH", default="/")
+AUTH_COOKIE_PATH = env(
+    "AUTH_COOKIE_PATH",
+    default="/" if APP_ENV_PATH_PREFIX == "/" else f"{APP_ENV_PATH_PREFIX}/",
+)
 AUTH_COOKIE_SAMESITE = env("AUTH_COOKIE_SAMESITE", default="Lax")
 AUTH_COOKIE_SECURE = env.bool("AUTH_COOKIE_SECURE", default=False)
 AUTH_ACCESS_COOKIE_MAX_AGE = env.int("AUTH_ACCESS_COOKIE_MAX_AGE", default=15 * 60)

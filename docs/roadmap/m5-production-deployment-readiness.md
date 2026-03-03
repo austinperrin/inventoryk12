@@ -3,7 +3,7 @@
 - Status: Not Started
 - Estimate: 2-4 weeks
 - Dependency: [Milestone 4: Inventory MVP Build](./m4-inventory-mvp-build.md) `Completed`
-- Related ADRs: [ADR 0001](../adr/0001-tech-stack-and-runtime-baseline.md), [ADR 0002](../adr/0002-url-and-domain-topology.md), [ADR 0003](../adr/0003-non-prod-data-refresh-and-sanitization-policy.md), [ADR 0005](../adr/0005-rbac-model-and-permission-enforcement.md)
+- Related ADRs: [ADR 0001](../adr/0001-tech-stack-and-runtime-baseline.md), [ADR 0002](../adr/0002-url-and-domain-topology.md), [ADR 0003](../adr/0003-non-prod-data-refresh-and-sanitization-policy.md), [ADR 0005](../adr/0005-rbac-model-and-permission-enforcement.md), [ADR 0016](../adr/0016-high-assurance-auth-and-session-security-baseline.md)
 
 ## Owners
 
@@ -13,13 +13,15 @@
 
 ## Goal
 
-Prepare the MVP for production deployment with operational and security controls.
+Prepare the MVP for production deployment with operational controls and
+evidence that high-assurance security requirements can be operated safely.
 
 ## Milestone Pre-Checklist (Alignment + Drift Control)
 
 - [ ] Deployment topology and env mapping are finalized.
 - [ ] Backup/restore and recovery expectations are documented.
 - [ ] Production runbooks are draft-complete.
+- [ ] High-assurance auth/session evidence and runbook expectations are defined.
 - [ ] Production dry-run criteria and rollback path are defined.
 - [ ] Roadmap status and owners are current.
 
@@ -73,12 +75,18 @@ Finalize production security and recovery controls required for safe operations.
 
 #### Security + Compliance
 - [ ] Validate security controls for production scope.
+- [ ] Validate high-assurance auth/session controls for production scope.
+- [ ] Validate auditability, incident response expectations, and auth exception handling.
 
 #### DevOps + SRE
 - [ ] Implement/validate backup schedules and restore workflow.
+- [ ] Validate signing-key, secret rotation, and session revocation operations.
+- [ ] Validate alerting or operator visibility for auth abuse, lockout, and revocation events.
 
 #### Docs + Standards
 - [ ] Document incident and recovery playbooks.
+- [ ] Document auth/security response and session-revocation runbooks.
+- [ ] Document production cookie/origin assumptions and tenant-edge routing dependencies.
 
 ### Branch and PR Plan
 - Branches: `chore/m5-p2-backup-recovery-controls`, `docs/m5-p2-security-runbooks`
@@ -86,11 +94,12 @@ Finalize production security and recovery controls required for safe operations.
 
 ### Review Checklist
 - [ ] Security/compliance review complete.
+- [ ] ADR 0016 controls have production evidence or documented exceptions.
 - [ ] Restore simulation completed.
 - [ ] Recovery process and runbooks are consistent.
 
 ### Exit Criteria
-- [ ] Recovery and security controls are validated.
+- [ ] Recovery, security, and auth/session controls have production evidence or approved exceptions.
 
 <a id="m5-phase-3"></a>
 ## Phase 3: Production Dry Run

@@ -1,11 +1,9 @@
 import { startTransition, useEffect, useState, type ReactNode } from 'react';
-import { ApiError } from '../lib/api';
 import {
-  getCurrentUser,
+  getSession,
   login as loginRequest,
   logout as logoutRequest,
   primeCsrfCookie,
-  refresh as refreshRequest,
   type AuthUser,
 } from '../lib/auth';
 import { AuthContext, type AuthContextValue, type AuthStatus } from './auth-context';
@@ -15,23 +13,24 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [status, setStatus] = useState<AuthStatus>('loading');
 
   const refreshUser = async () => {
-    try {
-      const nextUser = await getCurrentUser();
-      setUser(nextUser);
+    const session = await getSession();
+    if (session.authenticated && session.user) {
+      setUser(session.user);
       setStatus('authenticated');
-    } catch (error) {
-      if (error instanceof ApiError && error.status === 401) {
-        setUser(null);
-        setStatus('guest');
-        return;
-      }
-      throw error;
+      return;
     }
+
+    setUser(null);
+    setStatus('guest');
   };
 
   useEffect(() => {
     startTransition(() => {
-      void refreshUser();
+      void refreshUser().catch((error) => {
+        console.error('Auth bootstrap failed', error);
+        setUser(null);
+        setStatus('guest');
+      });
     });
   }, []);
 
@@ -52,18 +51,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     status,
     login,
     logout,
-    refreshUser: async () => {
-      try {
-        await refreshUser();
-      } catch (error) {
-        if (error instanceof ApiError && error.status === 401) {
-          await refreshRequest();
-          await refreshUser();
-          return;
-        }
-        throw error;
-      }
-    },
+    refreshUser,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
