@@ -1,5 +1,7 @@
 import type { ReactElement } from 'react';
+import { AuthGuard } from '../auth/AuthGuard';
 import Home from '../pages/Home';
+import Login from '../pages/Login';
 import NotFound from '../pages/NotFound';
 
 export type AppRoute = {
@@ -14,7 +16,17 @@ export const routes: AppRoute[] = [
     id: 'home',
     path: '/',
     label: 'Home',
-    element: <Home />,
+    element: (
+      <AuthGuard>
+        <Home />
+      </AuthGuard>
+    ),
+  },
+  {
+    id: 'login',
+    path: '/login',
+    label: 'Login',
+    element: <Login />,
   },
   {
     id: 'not-found',

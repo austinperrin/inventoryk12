@@ -31,6 +31,7 @@ services/inventory-backend/
 ## API Conventions
 
 - Shared scaffold endpoints live under `/api/v1/common/`.
+- Authentication baseline endpoints live under `/api/v1/auth/`.
 - The root URL config currently exposes only the scaffold common endpoints so later domain routes can be added incrementally without reshaping the service entrypoint.
 - Domain endpoints are added under `/api/v1/<domain>/` as milestone work is implemented.
 - Breaking API changes should be introduced through ADR review and version planning.

@@ -39,6 +39,10 @@
   border-bottom: 2px solid transparent;
 }
 
+.app-nav a.active {
+  border-color: var(--color-accent);
+}
+
 .app-nav a:hover,
 .hero-link:hover {
   border-color: var(--color-accent);
@@ -81,6 +85,63 @@
 
 .hero-hint {
   color: var(--color-muted);
+}
+
+.auth-panel {
+  max-width: 30rem;
+}
+
+.auth-form {
+  display: grid;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.auth-field {
+  display: grid;
+  gap: 0.4rem;
+}
+
+.auth-field span {
+  font-weight: 600;
+}
+
+.auth-field input {
+  width: 100%;
+  padding: 0.8rem 0.9rem;
+  border: 1px solid var(--color-border);
+  border-radius: 0.85rem;
+  background: rgba(255, 255, 255, 0.94);
+  font: inherit;
+  color: var(--color-ink);
+  box-sizing: border-box;
+}
+
+.auth-submit {
+  width: fit-content;
+  border: 0;
+  border-radius: 999px;
+  padding: 0.8rem 1.2rem;
+  background: var(--color-accent);
+  color: #fffdf9;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.auth-submit:disabled {
+  opacity: 0.7;
+  cursor: wait;
+}
+
+.auth-submit--secondary {
+  background: #24484f;
+}
+
+.auth-error {
+  margin: 0;
+  color: #9f2d2d;
+  font-weight: 600;
 }
 
 @media (max-width: 720px) {

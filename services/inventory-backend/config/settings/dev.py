@@ -31,6 +31,15 @@ STATIC_ROOT = base_settings.STATIC_ROOT
 MEDIA_URL = base_settings.MEDIA_URL
 MEDIA_ROOT = base_settings.MEDIA_ROOT
 DEFAULT_AUTO_FIELD = base_settings.DEFAULT_AUTO_FIELD
+AUTH_ACCESS_COOKIE_NAME = base_settings.AUTH_ACCESS_COOKIE_NAME
+AUTH_REFRESH_COOKIE_NAME = base_settings.AUTH_REFRESH_COOKIE_NAME
+AUTH_COOKIE_DOMAIN = base_settings.AUTH_COOKIE_DOMAIN
+AUTH_COOKIE_PATH = base_settings.AUTH_COOKIE_PATH
+AUTH_COOKIE_SAMESITE = base_settings.AUTH_COOKIE_SAMESITE
+AUTH_COOKIE_SECURE = base_settings.AUTH_COOKIE_SECURE
+AUTH_ACCESS_COOKIE_MAX_AGE = base_settings.AUTH_ACCESS_COOKIE_MAX_AGE
+AUTH_REFRESH_COOKIE_MAX_AGE = base_settings.AUTH_REFRESH_COOKIE_MAX_AGE
+SIMPLE_JWT = base_settings.SIMPLE_JWT
 
 # ----------------------------------------------------------------------
 # SECURITY AND DEBUG
@@ -64,15 +73,16 @@ EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 # CORS (for frontend dev server such as Vite)
 # ----------------------------------------------------------------------
 # If your frontend runs on a separate dev server (e.g., Vite),
-# uncomment this section as needed.
-#
-# CORS_ALLOW_ALL_ORIGINS = True
-# CORS_ALLOW_CREDENTIALS = True
-#
-# CORS_ALLOWED_ORIGINS = [
-#     "http://localhost:5173",
-#     "http://127.0.0.1:5173",
-# ]
+# enable credentials and an explicit local allow-list.
+CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:5173",
+    "http://127.0.0.1:5173",
+]
+CSRF_TRUSTED_ORIGINS = [
+    "http://localhost:5173",
+    "http://127.0.0.1:5173",
+]
 
 # ----------------------------------------------------------------------
 # LOGGING
