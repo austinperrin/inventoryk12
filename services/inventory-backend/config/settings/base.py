@@ -4,6 +4,7 @@
 # overrides should be defined in dev.py, test.py, and prod.py.
 # ======================================================================
 
+from datetime import timedelta
 from pathlib import Path
 from typing import Any
 
@@ -64,14 +65,16 @@ INSTALLED_APPS = [
     # Third-party apps
     "corsheaders",
     "rest_framework",
+    "rest_framework_simplejwt.token_blacklist",
     "simple_history",
     # Project apps
     "apps.common.apps.CommonConfig",
+    "apps.identity.apps.IdentityConfig",
 ]
 
-# Scaffold baseline uses Django's default user model until identity is built.
-# Auth-specific packages and settings are added when the auth milestone is implemented.
-AUTH_USER_MODEL = "auth.User"
+# Phase 2 auth plumbing uses the minimal identity-domain custom user model so
+# later domain work does not need to replace Django's built-in auth.User.
+AUTH_USER_MODEL = "identity.User"
 
 # ----------------------------------------------------------------------
 # MIDDLEWARE
@@ -171,8 +174,10 @@ REST_FRAMEWORK: dict[str, Any] = {
     "DEFAULT_PARSER_CLASSES": [
         "rest_framework.parsers.JSONParser",
     ],
-    # Authentication: leave undefined in base so environments can decide.
-    # "DEFAULT_AUTHENTICATION_CLASSES": [],
+    # Cookie-backed JWT auth is the baseline browser transport.
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        "apps.identity.api.v1.authentication.CookieJWTAuthentication",
+    ],
     # Permissions: require explicit configuration in each environment.
     # "DEFAULT_PERMISSION_CLASSES": [],
     # Versioning: included early for multi-service integration.
@@ -192,3 +197,39 @@ MEDIA_ROOT = BASE_DIR / "media"
 # DEFAULT PRIMARY KEY FIELD TYPE
 # ----------------------------------------------------------------------
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+# ----------------------------------------------------------------------
+# AUTHENTICATION / JWT COOKIES
+# ----------------------------------------------------------------------
+def _normalize_path_prefix(value: str) -> str:
+    cleaned = value.strip()
+    if not cleaned or cleaned == "/":
+        return "/"
+
+    with_leading_slash = cleaned if cleaned.startswith("/") else f"/{cleaned}"
+    return with_leading_slash.rstrip("/")
+
+
+APP_ENV_PATH_PREFIX = _normalize_path_prefix(env("APP_ENV_PATH_PREFIX", default="/dev"))
+AUTH_ACCESS_COOKIE_NAME = env("AUTH_ACCESS_COOKIE_NAME", default="ik12_access")
+AUTH_REFRESH_COOKIE_NAME = env("AUTH_REFRESH_COOKIE_NAME", default="ik12_refresh")
+AUTH_COOKIE_DOMAIN = env("AUTH_COOKIE_DOMAIN", default=None)
+AUTH_COOKIE_PATH = env(
+    "AUTH_COOKIE_PATH",
+    default="/" if APP_ENV_PATH_PREFIX == "/" else f"{APP_ENV_PATH_PREFIX}/",
+)
+AUTH_COOKIE_SAMESITE = env("AUTH_COOKIE_SAMESITE", default="Lax")
+AUTH_COOKIE_SECURE = env.bool("AUTH_COOKIE_SECURE", default=False)
+AUTH_ACCESS_COOKIE_MAX_AGE = env.int("AUTH_ACCESS_COOKIE_MAX_AGE", default=15 * 60)
+AUTH_REFRESH_COOKIE_MAX_AGE = env.int("AUTH_REFRESH_COOKIE_MAX_AGE", default=7 * 24 * 60 * 60)
+
+SIMPLE_JWT = {
+    "ACCESS_TOKEN_LIFETIME": timedelta(seconds=AUTH_ACCESS_COOKIE_MAX_AGE),
+    "REFRESH_TOKEN_LIFETIME": timedelta(seconds=AUTH_REFRESH_COOKIE_MAX_AGE),
+    "ROTATE_REFRESH_TOKENS": True,
+    "BLACKLIST_AFTER_ROTATION": True,
+    "UPDATE_LAST_LOGIN": True,
+    "ALGORITHM": env("JWT_ALGORITHM", default="HS256"),
+    "SIGNING_KEY": env("JWT_SIGNING_KEY", default=SECRET_KEY),
+    "AUTH_HEADER_TYPES": ("Bearer",),
+}

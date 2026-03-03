@@ -74,28 +74,28 @@ Wire core authentication and runtime integration paths between backend and front
 ### Development Checklist
 
 #### Backend Engineering
-- [ ] Wire authentication baseline flow according to ADR 0001.
-- [ ] Implement browser auth transport with secure `HttpOnly` cookies.
-- [ ] Implement short-lived access token and rotating refresh token behavior.
-- [ ] Add refresh token revocation/blacklist support.
+- [x] Wire authentication baseline flow according to ADR 0001.
+- [x] Implement browser auth transport with secure `HttpOnly` cookies.
+- [x] Implement short-lived access token and rotating refresh token behavior.
+- [x] Add refresh token revocation/blacklist support.
 
 #### Frontend Engineering
-- [ ] Wire API client/auth guard baseline around cookie-based browser auth.
+- [x] Wire API client/auth guard baseline around cookie-based browser auth.
 
 #### QA + Testing
-- [ ] Add baseline auth integration tests for login, refresh, logout, and revocation behavior.
+- [x] Add baseline auth integration tests for login, refresh, logout, and revocation behavior.
 
 ### Branch and PR Plan
 - Branch: `feat/m1-p2-auth-runtime-plumbing`
 - PR Target: `chore/m1-integration`
 
 ### Review Checklist
-- [ ] Security and auth review complete.
-- [ ] CI checks pass.
-- [ ] Auth behavior aligns with ADR and standards references.
+- [x] Security and auth review complete.
+- [x] CI checks pass.
+- [x] Auth behavior aligns with ADR and standards references.
 
 ### Exit Criteria
-- [ ] Auth baseline is functional end-to-end.
+- [x] Auth baseline is functional end-to-end.
 
 <a id="m1-phase-3"></a>
 ## Phase 3: Local Dev + Ops Baseline

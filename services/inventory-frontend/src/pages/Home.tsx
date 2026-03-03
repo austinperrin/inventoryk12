@@ -1,18 +1,24 @@
+import { useAuth } from '../auth/useAuth';
+import { apiBaseUrl } from '../lib/api';
+
 export default function Home() {
+  const { logout, user } = useAuth();
+
   return (
     <section className="hero">
-      <p className="eyebrow">Milestone 1</p>
-      <h1>InventoryK12 frontend skeleton</h1>
+      <p className="eyebrow">Authenticated Shell</p>
+      <h1>InventoryK12 platform baseline</h1>
       <p className="hero-copy">
-        The app shell, route map, and baseline styling are in place so later
-        milestone work can add auth flows and product screens without replacing
-        the root structure.
+        Signed in as <strong>{user?.email}</strong>. The frontend now boots through a cookie-backed
+        auth guard instead of a static scaffold route.
       </p>
       <div className="hero-actions">
-        <a className="hero-link" href="/api/v1/common/health/">
+        <a className="hero-link" href={`${apiBaseUrl}/api/v1/common/health/`}>
           Backend health endpoint
         </a>
-        <span className="hero-hint">Next slice: auth and runtime plumbing.</span>
+        <button className="auth-submit auth-submit--secondary" onClick={() => void logout()} type="button">
+          Sign out
+        </button>
       </div>
     </section>
   );
