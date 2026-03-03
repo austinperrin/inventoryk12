@@ -1,4 +1,8 @@
 # Runbooks Documentation
 
-This directory is intentionally minimal and reserved for future operational
-runbooks.
+Use this directory for operator and developer runbooks tied to real repo
+commands.
+
+## Available Runbooks
+
+- [Local Development](./local-development.md)

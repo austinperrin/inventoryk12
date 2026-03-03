@@ -23,3 +23,14 @@ Local development is orchestrated with Docker Compose.
 - Frontend is behind the `frontend` compose profile.
 - Frontend containers use the root `pnpm-lock.yaml` for installs.
 - Frontend uses a named PNPM store volume to avoid host filesystem quirks.
+- Local browser URLs should mirror the tenant shape:
+  - `http://demoisd.localhost:5173/dev/login`
+  - `http://demoisd.localhost:8000/dev/api/v1/common/health/`
+- Apply backend migrations after startup:
+  - `pnpm ops:migrate -- --docker`
+- Seed a local auth test user when needed:
+  - `pnpm dev:seed-auth-user -- --docker`
+- Reset local state with:
+  - `pnpm dev:reset`
+- See the full operator flow in
+  [docs/runbooks/local-development.md](../../docs/runbooks/local-development.md).

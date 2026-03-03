@@ -106,25 +106,25 @@ Ensure local development and operational startup flows are documented and reprod
 ### Development Checklist
 
 #### DevOps + SRE
-- [ ] Finalize docker-compose local workflow.
+- [x] Finalize docker-compose local workflow.
 
 #### Docs + Standards
-- [ ] Document startup/reset/troubleshooting commands.
+- [x] Document startup/reset/troubleshooting commands.
 
 #### QA + Testing
-- [ ] Validate baseline runbook accuracy via smoke test.
+- [x] Validate baseline runbook accuracy via smoke test.
 
 ### Branch and PR Plan
 - Branch: `docs/m1-p3-local-dev-ops-baseline`
 - PR Target: `chore/m1-integration`
 
 ### Review Checklist
-- [ ] DevOps + Docs review complete.
-- [ ] New developer smoke test passes.
-- [ ] Runbooks match actual commands and expected outputs.
+- [x] DevOps + Docs review complete.
+- [x] New developer smoke test passes.
+- [x] Runbooks match actual commands and expected outputs.
 
 ### Exit Criteria
-- [ ] New engineer can boot stack from docs only.
+- [x] New engineer can boot stack from docs only.
 
 ## Milestone Review Checklist
 

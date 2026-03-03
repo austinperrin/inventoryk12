@@ -20,6 +20,7 @@
     "dev:checks": "bash scripts/dev/dev-checks.sh",
     "dev:format": "bash scripts/dev/dev-format.sh",
     "dev:reset": "bash scripts/dev/dev-reset.sh",
+    "dev:seed-auth-user": "bash scripts/dev/dev-seed-auth-user.sh",
     "ci:docs": "bash scripts/ci/docs-checks.sh",
     "ci:backend": "bash scripts/ci/ci-backend.sh",
     "ci:frontend": "bash scripts/ci/ci-frontend.sh",
