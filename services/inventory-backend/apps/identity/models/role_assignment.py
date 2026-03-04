@@ -47,3 +47,31 @@ class RoleAssignment(BaseModel, AuditModel):
         if self.ends_on is not None and self.ends_on < on_date:
             return False
         return True
+
+
+class RoleAssignmentOrganization(BaseModel, AuditModel):
+    role_assignment = models.ForeignKey(
+        "identity.RoleAssignment",
+        on_delete=models.CASCADE,
+        related_name="organization_scopes",
+    )
+    organization = models.ForeignKey(
+        "organization.Organization",
+        on_delete=models.CASCADE,
+        related_name="role_assignment_scopes",
+    )
+    history = HistoricalRecords(
+        excluded_fields=["created_at", "updated_at"],
+        table_name="hist_identity_role_assignment_organization",
+    )
+
+    class Meta:
+        db_table = "identity_role_assignment_organization"
+        verbose_name = "Role Assignment Organization"
+        verbose_name_plural = "Role Assignment Organizations"
+        constraints = [
+            models.UniqueConstraint(
+                fields=["role_assignment", "organization"],
+                name="identity_role_assignment_org_unique",
+            )
+        ]

@@ -17,6 +17,8 @@ operations.
 - Organization lifecycle windows are tracked separately from core organization
   identity records.
 - Additional external/source identifiers are first-class records.
+- The baseline seeded `OrganizationTypeCode` catalog is aligned to OneRoster
+  organization types for `district`, `school`, and `department`.
 
 ## Model and Field Breakdown
 
@@ -28,6 +30,7 @@ operations.
 - `OrganizationTypeCode`
   - Required: `local_id`, `code`
   - Included: `label`, `description`, `sort_order`, `is_system_managed`, `is_active`
+  - Seed baseline: `district`, `school`, and `department`
 - `Organization`
   - Required: `local_id`, `name`, `organization_type_code_id`
   - Included: `display_name`, `short_name`, `sort_order`, `parent_id`
@@ -60,7 +63,10 @@ operations.
 
 ## Follow-Up
 
-- Finalize organization type taxonomy and governance.
+- Swap `OrganizationAddress.address_id` to a real foreign key when the owning
+  address model is implemented in the locations/contacts phase.
+- Extend organization type taxonomy and governance beyond the baseline
+  OneRoster-aligned seed set as needed.
 - Define hierarchy change/audit rules for merges and reparent operations.
 - Define canonical org scoping policy for role assignments and data queries.
 
