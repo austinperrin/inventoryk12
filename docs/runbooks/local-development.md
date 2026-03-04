@@ -59,15 +59,18 @@ The environment path is config-driven:
 4. Seed baseline identity code tables if needed:
    - `pnpm seed:identity-code-tables -- --docker`
    - current seed package: `services/inventory-backend/apps/identity/seeds/`
-5. Sign in with:
+5. Seed baseline organization code tables if needed:
+   - `pnpm seed:organization-code-tables -- --docker`
+   - current seed package: `services/inventory-backend/apps/organization/seeds/`
+6. Sign in with:
    - email: `admin@example.com`
     - password: `ChangeMe123!`
    - seeded name: `Demo Admin`
-6. Confirm:
+7. Confirm:
    - `/dev/login` redirects to `/dev`
    - header shows `Logout`
    - backend health link loads
-7. Confirm invalid in-app path returns 404:
+8. Confirm invalid in-app path returns 404:
    - `http://demoisd.localhost:5173/dev/invalid-path-example/`
 
 ## Reset

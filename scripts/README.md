@@ -113,6 +113,15 @@ The canonical startup, smoke-test, and troubleshooting flow is documented in
     - `scripts/seed/seed-identity-code-tables.sh`
   - seed definitions live under `services/inventory-backend/apps/identity/seeds/`
 
+- `pnpm seed:organization-code-tables`
+  - seeds baseline organization code-table values
+  - options:
+    - `-- --docker`
+    - `-- --dry-run`
+  - wrapper script:
+    - `scripts/seed/seed-organization-code-tables.sh`
+  - seed definitions live under `services/inventory-backend/apps/organization/seeds/`
+
 ## Security
 
 - `pnpm security:deps-audit`
