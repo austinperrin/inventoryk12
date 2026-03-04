@@ -33,11 +33,11 @@ organization, inventory assignment context, and operations workflows.
   - lifecycle windows for facilities
   - explicit mapping model for organization-facility association
 
-- `CountryCode` / `StateCode` / `FacilityTypeCode`
+- `CountryCode` / `StateCode` / `FacilityCode`
   - Required: `code`
   - Included: `label`, `description`, `sort_order`, `is_system_managed`, `is_active`
 - `Facility`
-  - Required: `local_id`, `name`, `facility_type_code_id`
+  - Required: `local_id`, `name`, `facility_code_id`
   - Included: `display_name`, `short_name`, `sort_order`, `parent_id`
 - `FacilityDetail`
   - Required: `facility_id`

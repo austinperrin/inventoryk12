@@ -29,7 +29,7 @@ that scope instructional, enrollment, and reporting behavior.
 - `AcademicCalendar`
   - Required: `academic_year_id`, `name`
   - Included: `organization_id`, `is_default`
-- `AcademicTermTypeCode`
+- `AcademicTermCode`
   - Required: `code`
   - Included: `label`, `description`, `sort_order`, `is_system_managed`, `is_active`
 - `AcademicCalendarEvent`
@@ -39,7 +39,7 @@ that scope instructional, enrollment, and reporting behavior.
   - Required: `calendar_id`, `calendar_date`
   - Included: `is_workday`, `is_instructional`, `is_holiday`, `metadata`
 - `AcademicTerm`
-  - Required: `academic_year_id`, `term_type_code_id`, `label`, `starts_on`, `ends_on`
+  - Required: `academic_year_id`, `term_code_id`, `label`, `starts_on`, `ends_on`
   - Included: `calendar_id`, `parent_term_id`, `organization_id`, `code`
 
 ## Consequences

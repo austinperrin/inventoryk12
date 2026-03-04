@@ -29,16 +29,16 @@ class StateCode(CodeTableModel):
         verbose_name_plural = "State Codes"
 
 
-class FacilityTypeCode(CodeTableModel):
+class FacilityCode(CodeTableModel):
     history = HistoricalRecords(
         excluded_fields=["created_at", "updated_at"],
-        table_name="hist_locations_facility_type_code",
+        table_name="hist_locations_facility_code",
     )
 
     class Meta(CodeTableModel.Meta):
-        db_table = "locations_facility_type_code"
-        verbose_name = "Facility Type Code"
-        verbose_name_plural = "Facility Type Codes"
+        db_table = "locations_facility_code"
+        verbose_name = "Facility Code"
+        verbose_name_plural = "Facility Codes"
 
 
 class Facility(BaseModel, AuditModel):
@@ -47,8 +47,8 @@ class Facility(BaseModel, AuditModel):
     display_name = models.CharField(max_length=255, blank=True)
     short_name = models.CharField(max_length=100, blank=True)
     sort_order = models.PositiveIntegerField(default=0)
-    facility_type_code = models.ForeignKey(
-        "locations.FacilityTypeCode",
+    facility_code = models.ForeignKey(
+        "locations.FacilityCode",
         on_delete=models.PROTECT,
         related_name="facilities",
     )
@@ -68,7 +68,7 @@ class Facility(BaseModel, AuditModel):
         db_table = "locations_facility"
         verbose_name = "Facility"
         verbose_name_plural = "Facilities"
-        ordering = ["facility_type_code__sort_order", "sort_order", "name"]
+        ordering = ["facility_code__sort_order", "sort_order", "name"]
 
     def __str__(self) -> str:
         return self.display_name or self.name

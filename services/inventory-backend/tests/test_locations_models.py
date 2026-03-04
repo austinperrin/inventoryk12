@@ -12,8 +12,8 @@ from apps.locations.models import (
     Facility,
     FacilityAdditionalIdentifier,
     FacilityAddress,
+    FacilityCode,
     FacilityLifecycle,
-    FacilityTypeCode,
     OrganizationFacility,
     StateCode,
 )
@@ -73,22 +73,22 @@ def _state(**overrides):
     return StateCode.objects.create(**data)
 
 
-def _facility_type(**overrides):
+def _facility_code(**overrides):
     data = {
         "code": "campus",
         "label": "Campus",
         "sort_order": 10,
     }
     data.update(overrides)
-    return FacilityTypeCode.objects.create(**data)
+    return FacilityCode.objects.create(**data)
 
 
 def _facility(**overrides):
-    facility_type_code = overrides.pop("facility_type_code", None) or _facility_type()
+    facility_code = overrides.pop("facility_code", None) or _facility_code()
     data = {
         "local_id": "campus-001",
         "name": "Demo Campus",
-        "facility_type_code": facility_type_code,
+        "facility_code": facility_code,
     }
     data.update(overrides)
     return Facility.objects.create(**data)

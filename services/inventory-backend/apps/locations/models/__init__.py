@@ -6,9 +6,9 @@ from .location import (
     Facility,
     FacilityAdditionalIdentifier,
     FacilityAddress,
+    FacilityCode,
     FacilityDetail,
     FacilityLifecycle,
-    FacilityTypeCode,
     OrganizationFacility,
     StateCode,
 )
@@ -21,9 +21,9 @@ __all__ = [
     "Facility",
     "FacilityAdditionalIdentifier",
     "FacilityAddress",
+    "FacilityCode",
     "FacilityDetail",
     "FacilityLifecycle",
-    "FacilityTypeCode",
     "OrganizationFacility",
     "StateCode",
 ]

@@ -121,7 +121,7 @@ class Migration(migrations.Migration):
             },
         ),
         migrations.CreateModel(
-            name="FacilityTypeCode",
+            name="FacilityCode",
             fields=[
                 (
                     "id",
@@ -165,9 +165,9 @@ class Migration(migrations.Migration):
                 ),
             ],
             options={
-                "verbose_name": "Facility Type Code",
-                "verbose_name_plural": "Facility Type Codes",
-                "db_table": "locations_facility_type_code",
+                "verbose_name": "Facility Code",
+                "verbose_name_plural": "Facility Codes",
+                "db_table": "locations_facility_code",
                 "ordering": ["sort_order", "code"],
                 "abstract": False,
             },
@@ -435,11 +435,11 @@ class Migration(migrations.Migration):
                 ("short_name", models.CharField(blank=True, max_length=100)),
                 ("sort_order", models.PositiveIntegerField(default=0)),
                 (
-                    "facility_type_code",
+                    "facility_code",
                     models.ForeignKey(
                         on_delete=django.db.models.deletion.PROTECT,
                         related_name="facilities",
-                        to="locations.facilitytypecode",
+                        to="locations.facilitycode",
                     ),
                 ),
                 (
@@ -477,7 +477,7 @@ class Migration(migrations.Migration):
                 "verbose_name": "Facility",
                 "verbose_name_plural": "Facilities",
                 "db_table": "locations_facility",
-                "ordering": ["facility_type_code__sort_order", "sort_order", "name"],
+                "ordering": ["facility_code__sort_order", "sort_order", "name"],
             },
         ),
         migrations.CreateModel(
@@ -952,7 +952,7 @@ class Migration(migrations.Migration):
             bases=(simple_history.models.HistoricalChanges, models.Model),
         ),
         migrations.CreateModel(
-            name="HistoricalFacilityTypeCode",
+            name="HistoricalFacilityCode",
             fields=[
                 ("id", models.BigIntegerField(auto_created=True, blank=True, db_index=True, verbose_name="ID")),
                 ("uuid", models.UUIDField(db_index=True, default=uuid.uuid4, editable=False)),
@@ -985,9 +985,9 @@ class Migration(migrations.Migration):
                 ),
             ],
             options={
-                "verbose_name": "historical Facility Type Code",
-                "verbose_name_plural": "historical Facility Type Codes",
-                "db_table": "hist_locations_facility_type_code",
+                "verbose_name": "historical Facility Code",
+                "verbose_name_plural": "historical Facility Codes",
+                "db_table": "hist_locations_facility_code",
                 "ordering": ("-history_date", "-history_id"),
                 "get_latest_by": ("history_date", "history_id"),
             },
@@ -1203,8 +1203,8 @@ class Migration(migrations.Migration):
                     models.ForeignKey(blank=True, db_constraint=False, null=True, on_delete=django.db.models.deletion.DO_NOTHING, related_name="+", to=settings.AUTH_USER_MODEL),
                 ),
                 (
-                    "facility_type_code",
-                    models.ForeignKey(blank=True, db_constraint=False, null=True, on_delete=django.db.models.deletion.DO_NOTHING, related_name="+", to="locations.facilitytypecode"),
+                    "facility_code",
+                    models.ForeignKey(blank=True, db_constraint=False, null=True, on_delete=django.db.models.deletion.DO_NOTHING, related_name="+", to="locations.facilitycode"),
                 ),
                 (
                     "history_user",
