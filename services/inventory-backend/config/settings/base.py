@@ -70,6 +70,7 @@ INSTALLED_APPS = [
     # Project apps
     "apps.common.apps.CommonConfig",
     "apps.identity.apps.IdentityConfig",
+    "apps.locations.apps.LocationsConfig",
     "apps.organization.apps.OrganizationConfig",
 ]
 

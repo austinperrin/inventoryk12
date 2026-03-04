@@ -17,7 +17,7 @@ operations.
 - Organization lifecycle windows are tracked separately from core organization
   identity records.
 - Additional external/source identifiers are first-class records.
-- The baseline seeded `OrganizationTypeCode` catalog is aligned to OneRoster
+- The baseline seeded `OrganizationCode` catalog is aligned to OneRoster
   organization types for `district`, `school`, and `department`.
 
 ## Model and Field Breakdown
@@ -27,12 +27,12 @@ operations.
   - lifecycle windows (`starts_on`, `ends_on`) in dedicated lifecycle model
   - address links via location/address structures
 
-- `OrganizationTypeCode`
+- `OrganizationCode`
   - Required: `local_id`, `code`
   - Included: `label`, `description`, `sort_order`, `is_system_managed`, `is_active`
   - Seed baseline: `district`, `school`, and `department`
 - `Organization`
-  - Required: `local_id`, `name`, `organization_type_code_id`
+  - Required: `local_id`, `name`, `organization_code_id`
   - Included: `display_name`, `short_name`, `sort_order`, `parent_id`
 - `OrganizationLifecycle`
   - Required: `organization_id`, `starts_on`

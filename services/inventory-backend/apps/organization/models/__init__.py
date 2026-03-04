@@ -4,14 +4,14 @@ from .organization import (
     Organization,
     OrganizationAdditionalIdentifier,
     OrganizationAddress,
+    OrganizationCode,
     OrganizationLifecycle,
-    OrganizationTypeCode,
 )
 
 __all__ = [
     "Organization",
     "OrganizationAdditionalIdentifier",
     "OrganizationAddress",
+    "OrganizationCode",
     "OrganizationLifecycle",
-    "OrganizationTypeCode",
 ]

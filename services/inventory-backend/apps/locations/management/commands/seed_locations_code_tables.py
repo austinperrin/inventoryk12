@@ -3,16 +3,18 @@ from collections.abc import Sequence
 from django.core.management.base import BaseCommand
 from django.db import transaction
 
-from apps.organization.models import OrganizationCode
-from apps.organization.seeds import ORGANIZATION_CODE_SEEDS
+from apps.locations.models import CountryCode, FacilityCode, StateCode
+from apps.locations.seeds import COUNTRY_CODE_SEEDS, FACILITY_CODE_SEEDS, STATE_CODE_SEEDS
 
-ORGANIZATION_CODE_TABLE_SEEDS = (
-    ("OrganizationCode", OrganizationCode, ORGANIZATION_CODE_SEEDS),
+LOCATIONS_CODE_TABLE_SEEDS = (
+    ("CountryCode", CountryCode, COUNTRY_CODE_SEEDS),
+    ("StateCode", StateCode, STATE_CODE_SEEDS),
+    ("FacilityCode", FacilityCode, FACILITY_CODE_SEEDS),
 )
 
 
 class Command(BaseCommand):
-    help = "Seed baseline system-managed organization code-table values."
+    help = "Seed baseline system-managed locations code-table values."
 
     def add_arguments(self, parser) -> None:
         parser.add_argument(
@@ -25,7 +27,7 @@ class Command(BaseCommand):
         dry_run: bool = options["dry_run"]
 
         with transaction.atomic():
-            for model_name, model, rows in ORGANIZATION_CODE_TABLE_SEEDS:
+            for model_name, model, rows in LOCATIONS_CODE_TABLE_SEEDS:
                 created_count, updated_count = self._seed_model(model, rows, dry_run=dry_run)
                 self.stdout.write(
                     self.style.SUCCESS(
@@ -37,7 +39,9 @@ class Command(BaseCommand):
                 transaction.set_rollback(True)
                 self.stdout.write(self.style.WARNING("Dry run complete; no changes written."))
 
-    def _seed_model(self, model, rows: Sequence[dict[str, object]], *, dry_run: bool) -> tuple[int, int]:
+    def _seed_model(
+        self, model, rows: Sequence[dict[str, object]], *, dry_run: bool
+    ) -> tuple[int, int]:
         created_count = 0
         updated_count = 0
 
@@ -51,11 +55,8 @@ class Command(BaseCommand):
             }
 
             instance, created = model.objects.update_or_create(
-                local_id=row["local_id"],
-                defaults={
-                    "code": row["code"],
-                    **defaults,
-                },
+                code=row["code"],
+                defaults=defaults,
             )
 
             if created:

@@ -6,12 +6,13 @@ from django.contrib.auth.models import Group
 from django.db import IntegrityError
 
 from apps.identity.models import RoleAssignment, RoleAssignmentOrganization
+from apps.locations.models import Address
 from apps.organization.models import (
     Organization,
     OrganizationAdditionalIdentifier,
     OrganizationAddress,
+    OrganizationCode,
     OrganizationLifecycle,
-    OrganizationTypeCode,
 )
 
 User = get_user_model()
@@ -34,18 +35,27 @@ def _organization_type(**overrides):
         "sort_order": 10,
     }
     data.update(overrides)
-    return OrganizationTypeCode.objects.create(**data)
+    return OrganizationCode.objects.create(**data)
 
 
 def _organization(**overrides):
-    organization_type = overrides.pop("organization_type_code", None) or _organization_type()
+    organization_code = overrides.pop("organization_code", None) or _organization_type()
     data = {
         "local_id": "demoisd",
         "name": "Demo ISD",
-        "organization_type_code": organization_type,
+        "organization_code": organization_code,
     }
     data.update(overrides)
     return Organization.objects.create(**data)
+
+
+def _address(**overrides):
+    data = {
+        "line_1": "123 Main St",
+        "city": "Austin",
+    }
+    data.update(overrides)
+    return Address.objects.create(**data)
 
 
 @pytest.mark.django_db
@@ -70,11 +80,12 @@ def test_organization_lifecycle_rejects_invalid_date_window() -> None:
 @pytest.mark.django_db(transaction=True)
 def test_organization_address_rejects_invalid_date_window() -> None:
     organization = _organization()
+    address = _address()
 
     with pytest.raises(IntegrityError):
         OrganizationAddress.objects.create(
             organization=organization,
-            address_id=1001,
+            address=address,
             starts_on=date(2026, 4, 2),
             ends_on=date(2026, 4, 1),
         )
@@ -83,16 +94,17 @@ def test_organization_address_rejects_invalid_date_window() -> None:
 @pytest.mark.django_db(transaction=True)
 def test_organization_address_is_unique_per_org_address_and_type() -> None:
     organization = _organization()
+    address = _address()
     OrganizationAddress.objects.create(
         organization=organization,
-        address_id=1001,
+        address=address,
         address_type=OrganizationAddress.AddressType.PHYSICAL,
     )
 
     with pytest.raises(IntegrityError):
         OrganizationAddress.objects.create(
             organization=organization,
-            address_id=1001,
+            address=address,
             address_type=OrganizationAddress.AddressType.PHYSICAL,
         )
 
