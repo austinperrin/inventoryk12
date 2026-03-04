@@ -85,12 +85,6 @@ class OrganizationLifecycle(BaseModel, AuditModel):
 
 
 class OrganizationAddress(BaseModel, AuditModel):
-    class AddressType(models.TextChoices):
-        PHYSICAL = "physical", "Physical"
-        MAILING = "mailing", "Mailing"
-        BILLING = "billing", "Billing"
-        OTHER = "other", "Other"
-
     organization = models.ForeignKey(
         "organization.Organization",
         on_delete=models.CASCADE,
@@ -101,10 +95,10 @@ class OrganizationAddress(BaseModel, AuditModel):
         on_delete=models.CASCADE,
         related_name="organization_links",
     )
-    address_type = models.CharField(
-        max_length=20,
-        choices=AddressType.choices,
-        default=AddressType.PHYSICAL,
+    address_code = models.ForeignKey(
+        "locations.AddressCode",
+        on_delete=models.PROTECT,
+        related_name="organization_addresses",
     )
     is_primary = models.BooleanField(default=False)
     source_system = models.CharField(max_length=50, blank=True)
@@ -122,7 +116,7 @@ class OrganizationAddress(BaseModel, AuditModel):
         verbose_name_plural = "Organization Addresses"
         indexes = [
             models.Index(
-                fields=["organization", "address_type", "is_primary"],
+                fields=["organization", "address_code", "is_primary"],
                 name="org_address_primary_idx",
             ),
         ]
@@ -134,7 +128,7 @@ class OrganizationAddress(BaseModel, AuditModel):
                 name="organization_address_valid_date_window",
             ),
             models.UniqueConstraint(
-                fields=["organization", "address", "address_type"],
+                fields=["organization", "address", "address_code"],
                 name="organization_address_unique_link",
             ),
         ]

@@ -17,13 +17,27 @@ class Migration(migrations.Migration):
             new_name="address",
         ),
         migrations.RenameField(
+            model_name="organizationaddress",
+            old_name="address_type",
+            new_name="address_code",
+        ),
+        migrations.RenameField(
             model_name="historicalorganizationaddress",
             old_name="address_id",
             new_name="address",
         ),
+        migrations.RenameField(
+            model_name="historicalorganizationaddress",
+            old_name="address_type",
+            new_name="address_code",
+        ),
         migrations.RemoveConstraint(
             model_name="organizationaddress",
             name="organization_address_unique_link",
+        ),
+        migrations.RemoveIndex(
+            model_name="organizationaddress",
+            name="org_address_primary_idx",
         ),
         migrations.AlterField(
             model_name="organizationaddress",
@@ -32,6 +46,15 @@ class Migration(migrations.Migration):
                 on_delete=django.db.models.deletion.CASCADE,
                 related_name="organization_links",
                 to="locations.address",
+            ),
+        ),
+        migrations.AlterField(
+            model_name="organizationaddress",
+            name="address_code",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.PROTECT,
+                related_name="organization_addresses",
+                to="locations.addresscode",
             ),
         ),
         migrations.AlterField(
@@ -46,11 +69,30 @@ class Migration(migrations.Migration):
                 to="locations.address",
             ),
         ),
+        migrations.AlterField(
+            model_name="historicalorganizationaddress",
+            name="address_code",
+            field=models.ForeignKey(
+                blank=True,
+                db_constraint=False,
+                null=True,
+                on_delete=django.db.models.deletion.DO_NOTHING,
+                related_name="+",
+                to="locations.addresscode",
+            ),
+        ),
         migrations.AddConstraint(
             model_name="organizationaddress",
             constraint=models.UniqueConstraint(
-                fields=("organization", "address", "address_type"),
+                fields=("organization", "address", "address_code"),
                 name="organization_address_unique_link",
+            ),
+        ),
+        migrations.AddIndex(
+            model_name="organizationaddress",
+            index=models.Index(
+                fields=["organization", "address_code", "is_primary"],
+                name="org_address_primary_idx",
             ),
         ),
     ]

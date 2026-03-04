@@ -41,6 +41,18 @@ class FacilityCode(CodeTableModel):
         verbose_name_plural = "Facility Codes"
 
 
+class AddressCode(CodeTableModel):
+    history = HistoricalRecords(
+        excluded_fields=["created_at", "updated_at"],
+        table_name="hist_locations_address_code",
+    )
+
+    class Meta(CodeTableModel.Meta):
+        db_table = "locations_address_code"
+        verbose_name = "Address Code"
+        verbose_name_plural = "Address Codes"
+
+
 class Facility(BaseModel, AuditModel):
     local_id = models.CharField(max_length=64, unique=True)
     name = models.CharField(max_length=255)
@@ -127,12 +139,6 @@ class FacilityLifecycle(BaseModel, AuditModel):
 
 
 class FacilityAddress(BaseModel, AuditModel):
-    class AddressType(models.TextChoices):
-        PHYSICAL = "physical", "Physical"
-        MAILING = "mailing", "Mailing"
-        BILLING = "billing", "Billing"
-        OTHER = "other", "Other"
-
     facility = models.ForeignKey(
         "locations.Facility",
         on_delete=models.CASCADE,
@@ -143,7 +149,11 @@ class FacilityAddress(BaseModel, AuditModel):
         on_delete=models.CASCADE,
         related_name="facility_links",
     )
-    address_type = models.CharField(max_length=20, choices=AddressType.choices, default=AddressType.PHYSICAL)
+    address_code = models.ForeignKey(
+        "locations.AddressCode",
+        on_delete=models.PROTECT,
+        related_name="facility_addresses",
+    )
     is_primary = models.BooleanField(default=False)
     source_system = models.CharField(max_length=50, blank=True)
     source_record_id = models.CharField(max_length=128, blank=True)
@@ -159,7 +169,7 @@ class FacilityAddress(BaseModel, AuditModel):
         verbose_name = "Facility Address"
         verbose_name_plural = "Facility Addresses"
         indexes = [
-            models.Index(fields=["facility", "address_type", "is_primary"], name="fac_addr_primary_idx"),
+            models.Index(fields=["facility", "address_code", "is_primary"], name="fac_addr_primary_idx"),
         ]
         constraints = [
             models.CheckConstraint(
@@ -169,7 +179,7 @@ class FacilityAddress(BaseModel, AuditModel):
                 name="fac_addr_valid_date_win",
             ),
             models.UniqueConstraint(
-                fields=["facility", "address", "address_type"],
+                fields=["facility", "address", "address_code"],
                 name="fac_addr_unique_link",
             ),
         ]

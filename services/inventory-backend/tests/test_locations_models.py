@@ -7,6 +7,7 @@ from django.db import IntegrityError
 from apps.identity.models import StudentDetail
 from apps.locations.models import (
     Address,
+    AddressCode,
     AddressValidationRun,
     CountryCode,
     Facility,
@@ -73,6 +74,16 @@ def _state(**overrides):
     return StateCode.objects.create(**data)
 
 
+def _address_code(**overrides):
+    data = {
+        "code": "physical",
+        "label": "Physical",
+        "sort_order": 10,
+    }
+    data.update(overrides)
+    return AddressCode.objects.create(**data)
+
+
 def _facility_code(**overrides):
     data = {
         "code": "campus",
@@ -124,17 +135,18 @@ def test_facility_lifecycle_rejects_invalid_date_window() -> None:
 def test_facility_address_is_unique_per_facility_address_and_type() -> None:
     facility = _facility()
     address = _address()
+    address_code = _address_code()
     FacilityAddress.objects.create(
         facility=facility,
         address=address,
-        address_type=FacilityAddress.AddressType.PHYSICAL,
+        address_code=address_code,
     )
 
     with pytest.raises(IntegrityError):
         FacilityAddress.objects.create(
             facility=facility,
             address=address,
-            address_type=FacilityAddress.AddressType.PHYSICAL,
+            address_code=address_code,
         )
 
 
@@ -193,11 +205,12 @@ def test_identity_birth_location_fields_use_locations_foreign_keys() -> None:
 def test_organization_address_uses_locations_address_foreign_key() -> None:
     organization = _organization()
     address = _address()
+    address_code = _address_code()
 
     link = OrganizationAddress.objects.create(
         organization=organization,
         address=address,
-        address_type=OrganizationAddress.AddressType.PHYSICAL,
+        address_code=address_code,
     )
 
     assert link.address == address

@@ -33,7 +33,7 @@ organization, inventory assignment context, and operations workflows.
   - lifecycle windows for facilities
   - explicit mapping model for organization-facility association
 
-- `CountryCode` / `StateCode` / `FacilityCode`
+- `AddressCode` / `CountryCode` / `StateCode` / `FacilityCode`
   - Required: `code`
   - Included: `label`, `description`, `sort_order`, `is_system_managed`, `is_active`
 - `Facility`
@@ -46,7 +46,7 @@ organization, inventory assignment context, and operations workflows.
   - Required: `facility_id`, `starts_on`
   - Included: `ends_on`, `note`
 - `FacilityAddress`
-  - Required: `facility_id`, `address_id`, `address_type`
+  - Required: `facility_id`, `address_id`, `address_code_id`
   - Included: `is_primary`, `source_system`, `source_record_id`, `starts_on`, `ends_on`
 - `OrganizationFacility`
   - Required: `organization_id`, `facility_id`

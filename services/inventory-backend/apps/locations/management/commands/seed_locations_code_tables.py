@@ -3,10 +3,16 @@ from collections.abc import Sequence
 from django.core.management.base import BaseCommand
 from django.db import transaction
 
-from apps.locations.models import CountryCode, FacilityCode, StateCode
-from apps.locations.seeds import COUNTRY_CODE_SEEDS, FACILITY_CODE_SEEDS, STATE_CODE_SEEDS
+from apps.locations.models import AddressCode, CountryCode, FacilityCode, StateCode
+from apps.locations.seeds import (
+    ADDRESS_CODE_SEEDS,
+    COUNTRY_CODE_SEEDS,
+    FACILITY_CODE_SEEDS,
+    STATE_CODE_SEEDS,
+)
 
 LOCATIONS_CODE_TABLE_SEEDS = (
+    ("AddressCode", AddressCode, ADDRESS_CODE_SEEDS),
     ("CountryCode", CountryCode, COUNTRY_CODE_SEEDS),
     ("StateCode", StateCode, STATE_CODE_SEEDS),
     ("FacilityCode", FacilityCode, FACILITY_CODE_SEEDS),

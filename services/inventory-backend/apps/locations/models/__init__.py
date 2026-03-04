@@ -2,6 +2,7 @@
 
 from .address import Address, AddressCatalog, AddressValidationRun
 from .location import (
+    AddressCode,
     CountryCode,
     Facility,
     FacilityAdditionalIdentifier,
@@ -16,6 +17,7 @@ from .location import (
 __all__ = [
     "Address",
     "AddressCatalog",
+    "AddressCode",
     "AddressValidationRun",
     "CountryCode",
     "Facility",

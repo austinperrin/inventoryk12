@@ -69,6 +69,7 @@ INSTALLED_APPS = [
     "simple_history",
     # Project apps
     "apps.common.apps.CommonConfig",
+    "apps.contacts.apps.ContactsConfig",
     "apps.identity.apps.IdentityConfig",
     "apps.locations.apps.LocationsConfig",
     "apps.organization.apps.OrganizationConfig",

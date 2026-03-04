@@ -1,7 +1,7 @@
 # ADR 0009: Contacts Domain Model
 
-- **Status**: Proposed
-- **Date**:
+- **Status**: Accepted
+- **Date**: 2026-03-04
 - **Owners**: Platform Team
 
 ## Context
@@ -32,7 +32,7 @@ between users/personas relevant to student and staff contexts.
   - Required: `user_id`, `email_address`, `email_code_id`
   - Included: `is_primary`, `is_notification_enabled`, `sort_order`
 - `UserAddress`
-  - Required: `user_id`, `address_id`, `address_type`
+  - Required: `user_id`, `address_id`, `address_code_id`
   - Included: `is_primary`, `source_system`, `source_record_id`, `starts_on`, `ends_on`
 - `StudentRelationship`
   - Required: `student_id`, `related_student_id`
@@ -68,10 +68,10 @@ between users/personas relevant to student and staff contexts.
 
 ## Review Sign-off Checklist
 
-- [ ] Contact method ownership confirmed
-- [ ] Relationship model ownership confirmed
-- [ ] Code-table strategy confirmed
-- [ ] Lifecycle and validation rules confirmed
+- [x] Contact method ownership confirmed
+- [x] Relationship model ownership confirmed
+- [x] Code-table strategy confirmed
+- [x] Lifecycle and validation rules confirmed
 
 ## Related ADRs
 
