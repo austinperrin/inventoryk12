@@ -14,6 +14,7 @@ from apps.identity.models import (
     UserAdditionalIdentifier,
     UserLoginLock,
 )
+from apps.locations.models import CountryCode, StateCode
 
 User = get_user_model()
 
@@ -112,18 +113,20 @@ def test_user_additional_identifier_is_unique_per_user_and_source() -> None:
 
 
 @pytest.mark.django_db
-def test_student_detail_uses_placeholder_birth_location_ids() -> None:
+def test_student_detail_uses_locations_birth_foreign_keys() -> None:
     user = _user(email="student@example.com")
+    country = CountryCode.objects.create(code="US", label="United States")
+    state = StateCode.objects.create(code="TX", label="Texas")
 
     detail = StudentDetail.objects.create(
         user=user,
-        birth_country_id=840,
-        birth_state_id=48,
+        birth_country=country,
+        birth_state=state,
         birth_city="Austin",
     )
 
-    assert detail.birth_country_id == 840
-    assert detail.birth_state_id == 48
+    assert detail.birth_country == country
+    assert detail.birth_state == state
     assert detail.birth_city == "Austin"
 
 

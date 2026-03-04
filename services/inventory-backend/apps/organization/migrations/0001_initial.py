@@ -27,7 +27,7 @@ class Migration(migrations.Migration):
                 ),
                 ("uuid", models.UUIDField(db_index=True, default=uuid.uuid4, editable=False)),
                 ("local_id", models.CharField(db_index=True, max_length=64)),
-                ("code", models.CharField(max_length=100)),
+                ("code", models.CharField(db_index=True, max_length=100)),
                 ("label", models.CharField(blank=True, max_length=100)),
                 ("description", models.CharField(blank=True, max_length=255)),
                 ("sort_order", models.PositiveIntegerField(default=0)),

@@ -96,12 +96,10 @@ class OrganizationAddress(BaseModel, AuditModel):
         on_delete=models.CASCADE,
         related_name="addresses",
     )
-    address_id = models.BigIntegerField(
-        db_index=True,
-        help_text=(
-            "Placeholder contacts or locations address ID until the owning address "
-            "model is established and this field can be swapped to a foreign key."
-        ),
+    address = models.ForeignKey(
+        "locations.Address",
+        on_delete=models.CASCADE,
+        related_name="organization_links",
     )
     address_type = models.CharField(
         max_length=20,
@@ -136,7 +134,7 @@ class OrganizationAddress(BaseModel, AuditModel):
                 name="organization_address_valid_date_window",
             ),
             models.UniqueConstraint(
-                fields=["organization", "address_id", "address_type"],
+                fields=["organization", "address", "address_type"],
                 name="organization_address_unique_link",
             ),
         ]

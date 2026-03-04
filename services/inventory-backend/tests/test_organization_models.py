@@ -6,6 +6,7 @@ from django.contrib.auth.models import Group
 from django.db import IntegrityError
 
 from apps.identity.models import RoleAssignment, RoleAssignmentOrganization
+from apps.locations.models import Address
 from apps.organization.models import (
     Organization,
     OrganizationAdditionalIdentifier,
@@ -48,6 +49,15 @@ def _organization(**overrides):
     return Organization.objects.create(**data)
 
 
+def _address(**overrides):
+    data = {
+        "line_1": "123 Main St",
+        "city": "Austin",
+    }
+    data.update(overrides)
+    return Address.objects.create(**data)
+
+
 @pytest.mark.django_db
 def test_organization_string_uses_display_name_when_present() -> None:
     organization = _organization(display_name="Demo Independent School District")
@@ -70,11 +80,12 @@ def test_organization_lifecycle_rejects_invalid_date_window() -> None:
 @pytest.mark.django_db(transaction=True)
 def test_organization_address_rejects_invalid_date_window() -> None:
     organization = _organization()
+    address = _address()
 
     with pytest.raises(IntegrityError):
         OrganizationAddress.objects.create(
             organization=organization,
-            address_id=1001,
+            address=address,
             starts_on=date(2026, 4, 2),
             ends_on=date(2026, 4, 1),
         )
@@ -83,16 +94,17 @@ def test_organization_address_rejects_invalid_date_window() -> None:
 @pytest.mark.django_db(transaction=True)
 def test_organization_address_is_unique_per_org_address_and_type() -> None:
     organization = _organization()
+    address = _address()
     OrganizationAddress.objects.create(
         organization=organization,
-        address_id=1001,
+        address=address,
         address_type=OrganizationAddress.AddressType.PHYSICAL,
     )
 
     with pytest.raises(IntegrityError):
         OrganizationAddress.objects.create(
             organization=organization,
-            address_id=1001,
+            address=address,
             address_type=OrganizationAddress.AddressType.PHYSICAL,
         )
 

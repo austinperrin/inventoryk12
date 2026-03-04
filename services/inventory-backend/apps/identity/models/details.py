@@ -48,22 +48,24 @@ class PersonaDetailModel(BaseModel, AuditModel):
         blank=True,
     )
     date_of_birth = models.DateField(null=True, blank=True)
-    birth_country_id = models.BigIntegerField(
+    birth_country = models.ForeignKey(
+        "locations.CountryCode",
+        on_delete=models.PROTECT,
+        related_name="%(class)s_birth_country_records",
         null=True,
         blank=True,
-        db_index=True,
         help_text=(
-            "Placeholder locations.CountryCode ID until the locations domain model "
-            "is established and this field can be swapped to a foreign key."
+            "Locations country reference for persona birth country."
         ),
     )
-    birth_state_id = models.BigIntegerField(
+    birth_state = models.ForeignKey(
+        "locations.StateCode",
+        on_delete=models.PROTECT,
+        related_name="%(class)s_birth_state_records",
         null=True,
         blank=True,
-        db_index=True,
         help_text=(
-            "Placeholder locations.StateCode ID until the locations domain model "
-            "is established and this field can be swapped to a foreign key."
+            "Locations state reference for persona birth state."
         ),
     )
     birth_city = models.CharField(max_length=100, blank=True)
