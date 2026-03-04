@@ -17,6 +17,9 @@ role assignment links, and identity metadata used across all other domains.
   defined by [ADR 0005](./0005-rbac-model-and-permission-enforcement.md).
 - Identity stores account/persona detail and demographics data needed for
   product behavior and policy enforcement.
+- Identity code tables should use canonical product-owned values first, even
+  when downstream interoperability/reporting standards such as OneRoster or
+  Texas TSDS/PEIMS need alternate codes.
 - Authentication eligibility behavior is derived from:
   - active user status
   - active role assignment windows
@@ -75,6 +78,16 @@ role assignment links, and identity metadata used across all other domains.
 
 ## Follow-Up
 
+- Swap identity placeholder fields `birth_country_id` and `birth_state_id` to
+  real foreign keys when the locations domain model is implemented.
+- Add `RoleAssignmentOrganization` when the organization domain model is
+  established on the phase-1 organization branch.
+- Add external code mapping support for identity code tables so canonical values
+  can map to standards such as OneRoster and Texas TSDS/PEIMS without making
+  the core identity tables jurisdiction-specific.
+- Revisit whether external-code mappings should live on the code tables
+  directly or in dedicated mapping tables once domain patterns across
+  organization, locations, contacts, and academic are established.
 - Finalize non-delegable/system-level permission boundaries tied to assignments.
 - Confirm constraints for persona detail completeness by role/persona type.
 - Define lifecycle rules for lock records and reactivation flow.

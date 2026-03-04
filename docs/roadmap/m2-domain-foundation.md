@@ -94,12 +94,16 @@ Implement identity and organization domains in a dependency-safe, migration-stab
 - [ ] Implement identity updates from ADR 0006.
 - [ ] Implement organization updates from ADR 0007.
 - [ ] Build migration chain.
+- [ ] Replace identity placeholder cross-domain IDs with real foreign keys once
+  owning domains exist.
 
 #### QA + Testing
 - [ ] Add constraint and lifecycle test coverage.
 
 #### Docs + Standards
 - [ ] Update docs for finalized model/migration expectations.
+- [ ] Track deferred external-code mapping design for shared code tables before
+  other domains repeat the pattern.
 
 ### Branch and PR Plan
 - Branches: `feat/m2-p1-identity-domain`, `feat/m2-p1-organization-domain`
@@ -109,6 +113,8 @@ Implement identity and organization domains in a dependency-safe, migration-stab
 - [ ] Architecture review complete.
 - [ ] Migration and test review complete.
 - [ ] No drift between ADR decisions and implementation.
+- [ ] Deferred placeholder-field swaps are tracked for organization/locations
+  follow-up.
 
 ### Exit Criteria
 - [ ] Identity and organization foundations are stable.
