@@ -92,10 +92,10 @@ Implement identity and organization domains in a dependency-safe, migration-stab
 
 #### Backend Engineering
 - [x] Implement identity updates from ADR 0006.
+- [x] Add identity `RoleAssignmentOrganization` linkage during organization
+  implementation.
 - [x] Implement organization updates from ADR 0007.
 - [x] Build migration chain.
-- [ ] Replace identity placeholder cross-domain IDs with real foreign keys once
-  owning domains exist.
 - [x] Keep baseline code-table seeds idempotent and domain-owned as additional
   domains add shared code-table patterns.
 
@@ -112,14 +112,12 @@ Implement identity and organization domains in a dependency-safe, migration-stab
 - PR Target: `chore/m2-integration`
 
 ### Review Checklist
-- [ ] Architecture review complete.
-- [ ] Migration and test review complete.
-- [ ] No drift between ADR decisions and implementation.
-- [x] Deferred placeholder-field swaps are tracked for organization/locations
-  follow-up.
+- [x] Architecture review complete.
+- [x] Migration and test review complete.
+- [x] No drift between ADR decisions and implementation.
 
 ### Exit Criteria
-- [ ] Identity and organization foundations are stable.
+- [x] Identity and organization foundations are stable.
 
 <a id="m2-phase-2"></a>
 ## Phase 2: Locations, Contacts, Academic
@@ -131,8 +129,20 @@ Implement the remaining foundation domains and validate cross-domain behavior.
 
 #### Backend Engineering
 - [ ] Implement locations updates from ADR 0008.
+- [ ] Add locations `OrganizationFacility` and `FacilityAddress` linkage during
+  locations implementation.
+- [ ] Replace identity `birth_country_id` and `birth_state_id` placeholder
+  fields with real foreign keys during locations implementation.
+- [ ] Replace organization `OrganizationAddress.address_id` placeholder field
+  with a real foreign key when the locations-owned address model is
+  implemented.
 - [ ] Implement contacts updates from ADR 0009.
+- [ ] Add contacts `UserAddress` linkage during contacts implementation.
+- [ ] Add contacts `StaffAssignment` organization/facility linkage during
+  contacts implementation.
 - [ ] Implement academic updates from ADR 0010.
+- [ ] Add academic organization linkage during academic implementation for
+  `AcademicYear`, `AcademicCalendar`, and `AcademicTerm`.
 
 #### QA + Testing
 - [ ] Add regression tests for cross-domain constraints.
@@ -148,6 +158,8 @@ Implement the remaining foundation domains and validate cross-domain behavior.
 - [ ] Model boundary and migration review complete.
 - [ ] CI checks pass.
 - [ ] Cross-domain references remain consistent with ADRs.
+- [ ] Placeholder swaps inherited from identity and organization are completed
+  or explicitly re-tracked in the owning dependent domain.
 
 ### Exit Criteria
 - [ ] Domain trio is stable and test-covered.
