@@ -3,11 +3,11 @@ from collections.abc import Sequence
 from django.core.management.base import BaseCommand
 from django.db import transaction
 
-from apps.organization.models import OrganizationTypeCode
-from apps.organization.seeds import ORGANIZATION_TYPE_CODE_SEEDS
+from apps.organization.models import OrganizationCode
+from apps.organization.seeds import ORGANIZATION_CODE_SEEDS
 
 ORGANIZATION_CODE_TABLE_SEEDS = (
-    ("OrganizationTypeCode", OrganizationTypeCode, ORGANIZATION_TYPE_CODE_SEEDS),
+    ("OrganizationCode", OrganizationCode, ORGANIZATION_CODE_SEEDS),
 )
 
 

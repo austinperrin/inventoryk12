@@ -2,30 +2,20 @@ from django.db import models
 from django.db.models import Q
 from simple_history.models import HistoricalRecords
 
-from apps.common.models import AuditModel, BaseModel
+from apps.common.models import AuditModel, BaseModel, CodeTableModel
 
 
-class OrganizationTypeCode(BaseModel, AuditModel):
+class OrganizationCode(CodeTableModel):
     local_id = models.CharField(max_length=64, unique=True)
-    code = models.CharField(max_length=100)
-    label = models.CharField(max_length=100, blank=True)
-    description = models.CharField(max_length=255, blank=True)
-    sort_order = models.PositiveIntegerField(default=0)
-    is_system_managed = models.BooleanField(default=True)
-    is_active = models.BooleanField(default=True)
     history = HistoricalRecords(
         excluded_fields=["created_at", "updated_at"],
-        table_name="hist_organization_type_code",
+        table_name="hist_organization_code",
     )
 
-    class Meta:
-        db_table = "organization_type_code"
-        verbose_name = "Organization Type Code"
-        verbose_name_plural = "Organization Type Codes"
-        ordering = ["sort_order", "code"]
-
-    def __str__(self) -> str:
-        return self.label or self.code
+    class Meta(CodeTableModel.Meta):
+        db_table = "organization_code"
+        verbose_name = "Organization Code"
+        verbose_name_plural = "Organization Codes"
 
 
 class Organization(BaseModel, AuditModel):
@@ -34,8 +24,8 @@ class Organization(BaseModel, AuditModel):
     display_name = models.CharField(max_length=255, blank=True)
     short_name = models.CharField(max_length=100, blank=True)
     sort_order = models.PositiveIntegerField(default=0)
-    organization_type_code = models.ForeignKey(
-        "organization.OrganizationTypeCode",
+    organization_code = models.ForeignKey(
+        "organization.OrganizationCode",
         on_delete=models.PROTECT,
         related_name="organizations",
     )
@@ -55,7 +45,7 @@ class Organization(BaseModel, AuditModel):
         db_table = "organization"
         verbose_name = "Organization"
         verbose_name_plural = "Organizations"
-        ordering = ["organization_type_code__sort_order", "sort_order", "name"]
+        ordering = ["organization_code__sort_order", "sort_order", "name"]
 
     def __str__(self) -> str:
         return self.display_name or self.name

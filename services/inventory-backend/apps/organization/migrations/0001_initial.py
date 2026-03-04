@@ -17,7 +17,7 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name="HistoricalOrganizationTypeCode",
+            name="HistoricalOrganizationCode",
             fields=[
                 (
                     "id",
@@ -75,9 +75,9 @@ class Migration(migrations.Migration):
                 ),
             ],
             options={
-                "verbose_name": "historical Organization Type Code",
-                "verbose_name_plural": "historical Organization Type Codes",
-                "db_table": "hist_organization_type_code",
+                "verbose_name": "historical Organization Code",
+                "verbose_name_plural": "historical Organization Codes",
+                "db_table": "hist_organization_code",
                 "ordering": ("-history_date", "-history_id"),
                 "get_latest_by": ("history_date", "history_id"),
             },
@@ -140,7 +140,7 @@ class Migration(migrations.Migration):
                 "verbose_name": "Organization",
                 "verbose_name_plural": "Organizations",
                 "db_table": "organization",
-                "ordering": ["organization_type_code__sort_order", "sort_order", "name"],
+                "ordering": ["organization_code__sort_order", "sort_order", "name"],
             },
         ),
         migrations.CreateModel(
@@ -390,7 +390,7 @@ class Migration(migrations.Migration):
             bases=(simple_history.models.HistoricalChanges, models.Model),
         ),
         migrations.CreateModel(
-            name="OrganizationTypeCode",
+            name="OrganizationCode",
             fields=[
                 (
                     "id",
@@ -407,7 +407,7 @@ class Migration(migrations.Migration):
                 ("created_at", models.DateTimeField(auto_now_add=True, db_index=True)),
                 ("updated_at", models.DateTimeField(auto_now=True)),
                 ("local_id", models.CharField(max_length=64, unique=True)),
-                ("code", models.CharField(max_length=100)),
+                ("code", models.CharField(max_length=100, unique=True)),
                 ("label", models.CharField(blank=True, max_length=100)),
                 ("description", models.CharField(blank=True, max_length=255)),
                 ("sort_order", models.PositiveIntegerField(default=0)),
@@ -435,19 +435,19 @@ class Migration(migrations.Migration):
                 ),
             ],
             options={
-                "verbose_name": "Organization Type Code",
-                "verbose_name_plural": "Organization Type Codes",
-                "db_table": "organization_type_code",
+                "verbose_name": "Organization Code",
+                "verbose_name_plural": "Organization Codes",
+                "db_table": "organization_code",
                 "ordering": ["sort_order", "code"],
             },
         ),
         migrations.AddField(
             model_name="organization",
-            name="organization_type_code",
+            name="organization_code",
             field=models.ForeignKey(
                 on_delete=django.db.models.deletion.PROTECT,
                 related_name="organizations",
-                to="organization.organizationtypecode",
+                to="organization.organizationcode",
             ),
         ),
         migrations.CreateModel(
@@ -517,14 +517,14 @@ class Migration(migrations.Migration):
                     ),
                 ),
                 (
-                    "organization_type_code",
+                    "organization_code",
                     models.ForeignKey(
                         blank=True,
                         db_constraint=False,
                         null=True,
                         on_delete=django.db.models.deletion.DO_NOTHING,
                         related_name="+",
-                        to="organization.organizationtypecode",
+                        to="organization.organizationcode",
                     ),
                 ),
             ],

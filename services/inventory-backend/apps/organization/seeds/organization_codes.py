@@ -1,4 +1,4 @@
-ORGANIZATION_TYPE_CODE_SEEDS = [
+ORGANIZATION_CODE_SEEDS = [
     {
         "local_id": "district",
         "code": "district",
