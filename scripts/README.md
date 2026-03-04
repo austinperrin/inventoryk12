@@ -104,6 +104,15 @@ The canonical startup, smoke-test, and troubleshooting flow is documented in
 
 ## Seed Commands
 
+- `pnpm seed:contacts-code-tables`
+  - seeds baseline contacts code-table values
+  - options:
+    - `-- --docker`
+    - `-- --dry-run`
+  - wrapper script:
+    - `scripts/seed/seed-contacts-code-tables.sh`
+  - seed definitions live under `services/inventory-backend/apps/contacts/seeds/`
+
 - `pnpm seed:identity-code-tables`
   - seeds baseline identity code-table values
   - options:

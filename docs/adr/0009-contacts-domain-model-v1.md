@@ -65,6 +65,8 @@ between users/personas relevant to student and staff contexts.
 - Define canonical uniqueness rules for phone/email records.
 - Confirm relationship status/lifecycle semantics for guardianship changes.
 - Define validation policy for contact method verification state.
+- Seed baseline system-managed `PhoneCode` and `EmailCode` values for local and
+  test environments.
 
 ## Review Sign-off Checklist
 
