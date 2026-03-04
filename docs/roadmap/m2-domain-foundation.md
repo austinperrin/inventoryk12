@@ -92,7 +92,7 @@ Implement identity and organization domains in a dependency-safe, migration-stab
 
 #### Backend Engineering
 - [x] Implement identity updates from ADR 0006.
-- [ ] Implement organization updates from ADR 0007.
+- [x] Implement organization updates from ADR 0007.
 - [x] Build migration chain.
 - [ ] Replace identity placeholder cross-domain IDs with real foreign keys once
   owning domains exist.
@@ -100,10 +100,10 @@ Implement identity and organization domains in a dependency-safe, migration-stab
   domains add shared code-table patterns.
 
 #### QA + Testing
-- [ ] Add constraint and lifecycle test coverage.
+- [x] Add constraint and lifecycle test coverage.
 
 #### Docs + Standards
-- [ ] Update docs for finalized model/migration expectations.
+- [x] Update docs for finalized model/migration expectations.
 - [x] Track deferred external-code mapping design for shared code tables before
   other domains repeat the pattern.
 

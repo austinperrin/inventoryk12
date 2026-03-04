@@ -17,7 +17,7 @@ from .details import (
 )
 from .login_lock import RoleLoginLock, UserLoginLock
 from .profile import Profile
-from .role_assignment import RoleAssignment
+from .role_assignment import RoleAssignment, RoleAssignmentOrganization
 from .user import User
 from .user_additional_identifier import UserAdditionalIdentifier
 
@@ -30,6 +30,7 @@ __all__ = [
     "PrefixCode",
     "RaceCode",
     "RoleAssignment",
+    "RoleAssignmentOrganization",
     "RoleLoginLock",
     "StaffDetail",
     "StaffDemographics",

@@ -70,6 +70,7 @@ INSTALLED_APPS = [
     # Project apps
     "apps.common.apps.CommonConfig",
     "apps.identity.apps.IdentityConfig",
+    "apps.organization.apps.OrganizationConfig",
 ]
 
 # Phase 2 auth plumbing uses the minimal identity-domain custom user model so

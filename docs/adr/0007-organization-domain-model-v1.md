@@ -60,6 +60,8 @@ operations.
 
 ## Follow-Up
 
+- Swap `OrganizationAddress.address_id` to a real foreign key when the owning
+  address model is implemented in the locations/contacts phase.
 - Finalize organization type taxonomy and governance.
 - Define hierarchy change/audit rules for merges and reparent operations.
 - Define canonical org scoping policy for role assignments and data queries.
