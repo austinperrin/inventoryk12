@@ -128,14 +128,16 @@ Implement the remaining foundation domains and validate cross-domain behavior.
 ### Development Checklist
 
 #### Backend Engineering
-- [ ] Implement locations updates from ADR 0008.
-- [ ] Add locations `OrganizationFacility` and `FacilityAddress` linkage during
+- [x] Implement locations updates from ADR 0008.
+- [x] Add locations `OrganizationFacility` and `FacilityAddress` linkage during
   locations implementation.
-- [ ] Replace identity `birth_country_id` and `birth_state_id` placeholder
+- [x] Replace identity `birth_country_id` and `birth_state_id` placeholder
   fields with real foreign keys during locations implementation.
-- [ ] Replace organization `OrganizationAddress.address_id` placeholder field
+- [x] Replace organization `OrganizationAddress.address_id` placeholder field
   with a real foreign key when the locations-owned address model is
   implemented.
+- [ ] Keep baseline code-table seeds idempotent and domain-owned as additional
+  domains add shared code-table patterns.
 - [ ] Implement contacts updates from ADR 0009.
 - [ ] Add contacts `UserAddress` linkage during contacts implementation.
 - [ ] Add contacts `StaffAssignment` organization/facility linkage during
