@@ -17,6 +17,58 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
+            name="AddressCode",
+            fields=[
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True, primary_key=True, serialize=False, verbose_name="ID"
+                    ),
+                ),
+                (
+                    "uuid",
+                    models.UUIDField(
+                        db_index=True, default=uuid.uuid4, editable=False, unique=True
+                    ),
+                ),
+                ("created_at", models.DateTimeField(auto_now_add=True, db_index=True)),
+                ("updated_at", models.DateTimeField(auto_now=True)),
+                ("code", models.CharField(max_length=100, unique=True)),
+                ("label", models.CharField(blank=True, max_length=100)),
+                ("description", models.CharField(blank=True, max_length=255)),
+                ("sort_order", models.PositiveIntegerField(default=0)),
+                ("is_system_managed", models.BooleanField(default=True)),
+                ("is_active", models.BooleanField(default=True)),
+                (
+                    "created_by",
+                    models.ForeignKey(
+                        blank=True,
+                        null=True,
+                        on_delete=django.db.models.deletion.SET_NULL,
+                        related_name="created_%(class)s_set",
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
+                (
+                    "updated_by",
+                    models.ForeignKey(
+                        blank=True,
+                        null=True,
+                        on_delete=django.db.models.deletion.SET_NULL,
+                        related_name="updated_%(class)s_set",
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
+            ],
+            options={
+                "verbose_name": "Address Code",
+                "verbose_name_plural": "Address Codes",
+                "db_table": "locations_address_code",
+                "ordering": ["sort_order", "code"],
+                "abstract": False,
+            },
+        ),
+        migrations.CreateModel(
             name="CountryCode",
             fields=[
                 (
@@ -622,19 +674,6 @@ class Migration(migrations.Migration):
                 ),
                 ("created_at", models.DateTimeField(auto_now_add=True, db_index=True)),
                 ("updated_at", models.DateTimeField(auto_now=True)),
-                (
-                    "address_type",
-                    models.CharField(
-                        choices=[
-                            ("physical", "Physical"),
-                            ("mailing", "Mailing"),
-                            ("billing", "Billing"),
-                            ("other", "Other"),
-                        ],
-                        default="physical",
-                        max_length=20,
-                    ),
-                ),
                 ("is_primary", models.BooleanField(default=False)),
                 ("source_system", models.CharField(blank=True, max_length=50)),
                 ("source_record_id", models.CharField(blank=True, max_length=128)),
@@ -646,6 +685,14 @@ class Migration(migrations.Migration):
                         on_delete=django.db.models.deletion.CASCADE,
                         related_name="facility_links",
                         to="locations.address",
+                    ),
+                ),
+                (
+                    "address_code",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.PROTECT,
+                        related_name="facility_addresses",
+                        to="locations.addresscode",
                     ),
                 ),
                 (
@@ -683,7 +730,7 @@ class Migration(migrations.Migration):
                 "db_table": "locations_facility_address",
                 "indexes": [
                     models.Index(
-                        fields=["facility", "address_type", "is_primary"],
+                        fields=["facility", "address_code", "is_primary"],
                         name="fac_addr_primary_idx",
                     )
                 ],
@@ -698,7 +745,7 @@ class Migration(migrations.Migration):
                         name="fac_addr_valid_date_win",
                     ),
                     models.UniqueConstraint(
-                        fields=("facility", "address", "address_type"),
+                        fields=("facility", "address", "address_code"),
                         name="fac_addr_unique_link",
                     ),
                 ],
@@ -866,6 +913,48 @@ class Migration(migrations.Migration):
                     ),
                 ],
             },
+        ),
+        migrations.CreateModel(
+            name="HistoricalAddressCode",
+            fields=[
+                ("id", models.BigIntegerField(auto_created=True, blank=True, db_index=True, verbose_name="ID")),
+                ("uuid", models.UUIDField(db_index=True, default=uuid.uuid4, editable=False)),
+                ("code", models.CharField(db_index=True, max_length=100)),
+                ("label", models.CharField(blank=True, max_length=100)),
+                ("description", models.CharField(blank=True, max_length=255)),
+                ("sort_order", models.PositiveIntegerField(default=0)),
+                ("is_system_managed", models.BooleanField(default=True)),
+                ("is_active", models.BooleanField(default=True)),
+                ("history_id", models.AutoField(primary_key=True, serialize=False)),
+                ("history_date", models.DateTimeField(db_index=True)),
+                ("history_change_reason", models.CharField(max_length=100, null=True)),
+                (
+                    "history_type",
+                    models.CharField(
+                        choices=[("+", "Created"), ("~", "Changed"), ("-", "Deleted")], max_length=1
+                    ),
+                ),
+                (
+                    "created_by",
+                    models.ForeignKey(blank=True, db_constraint=False, null=True, on_delete=django.db.models.deletion.DO_NOTHING, related_name="+", to=settings.AUTH_USER_MODEL),
+                ),
+                (
+                    "history_user",
+                    models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, related_name="+", to=settings.AUTH_USER_MODEL),
+                ),
+                (
+                    "updated_by",
+                    models.ForeignKey(blank=True, db_constraint=False, null=True, on_delete=django.db.models.deletion.DO_NOTHING, related_name="+", to=settings.AUTH_USER_MODEL),
+                ),
+            ],
+            options={
+                "verbose_name": "historical Address Code",
+                "verbose_name_plural": "historical Address Codes",
+                "db_table": "hist_locations_address_code",
+                "ordering": ("-history_date", "-history_id"),
+                "get_latest_by": ("history_date", "history_id"),
+            },
+            bases=(simple_history.models.HistoricalChanges, models.Model),
         ),
         migrations.CreateModel(
             name="HistoricalCountryCode",
@@ -1321,19 +1410,6 @@ class Migration(migrations.Migration):
             fields=[
                 ("id", models.BigIntegerField(auto_created=True, blank=True, db_index=True, verbose_name="ID")),
                 ("uuid", models.UUIDField(db_index=True, default=uuid.uuid4, editable=False)),
-                (
-                    "address_type",
-                    models.CharField(
-                        choices=[
-                            ("physical", "Physical"),
-                            ("mailing", "Mailing"),
-                            ("billing", "Billing"),
-                            ("other", "Other"),
-                        ],
-                        default="physical",
-                        max_length=20,
-                    ),
-                ),
                 ("is_primary", models.BooleanField(default=False)),
                 ("source_system", models.CharField(blank=True, max_length=50)),
                 ("source_record_id", models.CharField(blank=True, max_length=128)),
@@ -1351,6 +1427,10 @@ class Migration(migrations.Migration):
                 (
                     "address",
                     models.ForeignKey(blank=True, db_constraint=False, null=True, on_delete=django.db.models.deletion.DO_NOTHING, related_name="+", to="locations.address"),
+                ),
+                (
+                    "address_code",
+                    models.ForeignKey(blank=True, db_constraint=False, null=True, on_delete=django.db.models.deletion.DO_NOTHING, related_name="+", to="locations.addresscode"),
                 ),
                 (
                     "created_by",

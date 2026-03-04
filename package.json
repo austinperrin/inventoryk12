@@ -21,6 +21,7 @@
     "dev:format": "bash scripts/dev/dev-format.sh",
     "dev:reset": "bash scripts/dev/dev-reset.sh",
     "dev:seed-auth-user": "bash scripts/dev/dev-seed-auth-user.sh",
+    "seed:contacts-code-tables": "bash scripts/seed/seed-contacts-code-tables.sh",
     "seed:identity-code-tables": "bash scripts/seed/seed-identity-code-tables.sh",
     "seed:locations-code-tables": "bash scripts/seed/seed-locations-code-tables.sh",
     "seed:organization-code-tables": "bash scripts/seed/seed-organization-code-tables.sh",

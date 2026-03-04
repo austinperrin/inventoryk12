@@ -38,7 +38,7 @@ operations.
   - Required: `organization_id`, `starts_on`
   - Included: `ends_on`, `note`
 - `OrganizationAddress`
-  - Required: `organization_id`, `address_id`, `address_type`
+  - Required: `organization_id`, `address_id`, `address_code_id`
   - Included: `is_primary`, `source_system`, `source_record_id`, `starts_on`, `ends_on`
 - `OrganizationAdditionalIdentifier`
   - Required: `organization_id`, `system`, `identifier_type`, `identifier_value`

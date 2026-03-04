@@ -3,7 +3,7 @@ from io import StringIO
 import pytest
 from django.core.management import call_command
 
-from apps.locations.models import CountryCode, FacilityCode, StateCode
+from apps.locations.models import AddressCode, CountryCode, FacilityCode, StateCode
 
 
 @pytest.mark.django_db
@@ -12,6 +12,7 @@ def test_seed_locations_code_tables_creates_expected_rows() -> None:
 
     call_command("seed_locations_code_tables", stdout=out)
 
+    assert AddressCode.objects.filter(code="physical", label="Physical").exists()
     assert CountryCode.objects.filter(code="US", label="United States").exists()
     assert StateCode.objects.filter(code="TX", label="Texas").exists()
     assert StateCode.objects.filter(code="CA", label="California").exists()
@@ -35,6 +36,7 @@ def test_seed_locations_code_tables_is_idempotent_and_updates_existing_rows() ->
 
     texas = StateCode.objects.get(code="TX")
 
+    assert AddressCode.objects.count() == 4
     assert CountryCode.objects.count() == 1
     assert StateCode.objects.count() == 51
     assert FacilityCode.objects.count() == 5
@@ -49,6 +51,7 @@ def test_seed_locations_code_tables_is_idempotent_and_updates_existing_rows() ->
 def test_seed_locations_code_tables_dry_run_does_not_persist_rows() -> None:
     call_command("seed_locations_code_tables", dry_run=True)
 
+    assert AddressCode.objects.count() == 0
     assert CountryCode.objects.count() == 0
     assert StateCode.objects.count() == 0
     assert FacilityCode.objects.count() == 0
