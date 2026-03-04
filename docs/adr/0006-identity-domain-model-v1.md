@@ -53,6 +53,9 @@ role assignment links, and identity metadata used across all other domains.
 - `PrefixCode` / `SuffixCode` / `GenderCode` / `RaceCode` / `EthnicityCode`
   - Required: `code`
   - Included: `label`, `description`, `sort_order`, `is_system_managed`, `is_active`
+  - Seed baseline: canonical product-owned values are seeded through the
+    identity domain management command and stored in per-model seed files under
+    `services/inventory-backend/apps/identity/seeds/`
 - `StudentDetail` / `StaffDetail` / `GuardianDetail`
   - Required: `user_id`
   - Included: `prefix_id`, `first_name`, `middle_name`, `last_name`, `suffix_id`, `date_of_birth`, `birth_country`, `birth_state`, `birth_city`, `local_id`
@@ -88,6 +91,9 @@ role assignment links, and identity metadata used across all other domains.
 - Revisit whether external-code mappings should live on the code tables
   directly or in dedicated mapping tables once domain patterns across
   organization, locations, contacts, and academic are established.
+- Decide whether later domains should follow the same per-model seed-file
+  structure used by identity or whether a shared domain-level seed convention
+  needs to be documented in standards.
 - Finalize non-delegable/system-level permission boundaries tied to assignments.
 - Confirm constraints for persona detail completeness by role/persona type.
 - Define lifecycle rules for lock records and reactivation flow.

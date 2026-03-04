@@ -91,18 +91,20 @@ Implement identity and organization domains in a dependency-safe, migration-stab
 ### Development Checklist
 
 #### Backend Engineering
-- [ ] Implement identity updates from ADR 0006.
+- [x] Implement identity updates from ADR 0006.
 - [ ] Implement organization updates from ADR 0007.
-- [ ] Build migration chain.
+- [x] Build migration chain.
 - [ ] Replace identity placeholder cross-domain IDs with real foreign keys once
   owning domains exist.
+- [x] Keep baseline code-table seeds idempotent and domain-owned as additional
+  domains add shared code-table patterns.
 
 #### QA + Testing
 - [ ] Add constraint and lifecycle test coverage.
 
 #### Docs + Standards
 - [ ] Update docs for finalized model/migration expectations.
-- [ ] Track deferred external-code mapping design for shared code tables before
+- [x] Track deferred external-code mapping design for shared code tables before
   other domains repeat the pattern.
 
 ### Branch and PR Plan
@@ -113,7 +115,7 @@ Implement identity and organization domains in a dependency-safe, migration-stab
 - [ ] Architecture review complete.
 - [ ] Migration and test review complete.
 - [ ] No drift between ADR decisions and implementation.
-- [ ] Deferred placeholder-field swaps are tracked for organization/locations
+- [x] Deferred placeholder-field swaps are tracked for organization/locations
   follow-up.
 
 ### Exit Criteria

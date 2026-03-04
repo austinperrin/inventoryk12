@@ -7,6 +7,7 @@ Scripts are grouped by intent and should be safe, idempotent, and well-documente
 
 - `bootstrap/` initial setup and environment generation
 - `dev/` local developer workflows
+- `seed/` baseline application seed data workflows
 - `ci/` CI entry points
 - `release/` versioning and release steps
 - `ops/` operational tasks (migrations, backups, schema reset)
@@ -68,7 +69,6 @@ The canonical startup, smoke-test, and troubleshooting flow is documented in
     - `-- --password <password>`
     - `-- --first-name <name>`
     - `-- --last-name <name>`
-
 ## CI Entry Points
 
 - `pnpm ci:docs`
@@ -101,6 +101,17 @@ The canonical startup, smoke-test, and troubleshooting flow is documented in
     - `-- --docker`
 - `pnpm ops:backup -- --output <file>`
 - `pnpm ops:restore -- --input <file> --yes`
+
+## Seed Commands
+
+- `pnpm seed:identity-code-tables`
+  - seeds baseline identity code-table values
+  - options:
+    - `-- --docker`
+    - `-- --dry-run`
+  - wrapper script:
+    - `scripts/seed/seed-identity-code-tables.sh`
+  - seed definitions live under `services/inventory-backend/apps/identity/seeds/`
 
 ## Security
 

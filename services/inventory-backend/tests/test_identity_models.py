@@ -1,8 +1,9 @@
 from datetime import date, timedelta
 
 import pytest
+from django.apps import apps
 from django.contrib.auth import get_user_model
-from django.contrib.auth.models import Group
+from django.contrib.auth.models import Group, Permission
 from django.db import IntegrityError
 from django.utils import timezone
 
@@ -34,6 +35,17 @@ def test_profile_can_be_created_without_slug() -> None:
 
     assert profile.slug is None
     assert str(profile) == "Ada"
+
+
+@pytest.mark.django_db(transaction=True)
+def test_profile_slug_must_be_unique_when_present() -> None:
+    first_user = _user(email="first@example.com")
+    second_user = _user(email="second@example.com")
+
+    Profile.objects.create(user=first_user, slug="ada-lovelace")
+
+    with pytest.raises(IntegrityError):
+        Profile.objects.create(user=second_user, slug="ada-lovelace")
 
 
 @pytest.mark.django_db
@@ -113,3 +125,22 @@ def test_student_detail_uses_placeholder_birth_location_ids() -> None:
     assert detail.birth_country_id == 840
     assert detail.birth_state_id == 48
     assert detail.birth_city == "Austin"
+
+
+@pytest.mark.django_db
+def test_auth_group_and_permission_history_are_registered() -> None:
+    historical_group_model = apps.get_model("identity", "HistoricalGroup")
+    historical_group_permissions_model = apps.get_model("identity", "HistoricalGroup_permissions")
+    historical_permission_model = apps.get_model("identity", "HistoricalPermission")
+
+    permission = Permission.objects.first()
+    assert permission is not None
+
+    group = Group.objects.create(name="campus_scheduler")
+    group.permissions.add(permission)
+    permission.name = f"{permission.name} (history)"
+    permission.save(update_fields=["name"])
+
+    assert historical_group_model.objects.filter(id=group.id).exists()
+    assert historical_group_permissions_model.objects.filter(group_id=group.id).exists()
+    assert historical_permission_model.objects.filter(id=permission.id).exists()
