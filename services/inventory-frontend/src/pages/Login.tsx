@@ -63,10 +63,6 @@ export default function Login() {
         This baseline login uses `HttpOnly` cookies for access and refresh tokens and keeps browser
         token storage out of application code.
       </p>
-      <p className="auth-helper">
-        Demo credentials for local verification: <strong>admin@example.com</strong> /{' '}
-        <strong>ChangeMe123!</strong>
-      </p>
       <form className="auth-form" onSubmit={handleSubmit}>
         <div className="form-floating auth-floating">
           <input

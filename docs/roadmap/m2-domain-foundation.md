@@ -1,6 +1,6 @@
 # Milestone 2: Domain Foundation
 
-- Status: Not Started
+- Status: In Progress
 - Estimate: 3-5 weeks
 - Dependency: [Milestone 1: Platform Baseline](./m1-platform-baseline.md) `Completed`
 - Related ADRs: [ADR 0004](../adr/0004-domain-boundaries-and-ownership.md), [ADR 0006](../adr/0006-identity-domain-model-v1.md), [ADR 0007](../adr/0007-organization-domain-model-v1.md), [ADR 0008](../adr/0008-locations-domain-model-v1.md), [ADR 0009](../adr/0009-contacts-domain-model-v1.md), [ADR 0010](../adr/0010-academic-domain-model-v1.md)
@@ -18,11 +18,56 @@ review gates.
 
 ## Milestone Pre-Checklist (Alignment + Drift Control)
 
-- [ ] Domain order is dependency-aligned.
-- [ ] Each domain task is PR-sized and branch-planned.
-- [ ] ADR links for each domain are explicit and current.
-- [ ] Migration review and rollback approach is documented.
-- [ ] Roadmap status and owners are current.
+- [x] Domain order is dependency-aligned.
+- [x] Each domain task is PR-sized and branch-planned.
+- [x] ADR links for each domain are explicit and current.
+- [x] Migration review and rollback approach is documented.
+- [x] Roadmap status and owners are current.
+
+## Pre-Checklist Notes
+
+### Domain Order
+
+- Implementation order follows [ADR 0004](../adr/0004-domain-boundaries-and-ownership.md):
+  `identity -> organization -> locations -> contacts -> academic`.
+- Phase 1 covers `identity` then `organization`.
+- Phase 2 covers `locations`, `contacts`, then `academic`.
+- Phase 3 validates the combined migration graph and freezes domain shape for
+  later milestones.
+
+### Branch and PR Plan
+
+- Milestone branch: `chore/m2-integration`
+- Phase 1 branches: `feat/m2-p1-identity-domain`,
+  `feat/m2-p1-organization-domain`
+- Phase 2 branches: `feat/m2-p2-locations-domain`,
+  `feat/m2-p2-contacts-domain`, `feat/m2-p2-academic-domain`
+- Phase 3 branch: `chore/m2-p3-domain-freeze-validation`
+- All milestone 2 PRs target `chore/m2-integration` until milestone closeout.
+
+### ADR Coverage
+
+- Domain boundaries and dependency order: [ADR 0004](../adr/0004-domain-boundaries-and-ownership.md)
+- Identity domain scope: [ADR 0006](../adr/0006-identity-domain-model-v1.md)
+- Organization domain scope: [ADR 0007](../adr/0007-organization-domain-model-v1.md)
+- Locations domain scope: [ADR 0008](../adr/0008-locations-domain-model-v1.md)
+- Contacts domain scope: [ADR 0009](../adr/0009-contacts-domain-model-v1.md)
+- Academic domain scope: [ADR 0010](../adr/0010-academic-domain-model-v1.md)
+
+### Migration Review and Rollback Approach
+
+- Keep migrations domain-local under the owning app named in [ADR 0004](../adr/0004-domain-boundaries-and-ownership.md).
+- Land one domain changeset per phase branch so migration diffs stay reviewable
+  and reversible.
+- Use repo wrappers for schema work: `pnpm ops:makemigrations`,
+  `pnpm ops:migrate`, and `pnpm ops:reset-schema` when validating graph/reset
+  behavior.
+- Take a database backup with `pnpm ops:backup` before applying milestone-level
+  migration sequences that need rollback coverage.
+- Use `pnpm ops:restore` for backup-based rollback when migration reversal is
+  insufficient or unsafe.
+- Reserve final migration graph validation and reset-path confirmation for
+  `chore/m2-p3-domain-freeze-validation` before milestone closeout.
 
 ## Execution Model
 
@@ -46,15 +91,21 @@ Implement identity and organization domains in a dependency-safe, migration-stab
 ### Development Checklist
 
 #### Backend Engineering
-- [ ] Implement identity updates from ADR 0006.
+- [x] Implement identity updates from ADR 0006.
 - [ ] Implement organization updates from ADR 0007.
-- [ ] Build migration chain.
+- [x] Build migration chain.
+- [ ] Replace identity placeholder cross-domain IDs with real foreign keys once
+  owning domains exist.
+- [x] Keep baseline code-table seeds idempotent and domain-owned as additional
+  domains add shared code-table patterns.
 
 #### QA + Testing
 - [ ] Add constraint and lifecycle test coverage.
 
 #### Docs + Standards
 - [ ] Update docs for finalized model/migration expectations.
+- [x] Track deferred external-code mapping design for shared code tables before
+  other domains repeat the pattern.
 
 ### Branch and PR Plan
 - Branches: `feat/m2-p1-identity-domain`, `feat/m2-p1-organization-domain`
@@ -64,6 +115,8 @@ Implement identity and organization domains in a dependency-safe, migration-stab
 - [ ] Architecture review complete.
 - [ ] Migration and test review complete.
 - [ ] No drift between ADR decisions and implementation.
+- [x] Deferred placeholder-field swaps are tracked for organization/locations
+  follow-up.
 
 ### Exit Criteria
 - [ ] Identity and organization foundations are stable.

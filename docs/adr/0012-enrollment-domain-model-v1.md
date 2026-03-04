@@ -1,7 +1,7 @@
 # ADR 0012: Enrollment Domain Model
 
 - **Status**: Proposed
-- **Date**: 2026-02-28
+- **Date**:
 - **Owners**: Platform Team
 
 ## Context

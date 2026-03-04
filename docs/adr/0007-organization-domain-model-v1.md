@@ -1,7 +1,7 @@
 # ADR 0007: Organization Domain Model
 
-- **Status**: Proposed
-- **Date**: 2026-02-28
+- **Status**: Accepted
+- **Date**: 2026-03-03
 - **Owners**: Platform Team
 
 ## Context
@@ -66,10 +66,10 @@ operations.
 
 ## Review Sign-off Checklist
 
-- [ ] Organization hierarchy model confirmed
-- [ ] Lifecycle model confirmed
-- [ ] Additional identifier policy confirmed
-- [ ] Organization scoping rules confirmed
+- [x] Organization hierarchy model confirmed
+- [x] Lifecycle model confirmed
+- [x] Additional identifier policy confirmed
+- [x] Organization scoping rules confirmed
 
 ## Related ADRs
 

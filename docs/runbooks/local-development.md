@@ -56,15 +56,18 @@ The environment path is config-driven:
    - `http://demoisd.localhost:5173/dev/login`
 3. Create a local auth test user if needed:
    - `pnpm dev:seed-auth-user -- --docker`
-4. Sign in with:
+4. Seed baseline identity code tables if needed:
+   - `pnpm seed:identity-code-tables -- --docker`
+   - current seed package: `services/inventory-backend/apps/identity/seeds/`
+5. Sign in with:
    - email: `admin@example.com`
     - password: `ChangeMe123!`
    - seeded name: `Demo Admin`
-5. Confirm:
+6. Confirm:
    - `/dev/login` redirects to `/dev`
    - header shows `Logout`
    - backend health link loads
-6. Confirm invalid in-app path returns 404:
+7. Confirm invalid in-app path returns 404:
    - `http://demoisd.localhost:5173/dev/invalid-path-example/`
 
 ## Reset
