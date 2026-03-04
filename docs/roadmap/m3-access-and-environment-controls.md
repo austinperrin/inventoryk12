@@ -19,11 +19,6 @@ and non-prod refresh controls needed for safe tenant operations.
 ## Milestone Pre-Checklist (Alignment + Drift Control)
 
 - [ ] Permission model is aligned to ADR 0005.
-- [ ] Effective-permission resolution behavior is documented for:
-  - role-assigned permissions
-  - direct user-permission extensions
-  - no-effective-access login outcome
-  - composed dashboard/navigation capability loading
 - [ ] URL topology decisions are aligned to ADR 0002.
 - [ ] Non-prod operational policy is aligned to ADR 0003.
 - [ ] High-assurance auth/session controls are aligned to ADR 0016.
@@ -54,14 +49,7 @@ high-assurance auth/session controls required for MVP protected workflows.
 
 #### Backend Engineering
 - [ ] Implement permission enforcement checks for protected workflows.
-- [ ] Implement effective-permission resolution from active role assignments and
-  direct user permissions.
-- [ ] Implement no-effective-access login/session outcome.
-- [ ] Implement system-managed seeded-role protections and district-editable
-  default role-permission behavior.
 - [ ] Implement role delegation boundaries.
-- [ ] Implement direct user-permission grant controls for exception-based
-  extensions.
 - [ ] Implement session hardening controls (idle timeout, absolute lifetime, re-auth hooks).
 - [ ] Implement login abuse protections (rate limiting, throttling, or lockout policy).
 - [ ] Implement MFA and step-up auth support for privileged workflows.
@@ -69,8 +57,6 @@ high-assurance auth/session controls required for MVP protected workflows.
 
 #### QA + Testing
 - [ ] Add authorization failure/denial test coverage.
-- [ ] Add effective-permission resolution coverage for multi-role, direct-user,
-  and no-access outcomes.
 - [ ] Add auth/session hardening test coverage for timeout, revocation, and step-up flows.
 - [ ] Add MFA/login-abuse coverage for success, failure, and recovery paths.
 
@@ -86,7 +72,6 @@ high-assurance auth/session controls required for MVP protected workflows.
 ### Review Checklist
 - [ ] Security review complete.
 - [ ] RBAC behavior matches ADR 0005.
-- [ ] Login and shell-composition behavior match the approved effective-access model.
 - [ ] Auth/session behavior matches ADR 0016.
 - [ ] Permission drift checks are complete.
 
