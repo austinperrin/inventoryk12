@@ -13,17 +13,37 @@ control.
 
 - RBAC baseline uses Django Groups + Permissions as the core authorization
   model.
+- Effective permissions are cumulative and are resolved from:
+  - active role assignments linked to Django Groups
+  - direct user permissions on the Django user record
+- Authentication does not imply product access:
+  - authenticated users with no effective permissions land on a dedicated
+    no-access or access-pending experience
+  - authenticated users with effective permissions receive a composed
+    application shell based on those permissions
 - Deployment scope is single-district per stack, so role scopes are
   environment-local and not multi-tenant within one runtime.
 - System-managed seeded roles are created during onboarding and protected from
   deletion.
+- System-managed seeded roles define the default role catalog and default
+  permission bundles, but districts may adjust the permissions assigned to
+  those roles within product guardrails.
 - District-managed custom roles are allowed and implemented as additional
   groups with bounded admin controls.
+- Direct user permissions are allowed as additive extensions for exception-based
+  access needs and should not replace role-based assignment as the default
+  operating model.
 - Delegated administration is allowed:
   - users with designated admin roles can assign approved roles/permissions to
     other users
   - delegated assignment is bounded by role/permission guardrails
   - users cannot grant permissions above their own delegated authority
+- Runtime access model:
+  - roles and direct user permissions determine feature access
+  - future scope assignments and relationship-aware policies determine data
+    access boundaries
+  - dashboard widgets, landing surfaces, and navigation are composed from the
+    user's cumulative authorized capabilities after scope filtering
 - Role assignment windows are time-bound capable (effective start/end) using
   identity domain assignment models.
 - Enforcement baseline:
@@ -77,9 +97,12 @@ Notes:
 - Positive:
   - Uses mature Django-native authorization primitives.
   - Supports controlled extensibility for district-specific needs.
+  - Supports multi-role users without forcing hard persona-mode switching.
   - Aligns with principle of least privilege.
 - Tradeoffs:
   - Group/permission sprawl risk without governance.
+  - Requires careful separation of feature access, scope, and relationship
+    policies to avoid muddy authorization logic.
   - Requires clear auditability for role grants and revocations.
 
 ## Alternatives Considered
@@ -94,11 +117,22 @@ Notes:
 ## Follow-Up
 
 - Define and document seed-role permission matrix by product capability.
+- Add role metadata support so seeded and district-created roles can be managed
+  distinctly, including `is_system_managed` and related guardrails.
 - Define district custom-role guardrails (restricted permission sets).
+- Define which seeded-role properties are immutable versus district-editable,
+  especially role names/codes, deletion rules, and protected permissions.
+- Define policy and audit rules for direct user permission grants and revokes.
 - Define RBAC audit trail requirements for role grants/revocations.
+- Define the effective-permission resolution service used at login and request
+  time, including active assignment windows and direct user permissions.
+- Define the post-login no-access outcome and the capability-composition
+  contract for dashboard/navigation assembly.
 - Define support/admin break-glass workflow and logging requirements.
 - Open questions:
   - Finalize the non-delegable permission set and assignment guardrails.
+  - How should district-edited seeded roles behave when product upgrades add
+    new default permissions to those roles?
   - Do parent/guardian roles require object-level access constraints tied to
     student relationships at launch?
   - Future phase: should sandbox/training support explicit per-environment role
