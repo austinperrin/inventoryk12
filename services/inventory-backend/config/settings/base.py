@@ -68,6 +68,7 @@ INSTALLED_APPS = [
     "rest_framework_simplejwt.token_blacklist",
     "simple_history",
     # Project apps
+    "apps.academic.apps.AcademicConfig",
     "apps.common.apps.CommonConfig",
     "apps.contacts.apps.ContactsConfig",
     "apps.identity.apps.IdentityConfig",
