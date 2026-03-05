@@ -1,7 +1,7 @@
 # ADR 0010: Academic Domain Model
 
-- **Status**: Proposed
-- **Date**:
+- **Status**: Accepted
+- **Date**: 2026-03-04
 - **Owners**: Platform Team
 
 ## Context
@@ -66,10 +66,10 @@ that scope instructional, enrollment, and reporting behavior.
 
 ## Review Sign-off Checklist
 
-- [ ] Academic-time ownership confirmed
-- [ ] Calendar/term model confirmed
-- [ ] Cross-domain academic reference policy confirmed
-- [ ] Time-bound validation rules confirmed
+- [x] Academic-time ownership confirmed
+- [x] Calendar/term model confirmed
+- [x] Cross-domain academic reference policy confirmed
+- [x] Time-bound validation rules confirmed
 
 ## Related ADRs
 

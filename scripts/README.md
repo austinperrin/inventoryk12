@@ -104,6 +104,15 @@ The canonical startup, smoke-test, and troubleshooting flow is documented in
 
 ## Seed Commands
 
+- `pnpm seed:academic-code-tables`
+  - seeds baseline academic code-table values
+  - options:
+    - `-- --docker`
+    - `-- --dry-run`
+  - wrapper script:
+    - `scripts/seed/seed-academic-code-tables.sh`
+  - seed definitions live under `services/inventory-backend/apps/academic/seeds/`
+
 - `pnpm seed:contacts-code-tables`
   - seeds baseline contacts code-table values
   - options:

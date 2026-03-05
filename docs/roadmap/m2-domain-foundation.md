@@ -136,14 +136,14 @@ Implement the remaining foundation domains and validate cross-domain behavior.
 - [x] Replace organization `OrganizationAddress.address_id` placeholder field
   with a real foreign key when the locations-owned address model is
   implemented.
-- [ ] Keep baseline code-table seeds idempotent and domain-owned as additional
+- [x] Keep baseline code-table seeds idempotent and domain-owned as additional
   domains add shared code-table patterns.
 - [x] Implement contacts updates from ADR 0009.
 - [x] Add contacts `UserAddress` linkage during contacts implementation.
 - [x] Add contacts `StaffAssignment` organization/facility linkage during
   contacts implementation.
-- [ ] Implement academic updates from ADR 0010.
-- [ ] Add academic organization linkage during academic implementation for
+- [x] Implement academic updates from ADR 0010.
+- [x] Add academic organization linkage during academic implementation for
   `AcademicYear`, `AcademicCalendar`, and `AcademicTerm`.
 
 #### QA + Testing
