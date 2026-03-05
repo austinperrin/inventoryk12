@@ -3,7 +3,7 @@
 - Status: Not Started
 - Estimate: 4-6 weeks
 - Dependency: [Milestone 3: Access and Environment Controls](./m3-access-and-environment-controls.md) `Completed`
-- Related ADRs: [ADR 0013](../adr/0013-inventory-domain-model-v1.md), [ADR 0014](../adr/0014-operations-domain-model-v1.md)
+- Related ADRs: [ADR 0013](../adr/0013-inventory-domain-model-v1.md), [ADR 0014](../adr/0014-operations-domain-model-v1.md), [ADR 0015](../adr/0015-integrations-domain-model-v1.md)
 
 ## Owners
 
@@ -13,7 +13,8 @@
 
 ## Goal
 
-Deliver a working inventory MVP workflow (backend + frontend + QA).
+Deliver a working inventory MVP workflow (backend + frontend + integrations +
+QA).
 
 ## Milestone Pre-Checklist (Alignment + Drift Control)
 
@@ -75,14 +76,25 @@ Build the frontend MVP workflows that exercise the core backend slice end-to-end
 ### Development Checklist
 
 #### Frontend Engineering
-- [ ] Implement MVP inventory list/detail workflows.
-- [ ] Implement MVP assignment/custody workflows.
+- [ ] Implement inventory list workflow:
+  search, filtering, sorting, pagination, and loading/empty/error states.
+- [ ] Implement inventory detail workflow:
+  core metadata, location/assignee view, and timeline/history summary.
+- [ ] Implement assignment/custody workflow:
+  assign, transfer, return/unassign, and inline validation/error states.
+- [ ] Implement permission-aware UI states:
+  hide/disable guarded actions based on effective access.
+- [ ] Implement consistent UX baseline:
+  forms, toasts/alerts, skeleton states, and optimistic/pending action feedback.
+- [ ] Implement responsive behavior for core MVP screens (desktop + mobile).
 
 #### QA + Testing
-- [ ] Add frontend tests for core workflow behavior.
+- [ ] Add frontend component and integration tests for workflow behavior.
+- [ ] Add UI tests for failure/denial states and recovery behavior.
 
 #### Docs + Standards
-- [ ] Update workflow docs for implemented behavior.
+- [ ] Update workflow docs for implemented behavior and user-facing edge cases.
+- [ ] Publish API-to-UI dependency map for MVP workflow screens.
 
 ### Branch and PR Plan
 - Branches: `feat/m4-p2-inventory-ui-workflows`, `test/m4-p2-frontend-workflow-tests`
@@ -92,12 +104,46 @@ Build the frontend MVP workflows that exercise the core backend slice end-to-end
 - [ ] Product/frontend review complete.
 - [ ] UI behavior aligns with backend APIs.
 - [ ] Workflow docs and implementation stay aligned.
+- [ ] UX acceptance checks pass for core MVP user journeys.
 
 ### Exit Criteria
-- [ ] Frontend MVP workflows are functional and test-covered.
+- [ ] Frontend MVP workflows are functional, test-covered, and UX-reviewed.
 
 <a id="m4-phase-3"></a>
-## Phase 3: End-to-End QA Gate
+## Phase 3: Integrations MVP Baseline
+
+### Phase Goal
+Implement the MVP integration baseline so inventory workflows can exchange data
+with external systems in a controlled and auditable way.
+
+### Development Checklist
+
+#### Backend Engineering
+- [ ] Implement integrations updates from ADR 0015.
+- [ ] Implement integration connector and mapping baseline models/APIs.
+- [ ] Implement import/export run tracking and status/error reporting.
+- [ ] Implement baseline validation for unknown/unsafe external role mappings.
+
+#### QA + Testing
+- [ ] Add tests for integration mapping, import, export, and failure handling.
+
+#### Docs + Standards
+- [ ] Document connector setup assumptions and reconciliation guardrails.
+
+### Branch and PR Plan
+- Branch: `feat/m4-p3-integrations-mvp-baseline`
+- PR Target: `chore/m4-integration`
+
+### Review Checklist
+- [ ] API/domain review complete.
+- [ ] CI checks pass.
+- [ ] Integrations behavior aligns with ADR 0015.
+
+### Exit Criteria
+- [ ] Integrations baseline is functional, test-covered, and documented.
+
+<a id="m4-phase-4"></a>
+## Phase 4: End-to-End QA Gate
 
 ### Phase Goal
 Validate MVP readiness with full-scope QA and release checks.
@@ -115,7 +161,7 @@ Validate MVP readiness with full-scope QA and release checks.
 - [ ] Complete security sanity checks for MVP scope.
 
 ### Branch and PR Plan
-- Branch: `test/m4-p3-mvp-e2e-qa-gate`
+- Branch: `test/m4-p4-mvp-e2e-qa-gate`
 - PR Target: `chore/m4-integration`
 
 ### Review Checklist

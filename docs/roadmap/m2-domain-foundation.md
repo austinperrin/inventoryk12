@@ -1,9 +1,9 @@
 # Milestone 2: Domain Foundation
 
 - Status: In Progress
-- Estimate: 3-5 weeks
+- Estimate: 4-7 weeks
 - Dependency: [Milestone 1: Platform Baseline](./m1-platform-baseline.md) `Completed`
-- Related ADRs: [ADR 0004](../adr/0004-domain-boundaries-and-ownership.md), [ADR 0006](../adr/0006-identity-domain-model-v1.md), [ADR 0007](../adr/0007-organization-domain-model-v1.md), [ADR 0008](../adr/0008-locations-domain-model-v1.md), [ADR 0009](../adr/0009-contacts-domain-model-v1.md), [ADR 0010](../adr/0010-academic-domain-model-v1.md)
+- Related ADRs: [ADR 0004](../adr/0004-domain-boundaries-and-ownership.md), [ADR 0006](../adr/0006-identity-domain-model-v1.md), [ADR 0007](../adr/0007-organization-domain-model-v1.md), [ADR 0008](../adr/0008-locations-domain-model-v1.md), [ADR 0009](../adr/0009-contacts-domain-model-v1.md), [ADR 0010](../adr/0010-academic-domain-model-v1.md), [ADR 0011](../adr/0011-instruction-domain-model-v1.md), [ADR 0012](../adr/0012-enrollment-domain-model-v1.md)
 
 ## Owners
 
@@ -14,7 +14,8 @@
 ## Goal
 
 Implement and validate foundation domains with clean migration history and
-review gates.
+review gates, including all prerequisite domain foundations required before
+access-controls hardening.
 
 ## Milestone Pre-Checklist (Alignment + Drift Control)
 
@@ -29,10 +30,11 @@ review gates.
 ### Domain Order
 
 - Implementation order follows [ADR 0004](../adr/0004-domain-boundaries-and-ownership.md):
-  `identity -> organization -> locations -> contacts -> academic`.
+  `identity -> organization -> locations -> contacts -> academic -> instruction -> enrollment`.
 - Phase 1 covers `identity` then `organization`.
 - Phase 2 covers `locations`, `contacts`, then `academic`.
-- Phase 3 validates the combined migration graph and freezes domain shape for
+- Phase 3 covers `instruction` then `enrollment`.
+- Phase 4 validates the combined migration graph and freezes domain shape for
   later milestones.
 
 ### Branch and PR Plan
@@ -42,7 +44,9 @@ review gates.
   `feat/m2-p1-organization-domain`
 - Phase 2 branches: `feat/m2-p2-locations-domain`,
   `feat/m2-p2-contacts-domain`, `feat/m2-p2-academic-domain`
-- Phase 3 branch: `chore/m2-p3-domain-freeze-validation`
+- Phase 3 branches: `feat/m2-p3-instruction-domain`,
+  `feat/m2-p3-enrollment-domain`
+- Phase 4 branch: `chore/m2-p4-domain-freeze-validation`
 - All milestone 2 PRs target `chore/m2-integration` until milestone closeout.
 
 ### ADR Coverage
@@ -53,6 +57,8 @@ review gates.
 - Locations domain scope: [ADR 0008](../adr/0008-locations-domain-model-v1.md)
 - Contacts domain scope: [ADR 0009](../adr/0009-contacts-domain-model-v1.md)
 - Academic domain scope: [ADR 0010](../adr/0010-academic-domain-model-v1.md)
+- Instruction domain scope: [ADR 0011](../adr/0011-instruction-domain-model-v1.md)
+- Enrollment domain scope: [ADR 0012](../adr/0012-enrollment-domain-model-v1.md)
 
 ### Migration Review and Rollback Approach
 
@@ -67,7 +73,7 @@ review gates.
 - Use `pnpm ops:restore` for backup-based rollback when migration reversal is
   insufficient or unsafe.
 - Reserve final migration graph validation and reset-path confirmation for
-  `chore/m2-p3-domain-freeze-validation` before milestone closeout.
+  `chore/m2-p4-domain-freeze-validation` before milestone closeout.
 
 ## Execution Model
 
@@ -123,7 +129,8 @@ Implement identity and organization domains in a dependency-safe, migration-stab
 ## Phase 2: Locations, Contacts, Academic
 
 ### Phase Goal
-Implement the remaining foundation domains and validate cross-domain behavior.
+Implement the first remaining foundation-domain set and validate cross-domain
+behavior.
 
 ### Development Checklist
 
@@ -167,7 +174,46 @@ Implement the remaining foundation domains and validate cross-domain behavior.
 - [x] Domain trio is stable and test-covered.
 
 <a id="m2-phase-3"></a>
-## Phase 3: Domain Validation and Migration Freeze
+## Phase 3: Instruction and Enrollment Foundation
+
+### Phase Goal
+Implement the remaining prerequisite domain foundations (`instruction`,
+`enrollment`) before access-controls hardening starts in Milestone 3.
+
+### Development Checklist
+
+#### Backend Engineering
+- [ ] Implement instruction updates from ADR 0011.
+- [ ] Implement enrollment updates from ADR 0012.
+- [ ] Add instruction/enrollment cross-domain linkages to academic,
+  organization, locations, and identity.
+- [ ] Build and validate migration chain for instruction + enrollment.
+- [ ] Add and validate baseline code-table seed data for instruction and
+  enrollment.
+
+#### QA + Testing
+- [ ] Add constraint and lifecycle test coverage for instruction/enrollment.
+- [ ] Add regression tests for academic-instruction-enrollment interactions.
+
+#### Docs + Standards
+- [ ] Update docs for finalized instruction/enrollment model and migration
+  rules.
+- [ ] Confirm ADR 0011 and ADR 0012 match implementation.
+
+### Branch and PR Plan
+- Branches: `feat/m2-p3-instruction-domain`, `feat/m2-p3-enrollment-domain`
+- PR Target: `chore/m2-integration`
+
+### Review Checklist
+- [ ] Model boundary and migration review complete.
+- [ ] CI checks pass.
+- [ ] Cross-domain references remain consistent with ADRs.
+
+### Exit Criteria
+- [ ] Instruction and enrollment foundations are stable and test-covered.
+
+<a id="m2-phase-4"></a>
+## Phase 4: Domain Validation and Migration Freeze
 
 ### Phase Goal
 Finalize domain integrity checks and freeze migration shape before access and feature milestones.
@@ -184,7 +230,7 @@ Finalize domain integrity checks and freeze migration shape before access and fe
 - [ ] Close ADR gaps or create follow-up ADR tasks.
 
 ### Branch and PR Plan
-- Branch: `chore/m2-p3-domain-freeze-validation`
+- Branch: `chore/m2-p4-domain-freeze-validation`
 - PR Target: `chore/m2-integration`
 
 ### Review Checklist
