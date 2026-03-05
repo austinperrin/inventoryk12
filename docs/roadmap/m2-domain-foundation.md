@@ -147,24 +147,24 @@ Implement the remaining foundation domains and validate cross-domain behavior.
   `AcademicYear`, `AcademicCalendar`, and `AcademicTerm`.
 
 #### QA + Testing
-- [ ] Add regression tests for cross-domain constraints.
+- [x] Add regression tests for cross-domain constraints.
 
 #### Docs + Standards
-- [ ] Update docs for finalized cross-domain rules.
+- [x] Update docs for finalized cross-domain rules.
 
 ### Branch and PR Plan
 - Branches: `feat/m2-p2-locations-domain`, `feat/m2-p2-contacts-domain`, `feat/m2-p2-academic-domain`
 - PR Target: `chore/m2-integration`
 
 ### Review Checklist
-- [ ] Model boundary and migration review complete.
-- [ ] CI checks pass.
-- [ ] Cross-domain references remain consistent with ADRs.
-- [ ] Placeholder swaps inherited from identity and organization are completed
+- [x] Model boundary and migration review complete.
+- [x] CI checks pass.
+- [x] Cross-domain references remain consistent with ADRs.
+- [x] Placeholder swaps inherited from identity and organization are completed
   or explicitly re-tracked in the owning dependent domain.
 
 ### Exit Criteria
-- [ ] Domain trio is stable and test-covered.
+- [x] Domain trio is stable and test-covered.
 
 <a id="m2-phase-3"></a>
 ## Phase 3: Domain Validation and Migration Freeze
