@@ -78,7 +78,7 @@ if [ "$RUN_DOCKER" = "true" ]; then
   log_info "Seeding local auth user in Docker backend container"
   set -x
   docker compose -f "$COMPOSE_FILE" run --rm backend /bin/sh -c \
-    "python services/inventory-backend/manage.py shell -c \"from django.contrib.auth import get_user_model; User=get_user_model(); User.objects.filter(email='$EMAIL').delete(); User.objects.create_user(email='$EMAIL', password='$PASSWORD', first_name='$FIRST_NAME', last_name='$LAST_NAME')\""
+    "python services/inventory-backend/manage.py shell --no-imports -c \"from django.contrib.auth import get_user_model; User=get_user_model(); User.objects.filter(email='$EMAIL').delete(); User.objects.create_user(email='$EMAIL', password='$PASSWORD', first_name='$FIRST_NAME', last_name='$LAST_NAME')\""
   exit 0
 fi
 
@@ -88,5 +88,5 @@ require_file "$ROOT/services/inventory-backend/manage.py"
 log_info "Seeding local auth user with local Python"
 set -x
 cd "$ROOT"
-python services/inventory-backend/manage.py shell -c \
+python services/inventory-backend/manage.py shell --no-imports -c \
   "from django.contrib.auth import get_user_model; User=get_user_model(); User.objects.filter(email='$EMAIL').delete(); User.objects.create_user(email='$EMAIL', password='$PASSWORD', first_name='$FIRST_NAME', last_name='$LAST_NAME')"

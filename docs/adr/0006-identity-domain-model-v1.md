@@ -1,7 +1,7 @@
 # ADR 0006: Identity Domain Model
 
-- **Status**: Proposed
-- **Date**: 2026-02-28
+- **Status**: Accepted
+- **Date**: 2026-03-03
 - **Owners**: Platform Team
 
 ## Context
@@ -17,6 +17,9 @@ role assignment links, and identity metadata used across all other domains.
   defined by [ADR 0005](./0005-rbac-model-and-permission-enforcement.md).
 - Identity stores account/persona detail and demographics data needed for
   product behavior and policy enforcement.
+- Identity code tables should use canonical product-owned values first, even
+  when downstream interoperability/reporting standards such as OneRoster or
+  Texas TSDS/PEIMS need alternate codes.
 - Authentication eligibility behavior is derived from:
   - active user status
   - active role assignment windows
@@ -50,6 +53,9 @@ role assignment links, and identity metadata used across all other domains.
 - `PrefixCode` / `SuffixCode` / `GenderCode` / `RaceCode` / `EthnicityCode`
   - Required: `code`
   - Included: `label`, `description`, `sort_order`, `is_system_managed`, `is_active`
+  - Seed baseline: canonical product-owned values are seeded through the
+    identity domain management command and stored in per-model seed files under
+    `services/inventory-backend/apps/identity/seeds/`
 - `StudentDetail` / `StaffDetail` / `GuardianDetail`
   - Required: `user_id`
   - Included: `prefix_id`, `first_name`, `middle_name`, `last_name`, `suffix_id`, `date_of_birth`, `birth_country`, `birth_state`, `birth_city`, `local_id`
@@ -75,16 +81,29 @@ role assignment links, and identity metadata used across all other domains.
 
 ## Follow-Up
 
+- Swap identity placeholder fields `birth_country_id` and `birth_state_id` to
+  real foreign keys when the locations domain model is implemented.
+- Add `RoleAssignmentOrganization` when the organization domain model is
+  established on the phase-1 organization branch.
+- Add external code mapping support for identity code tables so canonical values
+  can map to standards such as OneRoster and Texas TSDS/PEIMS without making
+  the core identity tables jurisdiction-specific.
+- Revisit whether external-code mappings should live on the code tables
+  directly or in dedicated mapping tables once domain patterns across
+  organization, locations, contacts, and academic are established.
+- Decide whether later domains should follow the same per-model seed-file
+  structure used by identity or whether a shared domain-level seed convention
+  needs to be documented in standards.
 - Finalize non-delegable/system-level permission boundaries tied to assignments.
 - Confirm constraints for persona detail completeness by role/persona type.
 - Define lifecycle rules for lock records and reactivation flow.
 
 ## Review Sign-off Checklist
 
-- [ ] Identity ownership boundaries confirmed
-- [ ] Role assignment lifecycle confirmed
-- [ ] Persona/demographics scope confirmed
-- [ ] Cross-domain identity linking rules confirmed
+- [x] Identity ownership boundaries confirmed
+- [x] Role assignment lifecycle confirmed
+- [x] Persona/demographics scope confirmed
+- [x] Cross-domain identity linking rules confirmed
 
 ## Related ADRs
 

@@ -1,0 +1,1 @@
+"""Contacts management package."""

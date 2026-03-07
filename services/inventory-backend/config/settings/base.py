@@ -68,8 +68,14 @@ INSTALLED_APPS = [
     "rest_framework_simplejwt.token_blacklist",
     "simple_history",
     # Project apps
+    "apps.academic.apps.AcademicConfig",
     "apps.common.apps.CommonConfig",
+    "apps.contacts.apps.ContactsConfig",
+    "apps.enrollment.apps.EnrollmentConfig",
     "apps.identity.apps.IdentityConfig",
+    "apps.instruction.apps.InstructionConfig",
+    "apps.locations.apps.LocationsConfig",
+    "apps.organization.apps.OrganizationConfig",
 ]
 
 # Phase 2 auth plumbing uses the minimal identity-domain custom user model so

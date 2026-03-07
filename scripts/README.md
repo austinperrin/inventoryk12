@@ -7,6 +7,7 @@ Scripts are grouped by intent and should be safe, idempotent, and well-documente
 
 - `bootstrap/` initial setup and environment generation
 - `dev/` local developer workflows
+- `seed/` baseline application seed data workflows
 - `ci/` CI entry points
 - `release/` versioning and release steps
 - `ops/` operational tasks (migrations, backups, schema reset)
@@ -68,7 +69,6 @@ The canonical startup, smoke-test, and troubleshooting flow is documented in
     - `-- --password <password>`
     - `-- --first-name <name>`
     - `-- --last-name <name>`
-
 ## CI Entry Points
 
 - `pnpm ci:docs`
@@ -101,6 +101,88 @@ The canonical startup, smoke-test, and troubleshooting flow is documented in
     - `-- --docker`
 - `pnpm ops:backup -- --output <file>`
 - `pnpm ops:restore -- --input <file> --yes`
+
+## Seed Commands
+
+- `pnpm seed:code-tables`
+  - seeds code tables across domains in dependency order
+  - defaults to all supported domains:
+    - `identity, organization, locations, contacts, academic, instruction, enrollment`
+  - options:
+    - `-- --docker`
+    - `-- --dry-run`
+    - `-- --domain <name>` (repeatable)
+    - `-- --only <csv>`
+    - `-- --skip <csv>`
+    - `-- --continue-on-error`
+  - wrapper script:
+    - `scripts/seed/seed-code-tables.sh`
+
+- `pnpm seed:academic-code-tables`
+  - seeds baseline academic code-table values
+  - options:
+    - `-- --docker`
+    - `-- --dry-run`
+  - wrapper script:
+    - `scripts/seed/seed-academic-code-tables.sh`
+  - seed definitions live under `services/inventory-backend/apps/academic/seeds/`
+
+- `pnpm seed:contacts-code-tables`
+  - seeds baseline contacts code-table values
+  - options:
+    - `-- --docker`
+    - `-- --dry-run`
+  - wrapper script:
+    - `scripts/seed/seed-contacts-code-tables.sh`
+  - seed definitions live under `services/inventory-backend/apps/contacts/seeds/`
+
+- `pnpm seed:identity-code-tables`
+  - seeds baseline identity code-table values
+  - options:
+    - `-- --docker`
+    - `-- --dry-run`
+  - wrapper script:
+    - `scripts/seed/seed-identity-code-tables.sh`
+  - seed definitions live under `services/inventory-backend/apps/identity/seeds/`
+
+- `pnpm seed:organization-code-tables`
+  - seeds baseline organization code-table values
+  - options:
+    - `-- --docker`
+    - `-- --dry-run`
+  - wrapper script:
+    - `scripts/seed/seed-organization-code-tables.sh`
+  - seed definitions live under `services/inventory-backend/apps/organization/seeds/`
+
+- `pnpm seed:locations-code-tables`
+  - seeds baseline locations code-table values
+  - options:
+    - `-- --docker`
+    - `-- --dry-run`
+  - wrapper script:
+    - `scripts/seed/seed-locations-code-tables.sh`
+  - seed definitions live under `services/inventory-backend/apps/locations/seeds/`
+
+- `pnpm seed:instruction-code-tables`
+  - seeds baseline instruction code-table values
+  - options:
+    - `-- --docker`
+    - `-- --dry-run`
+  - wrapper script:
+    - `scripts/seed/seed-instruction-code-tables.sh`
+  - seed definitions live under `services/inventory-backend/apps/instruction/seeds/`
+
+- `pnpm seed:enrollment-code-tables`
+  - seeds baseline enrollment code-table values
+  - options:
+    - `-- --docker`
+    - `-- --dry-run`
+  - wrapper script:
+    - `scripts/seed/seed-enrollment-code-tables.sh`
+  - seed definitions live under `services/inventory-backend/apps/enrollment/seeds/`
+
+Note: domain-specific seed commands are thin wrappers around
+`seed-code-tables.sh --domain <name>`.
 
 ## Security
 

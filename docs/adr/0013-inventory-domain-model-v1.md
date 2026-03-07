@@ -1,7 +1,7 @@
 # ADR 0013: Inventory Domain Model
 
 - **Status**: Proposed
-- **Date**: 2026-02-28
+- **Date**:
 - **Owners**: Platform Team
 
 ## Context
@@ -20,11 +20,11 @@ state, assignment/custody lineage, and catalog metadata.
 
 ## Model and Field Breakdown
 
-- `AssetTypeCode` / `AssetStatusCode` / `AssetConditionCode` (planned)
+- `AssetCode` / `AssetStatusCode` / `AssetConditionCode` (planned)
   - Required: `code`
   - Included: `label`, `description`, `sort_order`, `is_system_managed`, `is_active`
 - `Asset` (planned)
-  - Required: `local_id`, `asset_tag`, `asset_type_code_id`, `status_code_id`
+  - Required: `local_id`, `asset_tag`, `asset_code_id`, `status_code_id`
   - Included: `serial_number`, `model`, `manufacturer`, `organization_id`, `facility_id`, `purchased_on`, `warranty_ends_on`, `notes`
 - `AssetAssignment` (planned)
   - Required: `asset_id`, `assignee_user_id|organization_id|facility_id`, `starts_at`
