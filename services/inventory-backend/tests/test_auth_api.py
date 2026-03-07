@@ -1,6 +1,12 @@
+from datetime import timedelta
+
 from django.conf import settings
 from django.contrib.auth import get_user_model
+from django.contrib.auth.models import Group, Permission
+from django.utils import timezone
 from rest_framework.test import APIClient
+
+from apps.identity.models import RoleAssignment
 
 User = get_user_model()
 API_PREFIX = f"{settings.APP_ENV_PATH_PREFIX}/api/v1"
@@ -50,6 +56,8 @@ def test_auth_login_sets_cookie_backed_tokens_and_me_uses_them(db) -> None:
 
     assert response.status_code == 200
     assert response.data["user"]["email"] == user.email
+    assert response.data["access"]["has_effective_access"] is False
+    assert response.data["access"]["access_outcome"] == "no_access"
     assert "ik12_access" in client.cookies
     assert "ik12_refresh" in client.cookies
     assert client.cookies["ik12_access"]["httponly"]
@@ -59,6 +67,8 @@ def test_auth_login_sets_cookie_backed_tokens_and_me_uses_them(db) -> None:
 
     assert me_response.status_code == 200
     assert me_response.data["user"]["email"] == user.email
+    assert me_response.data["access"]["has_effective_access"] is False
+    assert me_response.data["access"]["access_outcome"] == "no_access"
 
 
 def test_auth_refresh_rotates_refresh_token(db) -> None:
@@ -101,3 +111,101 @@ def test_auth_logout_clears_cookies_and_blacklists_refresh_token(db) -> None:
 
     refresh_response = client.post(f"{API_PREFIX}/auth/refresh/", {}, format="json")
     assert refresh_response.status_code == 401
+
+
+def test_auth_me_denies_guest_user() -> None:
+    client = APIClient(enforce_csrf_checks=True)
+
+    response = client.get(f"{API_PREFIX}/auth/me/")
+
+    assert response.status_code == 401
+
+
+def test_auth_login_reports_granted_access_from_active_role_assignment(db) -> None:
+    user = User.objects.create_user(
+        email="roles@example.com",
+        password="ChangeMe123!",
+    )
+    view_group_permission = Permission.objects.get(
+        content_type__app_label="auth",
+        codename="view_group",
+    )
+    role = Group.objects.create(name="district_admin")
+    role.permissions.add(view_group_permission)
+    today = timezone.localdate()
+    RoleAssignment.objects.create(
+        user=user,
+        role=role,
+        starts_on=today,
+    )
+    client = _csrf_client()
+
+    response = client.post(
+        f"{API_PREFIX}/auth/login/",
+        {"email": user.email, "password": "ChangeMe123!"},
+        format="json",
+    )
+
+    assert response.status_code == 200
+    assert response.data["access"]["has_effective_access"] is True
+    assert response.data["access"]["access_outcome"] == "granted"
+    assert "auth.view_group" in response.data["access"]["permissions"]
+
+
+def test_auth_session_reports_granted_access_from_direct_user_permission(db) -> None:
+    user = User.objects.create_user(
+        email="direct@example.com",
+        password="ChangeMe123!",
+    )
+    view_group_permission = Permission.objects.get(
+        content_type__app_label="auth",
+        codename="view_group",
+    )
+    user.user_permissions.add(view_group_permission)
+    client = _csrf_client()
+    client.post(
+        f"{API_PREFIX}/auth/login/",
+        {"email": user.email, "password": "ChangeMe123!"},
+        format="json",
+    )
+
+    session_response = client.get(f"{API_PREFIX}/auth/session/")
+
+    assert session_response.status_code == 200
+    assert session_response.data["authenticated"] is True
+    assert session_response.data["access"]["has_effective_access"] is True
+    assert session_response.data["access"]["access_outcome"] == "granted"
+    assert "auth.view_group" in session_response.data["access"]["permissions"]
+
+
+def test_auth_session_ignores_expired_role_assignments_for_access(db) -> None:
+    user = User.objects.create_user(
+        email="expired@example.com",
+        password="ChangeMe123!",
+    )
+    view_group_permission = Permission.objects.get(
+        content_type__app_label="auth",
+        codename="view_group",
+    )
+    role = Group.objects.create(name="teacher")
+    role.permissions.add(view_group_permission)
+    today = timezone.localdate()
+    RoleAssignment.objects.create(
+        user=user,
+        role=role,
+        starts_on=today - timedelta(days=2),
+        ends_on=today - timedelta(days=1),
+    )
+    client = _csrf_client()
+    client.post(
+        f"{API_PREFIX}/auth/login/",
+        {"email": user.email, "password": "ChangeMe123!"},
+        format="json",
+    )
+
+    session_response = client.get(f"{API_PREFIX}/auth/session/")
+
+    assert session_response.status_code == 200
+    assert session_response.data["authenticated"] is True
+    assert session_response.data["access"]["has_effective_access"] is False
+    assert session_response.data["access"]["access_outcome"] == "no_access"

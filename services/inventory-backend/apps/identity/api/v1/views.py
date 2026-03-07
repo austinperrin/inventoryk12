@@ -10,6 +10,8 @@ from rest_framework.views import APIView  # type: ignore[import-untyped]
 from rest_framework_simplejwt.serializers import TokenRefreshSerializer
 from rest_framework_simplejwt.tokens import RefreshToken
 
+from apps.identity.services import resolve_user_access
+
 from .serializers import LoginSerializer, UserSummarySerializer
 
 
@@ -69,7 +71,13 @@ class LoginView(APIView):  # type: ignore[misc]
         user = serializer.validated_data["user"]
 
         refresh = RefreshToken.for_user(user)
-        response = Response({"user": UserSummarySerializer(user).data}, status=status.HTTP_200_OK)
+        response = Response(
+            {
+                "user": UserSummarySerializer(user).data,
+                "access": resolve_user_access(user),
+            },
+            status=status.HTTP_200_OK,
+        )
         _set_auth_cookies(response, str(refresh.access_token), str(refresh))
         get_token(request)
         response["Cache-Control"] = "no-store"
@@ -143,7 +151,11 @@ class SessionView(APIView):  # type: ignore[misc]
     def get(self, request: Request) -> Response:
         if request.user.is_authenticated:
             return Response(
-                {"authenticated": True, "user": UserSummarySerializer(request.user).data}
+                {
+                    "authenticated": True,
+                    "user": UserSummarySerializer(request.user).data,
+                    "access": resolve_user_access(request.user),
+                }
             )
         return Response({"authenticated": False, "user": None})
 
@@ -153,4 +165,9 @@ class MeView(APIView):  # type: ignore[misc]
     permission_classes = [IsAuthenticated]
 
     def get(self, request: Request) -> Response:
-        return Response({"user": UserSummarySerializer(request.user).data})
+        return Response(
+            {
+                "user": UserSummarySerializer(request.user).data,
+                "access": resolve_user_access(request.user),
+            }
+        )
