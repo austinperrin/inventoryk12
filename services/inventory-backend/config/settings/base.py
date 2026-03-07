@@ -72,6 +72,7 @@ INSTALLED_APPS = [
     "apps.common.apps.CommonConfig",
     "apps.contacts.apps.ContactsConfig",
     "apps.identity.apps.IdentityConfig",
+    "apps.instruction.apps.InstructionConfig",
     "apps.locations.apps.LocationsConfig",
     "apps.organization.apps.OrganizationConfig",
 ]
