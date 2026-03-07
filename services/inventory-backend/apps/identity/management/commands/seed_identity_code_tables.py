@@ -47,7 +47,9 @@ class Command(BaseCommand):
                 transaction.set_rollback(True)
                 self.stdout.write(self.style.WARNING("Dry run complete; no changes written."))
 
-    def _seed_model(self, model, rows: Sequence[dict[str, object]], *, dry_run: bool) -> tuple[int, int]:
+    def _seed_model(
+        self, model, rows: Sequence[dict[str, object]], *, dry_run: bool
+    ) -> tuple[int, int]:
         created_count = 0
         updated_count = 0
 

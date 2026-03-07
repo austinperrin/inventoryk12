@@ -128,7 +128,9 @@ class FacilityLifecycle(BaseModel, AuditModel):
         verbose_name_plural = "Facility Lifecycles"
         ordering = ["facility_id", "starts_on"]
         indexes = [
-            models.Index(fields=["facility", "starts_on", "ends_on"], name="fac_lifecycle_window_idx"),
+            models.Index(
+                fields=["facility", "starts_on", "ends_on"], name="fac_lifecycle_window_idx"
+            ),
         ]
         constraints = [
             models.CheckConstraint(
@@ -169,7 +171,9 @@ class FacilityAddress(BaseModel, AuditModel):
         verbose_name = "Facility Address"
         verbose_name_plural = "Facility Addresses"
         indexes = [
-            models.Index(fields=["facility", "address_code", "is_primary"], name="fac_addr_primary_idx"),
+            models.Index(
+                fields=["facility", "address_code", "is_primary"], name="fac_addr_primary_idx"
+            ),
         ]
         constraints = [
             models.CheckConstraint(
@@ -209,8 +213,12 @@ class OrganizationFacility(BaseModel, AuditModel):
         verbose_name = "Organization Facility"
         verbose_name_plural = "Organization Facilities"
         indexes = [
-            models.Index(fields=["organization", "starts_on", "ends_on"], name="fac_org_link_org_win_idx"),
-            models.Index(fields=["facility", "starts_on", "ends_on"], name="fac_org_link_fac_win_idx"),
+            models.Index(
+                fields=["organization", "starts_on", "ends_on"], name="fac_org_link_org_win_idx"
+            ),
+            models.Index(
+                fields=["facility", "starts_on", "ends_on"], name="fac_org_link_fac_win_idx"
+            ),
         ]
         constraints = [
             models.CheckConstraint(
@@ -243,7 +251,9 @@ class FacilityAdditionalIdentifier(BaseModel, AuditModel):
         verbose_name = "Facility Additional Identifier"
         verbose_name_plural = "Facility Additional Identifiers"
         indexes = [
-            models.Index(fields=["facility", "system", "identifier_type"], name="fac_addid_lookup_idx"),
+            models.Index(
+                fields=["facility", "system", "identifier_type"], name="fac_addid_lookup_idx"
+            ),
             models.Index(fields=["identifier_value"], name="fac_addid_value_idx"),
         ]
         constraints = [

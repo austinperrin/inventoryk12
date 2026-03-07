@@ -6,9 +6,7 @@ from django.db import transaction
 from apps.academic.models import AcademicTermCode
 from apps.academic.seeds import ACADEMIC_TERM_CODE_SEEDS
 
-ACADEMIC_CODE_TABLE_SEEDS = (
-    ("AcademicTermCode", AcademicTermCode, ACADEMIC_TERM_CODE_SEEDS),
-)
+ACADEMIC_CODE_TABLE_SEEDS = (("AcademicTermCode", AcademicTermCode, ACADEMIC_TERM_CODE_SEEDS),)
 
 
 class Command(BaseCommand):

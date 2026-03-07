@@ -6,9 +6,7 @@ from django.db import transaction
 from apps.organization.models import OrganizationCode
 from apps.organization.seeds import ORGANIZATION_CODE_SEEDS
 
-ORGANIZATION_CODE_TABLE_SEEDS = (
-    ("OrganizationCode", OrganizationCode, ORGANIZATION_CODE_SEEDS),
-)
+ORGANIZATION_CODE_TABLE_SEEDS = (("OrganizationCode", OrganizationCode, ORGANIZATION_CODE_SEEDS),)
 
 
 class Command(BaseCommand):
@@ -37,7 +35,9 @@ class Command(BaseCommand):
                 transaction.set_rollback(True)
                 self.stdout.write(self.style.WARNING("Dry run complete; no changes written."))
 
-    def _seed_model(self, model, rows: Sequence[dict[str, object]], *, dry_run: bool) -> tuple[int, int]:
+    def _seed_model(
+        self, model, rows: Sequence[dict[str, object]], *, dry_run: bool
+    ) -> tuple[int, int]:
         created_count = 0
         updated_count = 0
 

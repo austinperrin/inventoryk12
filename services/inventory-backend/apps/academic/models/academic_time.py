@@ -204,8 +204,12 @@ class AcademicTerm(BaseModel, AuditModel):
         verbose_name_plural = "Academic Terms"
         ordering = ["academic_year_id", "starts_on", "id"]
         indexes = [
-            models.Index(fields=["academic_year", "starts_on", "ends_on"], name="acad_term_window_idx"),
-            models.Index(fields=["organization", "starts_on", "ends_on"], name="acad_term_org_win_idx"),
+            models.Index(
+                fields=["academic_year", "starts_on", "ends_on"], name="acad_term_window_idx"
+            ),
+            models.Index(
+                fields=["organization", "starts_on", "ends_on"], name="acad_term_org_win_idx"
+            ),
         ]
         constraints = [
             models.CheckConstraint(

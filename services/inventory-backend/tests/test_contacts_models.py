@@ -14,7 +14,14 @@ from apps.contacts.models import (
     StudentRelationship,
     UserAddress,
 )
-from apps.locations.models import Address, AddressCode, CountryCode, Facility, FacilityCode, StateCode
+from apps.locations.models import (
+    Address,
+    AddressCode,
+    CountryCode,
+    Facility,
+    FacilityCode,
+    StateCode,
+)
 from apps.organization.models import Organization, OrganizationCode
 
 User = get_user_model()

@@ -8,13 +8,7 @@ from .demographics import (
     StaffDemographics,
     StudentDemographics,
 )
-from .details import (
-    GuardianDetail,
-    PrefixCode,
-    StaffDetail,
-    StudentDetail,
-    SuffixCode,
-)
+from .details import GuardianDetail, PrefixCode, StaffDetail, StudentDetail, SuffixCode
 from .login_lock import RoleLoginLock, UserLoginLock
 from .profile import Profile
 from .role_assignment import RoleAssignment, RoleAssignmentOrganization

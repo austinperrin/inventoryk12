@@ -54,9 +54,7 @@ class PersonaDetailModel(BaseModel, AuditModel):
         related_name="%(class)s_birth_country_records",
         null=True,
         blank=True,
-        help_text=(
-            "Locations country reference for persona birth country."
-        ),
+        help_text=("Locations country reference for persona birth country."),
     )
     birth_state = models.ForeignKey(
         "locations.StateCode",
@@ -64,9 +62,7 @@ class PersonaDetailModel(BaseModel, AuditModel):
         related_name="%(class)s_birth_state_records",
         null=True,
         blank=True,
-        help_text=(
-            "Locations state reference for persona birth state."
-        ),
+        help_text=("Locations state reference for persona birth state."),
     )
     birth_city = models.CharField(max_length=100, blank=True)
 

@@ -14,8 +14,7 @@ class AddressValidationResult:
 class AddressValidationProvider(Protocol):
     provider_name: str
 
-    def validate(self, raw_address: str) -> AddressValidationResult:
-        ...
+    def validate(self, raw_address: str) -> AddressValidationResult: ...
 
 
 class InternalAddressValidationProvider:

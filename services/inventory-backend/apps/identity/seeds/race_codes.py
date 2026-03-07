@@ -1,6 +1,5 @@
 from collections.abc import Sequence
 
-
 CodeSeedRow = dict[str, object]
 
 

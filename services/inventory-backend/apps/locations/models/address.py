@@ -125,7 +125,9 @@ class AddressValidationRun(BaseModel, AuditModel):
     result_code = models.CharField(max_length=50, blank=True)
     result_message = models.CharField(max_length=255, blank=True)
     result_payload = models.JSONField(default=dict, blank=True)
-    external_cost_estimate = models.DecimalField(max_digits=10, decimal_places=4, null=True, blank=True)
+    external_cost_estimate = models.DecimalField(
+        max_digits=10, decimal_places=4, null=True, blank=True
+    )
     history = HistoricalRecords(
         excluded_fields=["created_at", "updated_at"],
         table_name="hist_locations_address_validation_run",

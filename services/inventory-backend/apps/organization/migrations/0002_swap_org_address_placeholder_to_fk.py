@@ -11,26 +11,6 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RenameField(
-            model_name="organizationaddress",
-            old_name="address_id",
-            new_name="address",
-        ),
-        migrations.RenameField(
-            model_name="organizationaddress",
-            old_name="address_type",
-            new_name="address_code",
-        ),
-        migrations.RenameField(
-            model_name="historicalorganizationaddress",
-            old_name="address_id",
-            new_name="address",
-        ),
-        migrations.RenameField(
-            model_name="historicalorganizationaddress",
-            old_name="address_type",
-            new_name="address_code",
-        ),
         migrations.RemoveConstraint(
             model_name="organizationaddress",
             name="organization_address_unique_link",
@@ -38,6 +18,26 @@ class Migration(migrations.Migration):
         migrations.RemoveIndex(
             model_name="organizationaddress",
             name="org_address_primary_idx",
+        ),
+        migrations.RenameField(
+            model_name="organizationaddress",
+            old_name="address_id",
+            new_name="address",
+        ),
+        migrations.RenameField(
+            model_name="organizationaddress",
+            old_name="address_type",
+            new_name="address_code",
+        ),
+        migrations.RenameField(
+            model_name="historicalorganizationaddress",
+            old_name="address_id",
+            new_name="address",
+        ),
+        migrations.RenameField(
+            model_name="historicalorganizationaddress",
+            old_name="address_type",
+            new_name="address_code",
         ),
         migrations.AlterField(
             model_name="organizationaddress",
