@@ -56,30 +56,21 @@ The environment path is config-driven:
    - `http://demoisd.localhost:5173/dev/login`
 3. Create a local auth test user if needed:
    - `pnpm dev:seed-auth-user -- --docker`
-4. Seed baseline identity code tables if needed:
-   - `pnpm seed:identity-code-tables -- --docker`
-   - current seed package: `services/inventory-backend/apps/identity/seeds/`
-5. Seed baseline organization code tables if needed:
-   - `pnpm seed:organization-code-tables -- --docker`
-   - current seed package: `services/inventory-backend/apps/organization/seeds/`
-6. Seed baseline locations code tables if needed:
-   - `pnpm seed:locations-code-tables -- --docker`
-   - current seed package: `services/inventory-backend/apps/locations/seeds/`
-7. Seed baseline contacts code tables if needed:
-   - `pnpm seed:contacts-code-tables -- --docker`
-   - current seed package: `services/inventory-backend/apps/contacts/seeds/`
-8. Seed baseline academic code tables if needed:
-   - `pnpm seed:academic-code-tables -- --docker`
-   - current seed package: `services/inventory-backend/apps/academic/seeds/`
-9. Sign in with:
+4. Seed baseline code tables if needed:
+   - `pnpm seed:code-tables -- --docker`
+   - optional targeted seeding:
+     - `pnpm seed:code-tables -- --docker --domain instruction`
+     - `pnpm seed:code-tables -- --docker --only identity,organization`
+   - domain wrappers remain available (for example, `pnpm seed:academic-code-tables -- --docker`)
+5. Sign in with:
    - email: `admin@example.com`
-    - password: `ChangeMe123!`
+   - password: `ChangeMe123!`
    - seeded name: `Demo Admin`
-10. Confirm:
+6. Confirm:
    - `/dev/login` redirects to `/dev`
    - header shows `Logout`
    - backend health link loads
-11. Confirm invalid in-app path returns 404:
+7. Confirm invalid in-app path returns 404:
    - `http://demoisd.localhost:5173/dev/invalid-path-example/`
 
 ## Reset
