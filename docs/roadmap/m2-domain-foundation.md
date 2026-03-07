@@ -212,6 +212,12 @@ Implement the remaining prerequisite domain foundations (`instruction`,
 ### Exit Criteria
 - [ ] Instruction and enrollment foundations are stable and test-covered.
 
+### Progress Notes
+- [x] Instruction scope implemented on `feat/m2-p3-instruction-domain`
+  (`apps/instruction` models, migrations, seed command, and validation tests).
+- [x] Instruction seed orchestration is wired through `pnpm seed:code-tables`.
+- [ ] Enrollment scope remains pending and is intentionally tracked separately.
+
 <a id="m2-phase-4"></a>
 ## Phase 4: Domain Validation and Migration Freeze
 
