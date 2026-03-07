@@ -4,6 +4,7 @@ import pytest
 from django.core.management import call_command
 
 from apps.instruction.models import GradeLevelCode, SubjectCode
+from apps.instruction.seeds import GRADE_LEVEL_CODE_SEEDS, SUBJECT_CODE_SEEDS
 
 
 @pytest.mark.django_db
@@ -17,6 +18,8 @@ def test_seed_instruction_code_tables_creates_expected_rows() -> None:
     assert "GradeLevelCode: created=" in output
     assert SubjectCode.objects.filter(code="math").exists()
     assert GradeLevelCode.objects.filter(code="kg").exists()
+    assert SubjectCode.objects.count() == len(SUBJECT_CODE_SEEDS)
+    assert GradeLevelCode.objects.count() == len(GRADE_LEVEL_CODE_SEEDS)
 
 
 @pytest.mark.django_db
@@ -35,6 +38,7 @@ def test_seed_instruction_code_tables_is_idempotent_and_updates_existing_rows() 
 
     math = SubjectCode.objects.get(code="math")
     assert math.label == "Mathematics"
+    assert math.description == "Core mathematics instruction and numeracy pathways."
     assert math.sort_order == 10
     assert math.is_system_managed is True
     assert math.is_active is True
