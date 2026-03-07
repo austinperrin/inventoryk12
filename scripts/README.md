@@ -104,6 +104,20 @@ The canonical startup, smoke-test, and troubleshooting flow is documented in
 
 ## Seed Commands
 
+- `pnpm seed:code-tables`
+  - seeds code tables across domains in dependency order
+  - defaults to all supported domains:
+    - `identity, organization, locations, contacts, academic, instruction`
+  - options:
+    - `-- --docker`
+    - `-- --dry-run`
+    - `-- --domain <name>` (repeatable)
+    - `-- --only <csv>`
+    - `-- --skip <csv>`
+    - `-- --continue-on-error`
+  - wrapper script:
+    - `scripts/seed/seed-code-tables.sh`
+
 - `pnpm seed:academic-code-tables`
   - seeds baseline academic code-table values
   - options:
@@ -148,6 +162,18 @@ The canonical startup, smoke-test, and troubleshooting flow is documented in
   - wrapper script:
     - `scripts/seed/seed-locations-code-tables.sh`
   - seed definitions live under `services/inventory-backend/apps/locations/seeds/`
+
+- `pnpm seed:instruction-code-tables`
+  - seeds baseline instruction code-table values
+  - options:
+    - `-- --docker`
+    - `-- --dry-run`
+  - wrapper script:
+    - `scripts/seed/seed-instruction-code-tables.sh`
+  - seed definitions live under `services/inventory-backend/apps/instruction/seeds/`
+
+Note: domain-specific seed commands are thin wrappers around
+`seed-code-tables.sh --domain <name>`.
 
 ## Security
 
