@@ -1,7 +1,7 @@
 # ADR 0016: High-Assurance Auth and Session Security Baseline
 
-- **Status**: Proposed
-- **Date**:
+- **Status**: Accepted
+- **Date**: 2026-03-07
 - **Owners**: Security + Compliance, Architecture
 
 ## Context
@@ -68,6 +68,18 @@ step-up authentication, session revocation, and security-event auditability.
   - frontend auth UX and re-authentication flows
   - infrastructure/edge configuration
   - QA/security validation and observability
+- Security review and test expectations are required for auth/session controls:
+  - verify deny-by-default enforcement on protected endpoints and privileged jobs
+  - verify delegated-assignment guardrails and non-delegable permission
+    boundaries
+  - verify auth/session hardening controls against this ADR
+  - verify auditability for auth/security and privileged-access changes
+  - maintain test coverage for:
+    - authorization denial behavior
+    - effective-permission resolution (multi-role, direct-user extension,
+      no-access outcomes)
+    - auth/session hardening (timeout, revocation, re-auth/step-up)
+    - login abuse and MFA (success, failure, recovery)
 - These controls will be scheduled primarily in:
   - Milestone 3 for application/runtime auth hardening
   - Milestone 5 for production validation, runbooks, evidence, and recovery
@@ -129,10 +141,10 @@ Not applicable.
 
 ## Review Sign-off Checklist
 
-- [ ] Architecture agrees the MVP security target is explicit enough to guide implementation.
-- [ ] Security + Compliance agrees the control list is sufficient for MVP planning.
-- [ ] Milestone 3 and Milestone 5 roadmap items reflect this ADR.
-- [ ] Follow-up decisions needed for timing, MFA policy, and operational evidence are tracked.
+- [x] Architecture agrees the MVP security target is explicit enough to guide implementation.
+- [x] Security + Compliance agrees the control list is sufficient for MVP planning.
+- [x] Milestone 3 and Milestone 5 roadmap items reflect this ADR.
+- [x] Follow-up decisions needed for timing, MFA policy, and operational evidence are tracked.
 
 ## Related
 

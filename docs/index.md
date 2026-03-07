@@ -12,6 +12,7 @@
   - [`docs/standards/testing.md`](./standards/testing.md)
   - [`docs/standards/api.md`](./standards/api.md)
   - [`docs/standards/security.md`](./standards/security.md)
+  - [`docs/standards/access-control.md`](./standards/access-control.md)
   - [`docs/standards/data.md`](./standards/data.md)
   - [`docs/standards/scripts.md`](./standards/scripts.md) scripting conventions
   - [`docs/standards/adr.md`](./standards/adr.md) ADR lifecycle and follow-up conventions
@@ -20,6 +21,7 @@
 - [`docs/runbooks/`](./runbooks/) operational runbooks
   - [`docs/runbooks/README.md`](./runbooks/README.md)
   - [`docs/runbooks/local-development.md`](./runbooks/local-development.md)
+  - [`docs/runbooks/access-control-security-review.md`](./runbooks/access-control-security-review.md)
 - [`docs/adr/`](./adr/) architecture decision records
   - [`docs/adr/README.md`](./adr/README.md)
   - [`docs/adr/0016-high-assurance-auth-and-session-security-baseline.md`](./adr/0016-high-assurance-auth-and-session-security-baseline.md)

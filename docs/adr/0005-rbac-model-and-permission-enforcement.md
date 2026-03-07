@@ -1,7 +1,7 @@
 # ADR 0005: RBAC Model and Permission Enforcement
 
-- **Status**: Proposed
-- **Date**: 2026-02-28
+- **Status**: Accepted
+- **Date**: 2026-03-07
 - **Owners**: Platform Team
 
 ## Context
@@ -44,6 +44,20 @@ control.
     access boundaries
   - dashboard widgets, landing surfaces, and navigation are composed from the
     user's cumulative authorized capabilities after scope filtering
+- Effective-permission resolution contract:
+  - effective permissions are the cumulative union of:
+    - active role assignments linked to Django Groups
+    - direct user permissions on the Django user record
+  - resolution is evaluated:
+    - at login/session establishment to determine access outcome
+    - at request time for protected endpoint authorization checks
+  - login outcomes:
+    - authenticated users with zero effective permissions route to a dedicated
+      no-access or access-pending experience
+    - authenticated users with effective permissions receive capability-composed
+      shell/navigation
+  - feature access composition uses the resolved capability set; data-scope
+    filtering remains a separate policy layer
 - Role assignment windows are time-bound capable (effective start/end) using
   identity domain assignment models.
 - Enforcement baseline:
@@ -124,10 +138,6 @@ Notes:
   especially role names/codes, deletion rules, and protected permissions.
 - Define policy and audit rules for direct user permission grants and revokes.
 - Define RBAC audit trail requirements for role grants/revocations.
-- Define the effective-permission resolution service used at login and request
-  time, including active assignment windows and direct user permissions.
-- Define the post-login no-access outcome and the capability-composition
-  contract for dashboard/navigation assembly.
 - Define support/admin break-glass workflow and logging requirements.
 - Open questions:
   - Finalize the non-delegable permission set and assignment guardrails.
@@ -140,10 +150,10 @@ Notes:
 
 ## Review Sign-off Checklist
 
-- [ ] Seed-role model confirmed
-- [ ] Custom-role policy confirmed
-- [ ] API enforcement baseline confirmed
-- [ ] Role assignment lifecycle policy confirmed
+- [x] Seed-role model confirmed
+- [x] Custom-role policy confirmed
+- [x] API enforcement baseline confirmed
+- [x] Role assignment lifecycle policy confirmed
 
 ## Related
 

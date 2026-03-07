@@ -1,6 +1,6 @@
 # Milestone 3: Access and Environment Controls
 
-- Status: Not Started
+- Status: In Progress
 - Estimate: 2-4 weeks
 - Dependency: [Milestone 2: Domain Foundation](./m2-domain-foundation.md) `Completed`
 - Related ADRs: [ADR 0002](../adr/0002-url-and-domain-topology.md), [ADR 0003](../adr/0003-non-prod-data-refresh-and-sanitization-policy.md), [ADR 0005](../adr/0005-rbac-model-and-permission-enforcement.md), [ADR 0016](../adr/0016-high-assurance-auth-and-session-security-baseline.md)
@@ -18,17 +18,22 @@ and non-prod refresh controls needed for safe tenant operations.
 
 ## Milestone Pre-Checklist (Alignment + Drift Control)
 
-- [ ] Permission model is aligned to ADR 0005.
-- [ ] Effective-permission resolution behavior is documented for:
+- [x] Permission model is aligned to ADR 0005.
+- [x] Effective-permission resolution behavior is documented for:
   - role-assigned permissions
   - direct user-permission extensions
   - no-effective-access login outcome
   - composed dashboard/navigation capability loading
-- [ ] URL topology decisions are aligned to ADR 0002.
-- [ ] Non-prod operational policy is aligned to ADR 0003.
-- [ ] High-assurance auth/session controls are aligned to ADR 0016.
-- [ ] Security review expectations and test scope are documented.
-- [ ] Roadmap status and owners are current.
+  - source: [ADR 0005](../adr/0005-rbac-model-and-permission-enforcement.md),
+    [Access Control Standards](../standards/access-control.md)
+- [x] URL topology decisions are aligned to ADR 0002.
+- [x] Non-prod operational policy is aligned to ADR 0003.
+- [x] High-assurance auth/session controls are aligned to ADR 0016.
+- [x] Security review expectations and test scope are documented.
+  - source: [ADR 0016](../adr/0016-high-assurance-auth-and-session-security-baseline.md),
+    [Access Control Standards](../standards/access-control.md),
+    [Access Control Security Review Runbook](../runbooks/access-control-security-review.md)
+- [x] Roadmap status and owners are current.
 
 ## Execution Model
 
