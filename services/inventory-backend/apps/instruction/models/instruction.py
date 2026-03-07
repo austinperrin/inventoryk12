@@ -1,3 +1,5 @@
+from django.conf import settings
+from django.core.exceptions import ValidationError
 from django.db import models
 from django.db.models import Q
 from simple_history.models import HistoricalRecords
@@ -165,6 +167,32 @@ class Section(BaseModel, AuditModel):
     def __str__(self) -> str:
         return self.section_code
 
+    def clean(self) -> None:
+        super().clean()
+        if not self.academic_term:
+            return
+
+        term_starts_on = self.academic_term.starts_on
+        term_ends_on = self.academic_term.ends_on
+
+        if self.starts_on and self.starts_on < term_starts_on:
+            raise ValidationError(
+                {
+                    "starts_on": (
+                        "Section start date must be on or after the academic term start date."
+                    )
+                }
+            )
+
+        if self.ends_on and self.ends_on > term_ends_on:
+            raise ValidationError(
+                {"ends_on": "Section end date must be on or before the academic term end date."}
+            )
+
+    def save(self, *args, **kwargs) -> None:
+        self.full_clean()
+        super().save(*args, **kwargs)
+
 
 class SectionAdditionalIdentifier(BaseModel, AuditModel):
     section = models.ForeignKey(
@@ -304,3 +332,77 @@ class SectionMeetingPattern(BaseModel, AuditModel):
                 name="ins_meeting_valid_date_win",
             ),
         ]
+
+    def clean(self) -> None:
+        super().clean()
+        if self.section:
+            if (
+                self.starts_on
+                and self.section.starts_on
+                and self.starts_on < self.section.starts_on
+            ):
+                raise ValidationError(
+                    {
+                        "starts_on": (
+                            "Meeting pattern start date must be on or after the section start date."
+                        )
+                    }
+                )
+            if self.ends_on and self.section.ends_on and self.ends_on > self.section.ends_on:
+                raise ValidationError(
+                    {
+                        "ends_on": "Meeting pattern end date must be on or before the section end date."
+                    }
+                )
+
+        if self.location_facility:
+            self._validate_schedulable_location(self.location_facility)
+
+    def _validate_schedulable_location(self, facility) -> None:
+        allowed_codes = tuple(
+            getattr(
+                settings,
+                "INSTRUCTION_SCHEDULABLE_FACILITY_CODES",
+                ("room", "lab", "field", "gym", "court", "auditorium", "cafeteria", "library"),
+            )
+        )
+        root_codes = tuple(
+            getattr(settings, "INSTRUCTION_FACILITY_ROOT_CODES", ("campus", "school", "district"))
+        )
+
+        facility_code = facility.facility_code.code
+        if facility_code not in allowed_codes:
+            raise ValidationError(
+                {
+                    "location_facility": (
+                        "Meeting pattern location must use a schedulable facility code."
+                    )
+                }
+            )
+
+        seen_ids: set[int] = set()
+        cursor = facility
+        has_required_root = False
+        while cursor is not None:
+            if cursor.id in seen_ids:
+                raise ValidationError(
+                    {"location_facility": "Facility hierarchy cannot contain cycles."}
+                )
+            seen_ids.add(cursor.id)
+            code = cursor.facility_code.code
+            if code in root_codes:
+                has_required_root = True
+            cursor = cursor.parent
+
+        if not has_required_root:
+            raise ValidationError(
+                {
+                    "location_facility": (
+                        "Meeting pattern location must belong to a campus/school reporting hierarchy."
+                    )
+                }
+            )
+
+    def save(self, *args, **kwargs) -> None:
+        self.full_clean()
+        super().save(*args, **kwargs)

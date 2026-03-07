@@ -2,6 +2,7 @@ from datetime import date, time
 from itertools import count
 
 import pytest
+from django.core.exceptions import ValidationError
 from django.db import IntegrityError
 
 from apps.academic.models import AcademicTerm, AcademicTermCode, AcademicYear
@@ -145,9 +146,8 @@ def _section(**overrides):
 
 
 def _facility_code(**overrides):
-    n = next(_SEQ)
     data = {
-        "code": f"room_{n}",
+        "code": "room",
         "label": "Room",
         "sort_order": 10,
     }
@@ -167,6 +167,28 @@ def _facility(**overrides):
     return Facility.objects.create(**data)
 
 
+def _meeting_location_hierarchy():
+    campus_code = _facility_code(code="campus", label="Campus")
+    building_code = _facility_code(code="building", label="Building")
+    room_code = _facility_code(code="room", label="Room")
+    campus = _facility(
+        facility_code=campus_code, local_id=f"campus-{next(_SEQ)}", name="Demo Campus"
+    )
+    building = _facility(
+        facility_code=building_code,
+        parent=campus,
+        local_id=f"building-{next(_SEQ)}",
+        name="Main Building",
+    )
+    room = _facility(
+        facility_code=room_code,
+        parent=building,
+        local_id=f"room-{next(_SEQ)}",
+        name="Room 101",
+    )
+    return campus, building, room
+
+
 @pytest.mark.django_db(transaction=True)
 def test_course_is_unique_per_org_and_code() -> None:
     organization = _organization()
@@ -182,7 +204,7 @@ def test_course_is_unique_per_org_and_code() -> None:
         grade_high_code=grade_high_code,
     )
 
-    with pytest.raises(IntegrityError):
+    with pytest.raises((ValidationError, IntegrityError)):
         Course.objects.create(
             organization=organization,
             course_code="ALG-1",
@@ -195,7 +217,7 @@ def test_course_is_unique_per_org_and_code() -> None:
 def test_section_requires_valid_window_and_unique_scope() -> None:
     section = _section()
 
-    with pytest.raises(IntegrityError):
+    with pytest.raises((ValidationError, IntegrityError)):
         Section.objects.create(
             course=section.course,
             organization=section.organization,
@@ -203,7 +225,7 @@ def test_section_requires_valid_window_and_unique_scope() -> None:
             section_code=section.section_code,
         )
 
-    with pytest.raises(IntegrityError):
+    with pytest.raises((ValidationError, IntegrityError)):
         Section.objects.create(
             course=section.course,
             organization=section.organization,
@@ -211,6 +233,16 @@ def test_section_requires_valid_window_and_unique_scope() -> None:
             section_code="A-102",
             starts_on=date(2025, 12, 20),
             ends_on=date(2025, 8, 1),
+        )
+
+    with pytest.raises(ValidationError):
+        Section.objects.create(
+            course=section.course,
+            organization=section.organization,
+            academic_term=section.academic_term,
+            section_code="A-200",
+            starts_on=date(2025, 7, 31),
+            ends_on=date(2025, 10, 1),
         )
 
 
@@ -231,7 +263,7 @@ def test_additional_identifier_models_enforce_uniqueness_and_windows() -> None:
         identifier_value="S-100",
     )
 
-    with pytest.raises(IntegrityError):
+    with pytest.raises((ValidationError, IntegrityError)):
         CourseAdditionalIdentifier.objects.create(
             course=course,
             system="sis",
@@ -239,7 +271,7 @@ def test_additional_identifier_models_enforce_uniqueness_and_windows() -> None:
             identifier_value="C-100",
         )
 
-    with pytest.raises(IntegrityError):
+    with pytest.raises((ValidationError, IntegrityError)):
         SectionAdditionalIdentifier.objects.create(
             section=section,
             system="sis",
@@ -247,7 +279,7 @@ def test_additional_identifier_models_enforce_uniqueness_and_windows() -> None:
             identifier_value="S-100",
         )
 
-    with pytest.raises(IntegrityError):
+    with pytest.raises((ValidationError, IntegrityError)):
         SectionAdditionalIdentifier.objects.create(
             section=section,
             system="sis",
@@ -269,9 +301,9 @@ def test_period_and_meeting_pattern_enforce_time_and_date_windows() -> None:
         ends_at=time(9, 0),
     )
     section = _section(organization=organization)
-    facility = _facility()
+    _, _, room = _meeting_location_hierarchy()
 
-    with pytest.raises(IntegrityError):
+    with pytest.raises((ValidationError, IntegrityError)):
         Period.objects.create(
             organization=organization,
             period_code="P01",
@@ -280,7 +312,7 @@ def test_period_and_meeting_pattern_enforce_time_and_date_windows() -> None:
             ends_at=time(10, 0),
         )
 
-    with pytest.raises(IntegrityError):
+    with pytest.raises((ValidationError, IntegrityError)):
         Period.objects.create(
             organization=organization,
             period_code="P02",
@@ -292,13 +324,13 @@ def test_period_and_meeting_pattern_enforce_time_and_date_windows() -> None:
     SectionMeetingPattern.objects.create(
         section=section,
         period=period,
-        location_facility=facility,
+        location_facility=room,
         day_of_week=1,
         starts_at=time(8, 0),
         ends_at=time(9, 0),
     )
 
-    with pytest.raises(IntegrityError):
+    with pytest.raises((ValidationError, IntegrityError)):
         SectionMeetingPattern.objects.create(
             section=section,
             day_of_week=0,
@@ -306,7 +338,7 @@ def test_period_and_meeting_pattern_enforce_time_and_date_windows() -> None:
             ends_at=time(9, 0),
         )
 
-    with pytest.raises(IntegrityError):
+    with pytest.raises((ValidationError, IntegrityError)):
         SectionMeetingPattern.objects.create(
             section=section,
             day_of_week=2,
@@ -314,7 +346,7 @@ def test_period_and_meeting_pattern_enforce_time_and_date_windows() -> None:
             ends_at=time(8, 0),
         )
 
-    with pytest.raises(IntegrityError):
+    with pytest.raises((ValidationError, IntegrityError)):
         SectionMeetingPattern.objects.create(
             section=section,
             day_of_week=2,
@@ -322,4 +354,63 @@ def test_period_and_meeting_pattern_enforce_time_and_date_windows() -> None:
             ends_at=time(9, 0),
             starts_on=date(2025, 9, 2),
             ends_on=date(2025, 9, 1),
+        )
+
+
+@pytest.mark.django_db
+def test_meeting_pattern_requires_schedulable_location_and_root_chain() -> None:
+    section = _section()
+    period = Period.objects.create(
+        organization=section.organization,
+        period_code=f"P{next(_SEQ)}",
+        label="Period",
+        starts_at=time(8, 0),
+        ends_at=time(9, 0),
+    )
+    warehouse_code = _facility_code(code="warehouse", label="Warehouse")
+    warehouse = _facility(facility_code=warehouse_code, local_id=f"warehouse-{next(_SEQ)}")
+
+    with pytest.raises(ValidationError):
+        SectionMeetingPattern.objects.create(
+            section=section,
+            period=period,
+            location_facility=warehouse,
+            day_of_week=1,
+            starts_at=time(8, 0),
+            ends_at=time(9, 0),
+        )
+
+
+@pytest.mark.django_db
+def test_meeting_pattern_requires_dates_within_section_window() -> None:
+    section = _section(starts_on=date(2025, 8, 15), ends_on=date(2025, 12, 18))
+    period = Period.objects.create(
+        organization=section.organization,
+        period_code=f"P{next(_SEQ)}",
+        label="Period",
+        starts_at=time(8, 0),
+        ends_at=time(9, 0),
+    )
+    _, _, room = _meeting_location_hierarchy()
+
+    with pytest.raises(ValidationError):
+        SectionMeetingPattern.objects.create(
+            section=section,
+            period=period,
+            location_facility=room,
+            day_of_week=1,
+            starts_at=time(8, 0),
+            ends_at=time(9, 0),
+            starts_on=date(2025, 8, 1),
+        )
+
+    with pytest.raises(ValidationError):
+        SectionMeetingPattern.objects.create(
+            section=section,
+            period=period,
+            location_facility=room,
+            day_of_week=2,
+            starts_at=time(8, 0),
+            ends_at=time(9, 0),
+            ends_on=date(2025, 12, 19),
         )

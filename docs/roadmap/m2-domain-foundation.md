@@ -183,7 +183,7 @@ Implement the remaining prerequisite domain foundations (`instruction`,
 ### Development Checklist
 
 #### Backend Engineering
-- [ ] Implement instruction updates from ADR 0011.
+- [x] Implement instruction updates from ADR 0011.
 - [ ] Implement enrollment updates from ADR 0012.
 - [ ] Add instruction/enrollment cross-domain linkages to academic,
   organization, locations, and identity.
