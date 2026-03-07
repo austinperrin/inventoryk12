@@ -107,7 +107,7 @@ The canonical startup, smoke-test, and troubleshooting flow is documented in
 - `pnpm seed:code-tables`
   - seeds code tables across domains in dependency order
   - defaults to all supported domains:
-    - `identity, organization, locations, contacts, academic, instruction`
+    - `identity, organization, locations, contacts, academic, instruction, enrollment`
   - options:
     - `-- --docker`
     - `-- --dry-run`
@@ -171,6 +171,15 @@ The canonical startup, smoke-test, and troubleshooting flow is documented in
   - wrapper script:
     - `scripts/seed/seed-instruction-code-tables.sh`
   - seed definitions live under `services/inventory-backend/apps/instruction/seeds/`
+
+- `pnpm seed:enrollment-code-tables`
+  - seeds baseline enrollment code-table values
+  - options:
+    - `-- --docker`
+    - `-- --dry-run`
+  - wrapper script:
+    - `scripts/seed/seed-enrollment-code-tables.sh`
+  - seed definitions live under `services/inventory-backend/apps/enrollment/seeds/`
 
 Note: domain-specific seed commands are thin wrappers around
 `seed-code-tables.sh --domain <name>`.

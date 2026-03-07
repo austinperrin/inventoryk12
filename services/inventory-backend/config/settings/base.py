@@ -71,6 +71,7 @@ INSTALLED_APPS = [
     "apps.academic.apps.AcademicConfig",
     "apps.common.apps.CommonConfig",
     "apps.contacts.apps.ContactsConfig",
+    "apps.enrollment.apps.EnrollmentConfig",
     "apps.identity.apps.IdentityConfig",
     "apps.instruction.apps.InstructionConfig",
     "apps.locations.apps.LocationsConfig",
