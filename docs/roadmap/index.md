@@ -52,11 +52,11 @@ consistent.
 |  | [Phase 1: Backend/Frontend Skeleton](./m1-platform-baseline.md#m1-phase-1) | 4-6 days | 2026-03-16 | 2026-03-20 | 2026-03-03 | 2026-03-03 | Completed Early | <span style="color: green;">Completed</span> |
 |  | [Phase 2: Auth and Core Runtime Plumbing](./m1-platform-baseline.md#m1-phase-2) | 4-6 days | 2026-03-23 | 2026-03-27 | 2026-03-03 | 2026-03-03 | Completed Early | <span style="color: green;">Completed</span> |
 |  | [Phase 3: Local Dev + Ops Baseline](./m1-platform-baseline.md#m1-phase-3) | 3-5 days | 2026-03-30 | 2026-04-03 | 2026-03-03 | 2026-03-03 | Completed Early | <span style="color: green;">Completed</span> |
-| [Milestone 2: Domain Foundation](./m2-domain-foundation.md) |  | 4-7 weeks | 2026-04-06 | 2026-05-22 | 2026-03-03 | TBD | Started Early | <span style="color: #ca8a04;">In Progress</span> |
+| [Milestone 2: Domain Foundation](./m2-domain-foundation.md) |  | 4-7 weeks | 2026-04-06 | 2026-05-22 | 2026-03-03 | 2026-03-07 | Completed Early | <span style="color: green;">Completed</span> |
 |  | [Phase 1: Identity and Organization](./m2-domain-foundation.md#m2-phase-1) | 1-2 weeks | 2026-04-06 | 2026-04-17 | 2026-03-03 | 2026-03-04 | Completed Early | <span style="color: green;">Completed</span> |
 |  | [Phase 2: Locations, Contacts, Academic](./m2-domain-foundation.md#m2-phase-2) | 1-2 weeks | 2026-04-20 | 2026-05-01 | 2026-03-04 | 2026-03-05 | Completed Early | <span style="color: green;">Completed</span> |
-|  | [Phase 3: Instruction and Enrollment Foundation](./m2-domain-foundation.md#m2-phase-3) | 1-2 weeks | 2026-05-04 | 2026-05-15 | 2026-03-05 | TBD | Started Early | <span style="color: #ca8a04;">In Progress</span> |
-|  | [Phase 4: Domain Validation and Migration Freeze](./m2-domain-foundation.md#m2-phase-4) | 4-6 days | 2026-05-18 | 2026-05-22 | TBD | TBD | TBD | <span style="color: #b91c1c;">Not Started</span> |
+|  | [Phase 3: Instruction and Enrollment Foundation](./m2-domain-foundation.md#m2-phase-3) | 1-2 weeks | 2026-05-04 | 2026-05-15 | 2026-03-05 | 2026-03-07 | Completed Early | <span style="color: green;">Completed</span> |
+|  | [Phase 4: Domain Validation and Migration Freeze](./m2-domain-foundation.md#m2-phase-4) | 4-6 days | 2026-05-18 | 2026-05-22 | 2026-03-07 | 2026-03-07 | Completed Early | <span style="color: green;">Completed</span> |
 | [Milestone 3: Access and Environment Controls](./m3-access-and-environment-controls.md) |  | 2-4 weeks | 2026-05-25 | 2026-06-19 | TBD | TBD | TBD | <span style="color: #b91c1c;">Not Started</span> |
 |  | [Phase 1: RBAC and Auth Hardening](./m3-access-and-environment-controls.md#m3-phase-1) | 1-2 weeks | 2026-05-25 | 2026-06-05 | TBD | TBD | TBD | <span style="color: #b91c1c;">Not Started</span> |
 |  | [Phase 2: URL/Topology Routing Baseline](./m3-access-and-environment-controls.md#m3-phase-2) | 4-6 days | 2026-06-08 | 2026-06-12 | TBD | TBD | TBD | <span style="color: #b91c1c;">Not Started</span> |

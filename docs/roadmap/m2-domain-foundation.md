@@ -1,6 +1,6 @@
 # Milestone 2: Domain Foundation
 
-- Status: In Progress
+- Status: Completed
 - Estimate: 4-7 weeks
 - Dependency: [Milestone 1: Platform Baseline](./m1-platform-baseline.md) `Completed`
 - Related ADRs: [ADR 0004](../adr/0004-domain-boundaries-and-ownership.md), [ADR 0006](../adr/0006-identity-domain-model-v1.md), [ADR 0007](../adr/0007-organization-domain-model-v1.md), [ADR 0008](../adr/0008-locations-domain-model-v1.md), [ADR 0009](../adr/0009-contacts-domain-model-v1.md), [ADR 0010](../adr/0010-academic-domain-model-v1.md), [ADR 0011](../adr/0011-instruction-domain-model-v1.md), [ADR 0012](../adr/0012-enrollment-domain-model-v1.md)
@@ -205,12 +205,12 @@ Implement the remaining prerequisite domain foundations (`instruction`,
 - PR Target: `chore/m2-integration`
 
 ### Review Checklist
-- [ ] Model boundary and migration review complete.
-- [ ] CI checks pass.
-- [ ] Cross-domain references remain consistent with ADRs.
+- [x] Model boundary and migration review complete.
+- [x] CI checks pass.
+- [x] Cross-domain references remain consistent with ADRs.
 
 ### Exit Criteria
-- [ ] Instruction and enrollment foundations are stable and test-covered.
+- [x] Instruction and enrollment foundations are stable and test-covered.
 
 ### Progress Notes
 - [x] Instruction scope implemented on `feat/m2-p3-instruction-domain`
@@ -228,33 +228,33 @@ Finalize domain integrity checks and freeze migration shape before access and fe
 ### Development Checklist
 
 #### Backend Engineering
-- [ ] Validate migration graph and reset path.
+- [x] Validate migration graph and reset path.
 
 #### QA + Testing
-- [ ] Finalize domain-level test pass.
+- [x] Finalize domain-level test pass.
 
 #### Architecture
-- [ ] Close ADR gaps or create follow-up ADR tasks.
+- [x] Close ADR gaps or create follow-up ADR tasks.
 
 ### Branch and PR Plan
 - Branch: `chore/m2-p4-domain-freeze-validation`
 - PR Target: `chore/m2-integration`
 
 ### Review Checklist
-- [ ] QA validation complete.
-- [ ] Architecture sign-off complete.
-- [ ] Milestone readiness for next dependency is confirmed.
+- [x] QA validation complete.
+- [x] Architecture sign-off complete.
+- [x] Milestone readiness for next dependency is confirmed.
 
 ### Exit Criteria
-- [ ] Domain baseline is frozen for MVP feature work.
+- [x] Domain baseline is frozen for MVP feature work.
 
 ## Milestone Review Checklist
 
-- [ ] All phase exit criteria are complete.
-- [ ] Milestone artifacts match roadmap index status.
-- [ ] Standards, ADR references, and docs remain consistent.
-- [ ] `chore/m2-integration` is merged to `main`.
-- [ ] Milestone status set to `Completed`.
+- [x] All phase exit criteria are complete.
+- [x] Milestone artifacts match roadmap index status.
+- [x] Standards, ADR references, and docs remain consistent.
+- [x] `chore/m2-integration` is merged to `main`.
+- [x] Milestone status set to `Completed`.
 
 ## Next Steps
 
