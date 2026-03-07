@@ -17,7 +17,7 @@ Options:
   -h, --help            Show this help message
 
 Supported domains:
-  identity, organization, locations, contacts, academic, instruction
+  identity, organization, locations, contacts, academic, instruction, enrollment
 USAGE
 }
 
@@ -32,7 +32,7 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 ROOT="$(repo_root)"
 COMPOSE_FILE="$ROOT/infra/docker/docker-compose.dev.yml"
 
-declare -a DOMAINS=(identity organization locations contacts academic instruction)
+declare -a DOMAINS=(identity organization locations contacts academic instruction enrollment)
 
 seed_command_for_domain() {
   case "$1" in
@@ -42,6 +42,7 @@ seed_command_for_domain() {
     contacts) echo "seed_contacts_code_tables" ;;
     academic) echo "seed_academic_code_tables" ;;
     instruction) echo "seed_instruction_code_tables" ;;
+    enrollment) echo "seed_enrollment_code_tables" ;;
     *)
       log_error "Unsupported domain: $1"
       exit 1

@@ -24,6 +24,7 @@
     "seed:code-tables": "bash scripts/seed/seed-code-tables.sh",
     "seed:academic-code-tables": "bash scripts/seed/seed-academic-code-tables.sh",
     "seed:contacts-code-tables": "bash scripts/seed/seed-contacts-code-tables.sh",
+    "seed:enrollment-code-tables": "bash scripts/seed/seed-enrollment-code-tables.sh",
     "seed:identity-code-tables": "bash scripts/seed/seed-identity-code-tables.sh",
     "seed:instruction-code-tables": "bash scripts/seed/seed-instruction-code-tables.sh",
     "seed:locations-code-tables": "bash scripts/seed/seed-locations-code-tables.sh",
