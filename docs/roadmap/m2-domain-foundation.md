@@ -184,21 +184,21 @@ Implement the remaining prerequisite domain foundations (`instruction`,
 
 #### Backend Engineering
 - [x] Implement instruction updates from ADR 0011.
-- [ ] Implement enrollment updates from ADR 0012.
-- [ ] Add instruction/enrollment cross-domain linkages to academic,
+- [x] Implement enrollment updates from ADR 0012.
+- [x] Add instruction/enrollment cross-domain linkages to academic,
   organization, locations, and identity.
-- [ ] Build and validate migration chain for instruction + enrollment.
-- [ ] Add and validate baseline code-table seed data for instruction and
+- [x] Build and validate migration chain for instruction + enrollment.
+- [x] Add and validate baseline code-table seed data for instruction and
   enrollment.
 
 #### QA + Testing
-- [ ] Add constraint and lifecycle test coverage for instruction/enrollment.
-- [ ] Add regression tests for academic-instruction-enrollment interactions.
+- [x] Add constraint and lifecycle test coverage for instruction/enrollment.
+- [x] Add regression tests for academic-instruction-enrollment interactions.
 
 #### Docs + Standards
-- [ ] Update docs for finalized instruction/enrollment model and migration
+- [x] Update docs for finalized instruction/enrollment model and migration
   rules.
-- [ ] Confirm ADR 0011 and ADR 0012 match implementation.
+- [x] Confirm ADR 0011 and ADR 0012 match implementation.
 
 ### Branch and PR Plan
 - Branches: `feat/m2-p3-instruction-domain`, `feat/m2-p3-enrollment-domain`
@@ -216,7 +216,8 @@ Implement the remaining prerequisite domain foundations (`instruction`,
 - [x] Instruction scope implemented on `feat/m2-p3-instruction-domain`
   (`apps/instruction` models, migrations, seed command, and validation tests).
 - [x] Instruction seed orchestration is wired through `pnpm seed:code-tables`.
-- [ ] Enrollment scope remains pending and is intentionally tracked separately.
+- [x] Enrollment scope implemented on `feat/m2-p3-enrollment-domain`
+  (`apps/enrollment` models, migrations, seed command, and validation tests).
 
 <a id="m2-phase-4"></a>
 ## Phase 4: Domain Validation and Migration Freeze
