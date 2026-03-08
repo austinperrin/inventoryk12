@@ -22,5 +22,7 @@ function joinPath(basePath: string, childPath: string): string {
 export const appBasePath = normalizeBasePath(rawBasePath);
 export const routeHomePath = '/';
 export const routeLoginPath = '/login';
+export const routeNoAccessPath = '/no-access';
 export const appHomePath = joinPath(appBasePath, routeHomePath);
 export const appLoginPath = joinPath(appBasePath, routeLoginPath);
+export const appNoAccessPath = joinPath(appBasePath, routeNoAccessPath);

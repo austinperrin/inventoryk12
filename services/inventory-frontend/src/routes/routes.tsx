@@ -1,9 +1,11 @@
+import { AuthenticatedGuard } from '../auth/AuthenticatedGuard';
 import type { ReactElement } from 'react';
 import { AuthGuard } from '../auth/AuthGuard';
 import Home from '../pages/Home';
 import Login from '../pages/Login';
+import NoAccess from '../pages/NoAccess';
 import NotFound from '../pages/NotFound';
-import { routeHomePath, routeLoginPath } from './paths';
+import { routeHomePath, routeLoginPath, routeNoAccessPath } from './paths';
 
 export type AppRoute = {
   id: string;
@@ -28,6 +30,16 @@ export const routes: AppRoute[] = [
     path: routeLoginPath,
     label: 'Login',
     element: <Login />,
+  },
+  {
+    id: 'no-access',
+    path: routeNoAccessPath,
+    label: 'No Access',
+    element: (
+      <AuthenticatedGuard>
+        <NoAccess />
+      </AuthenticatedGuard>
+    ),
   },
   {
     id: 'not-found',

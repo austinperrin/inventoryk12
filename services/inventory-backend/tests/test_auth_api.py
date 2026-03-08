@@ -6,7 +6,7 @@ from django.contrib.auth.models import Group, Permission
 from django.utils import timezone
 from rest_framework.test import APIClient
 
-from apps.identity.models import RoleAssignment
+from apps.identity.models import RoleAssignment, UserLoginLock
 
 User = get_user_model()
 API_PREFIX = f"{settings.APP_ENV_PATH_PREFIX}/api/v1"
@@ -58,6 +58,11 @@ def test_auth_login_sets_cookie_backed_tokens_and_me_uses_them(db) -> None:
     assert response.data["user"]["email"] == user.email
     assert response.data["access"]["has_effective_access"] is False
     assert response.data["access"]["access_outcome"] == "no_access"
+    assert response.data["access"]["no_access_reason"] == "no_effective_permissions"
+    assert (
+        response.data["access"]["no_access_message"]
+        == "Your account is active but has no effective permissions assigned."
+    )
     assert "ik12_access" in client.cookies
     assert "ik12_refresh" in client.cookies
     assert client.cookies["ik12_access"]["httponly"]
@@ -65,10 +70,11 @@ def test_auth_login_sets_cookie_backed_tokens_and_me_uses_them(db) -> None:
 
     me_response = client.get(f"{API_PREFIX}/auth/me/")
 
-    assert me_response.status_code == 200
-    assert me_response.data["user"]["email"] == user.email
-    assert me_response.data["access"]["has_effective_access"] is False
-    assert me_response.data["access"]["access_outcome"] == "no_access"
+    assert me_response.status_code == 403
+    assert (
+        me_response.data["detail"]
+        == "Your account is active but has no effective permissions assigned."
+    )
 
 
 def test_auth_refresh_rotates_refresh_token(db) -> None:
@@ -149,7 +155,15 @@ def test_auth_login_reports_granted_access_from_active_role_assignment(db) -> No
     assert response.status_code == 200
     assert response.data["access"]["has_effective_access"] is True
     assert response.data["access"]["access_outcome"] == "granted"
+    assert response.data["access"]["no_access_reason"] is None
+    assert response.data["access"]["no_access_message"] is None
+    assert response.data["access"]["is_verified"] is True
     assert "auth.view_group" in response.data["access"]["permissions"]
+
+    me_response = client.get(f"{API_PREFIX}/auth/me/")
+    assert me_response.status_code == 200
+    assert me_response.data["user"]["email"] == user.email
+    assert me_response.data["access"]["has_effective_access"] is True
 
 
 def test_auth_session_reports_granted_access_from_direct_user_permission(db) -> None:
@@ -175,6 +189,8 @@ def test_auth_session_reports_granted_access_from_direct_user_permission(db) -> 
     assert session_response.data["authenticated"] is True
     assert session_response.data["access"]["has_effective_access"] is True
     assert session_response.data["access"]["access_outcome"] == "granted"
+    assert session_response.data["access"]["no_access_reason"] is None
+    assert session_response.data["access"]["no_access_message"] is None
     assert "auth.view_group" in session_response.data["access"]["permissions"]
 
 
@@ -209,3 +225,51 @@ def test_auth_session_ignores_expired_role_assignments_for_access(db) -> None:
     assert session_response.data["authenticated"] is True
     assert session_response.data["access"]["has_effective_access"] is False
     assert session_response.data["access"]["access_outcome"] == "no_access"
+    assert session_response.data["access"]["no_access_reason"] == "no_effective_permissions"
+    assert (
+        session_response.data["access"]["no_access_message"]
+        == "Your account is active but has no effective permissions assigned."
+    )
+
+
+def test_auth_session_reports_no_access_when_user_has_active_login_lock(db) -> None:
+    user = User.objects.create_user(
+        email="locked@example.com",
+        password="ChangeMe123!",
+    )
+    view_group_permission = Permission.objects.get(
+        content_type__app_label="auth",
+        codename="view_group",
+    )
+    role = Group.objects.create(name="system_admin")
+    role.permissions.add(view_group_permission)
+    today = timezone.localdate()
+    RoleAssignment.objects.create(
+        user=user,
+        role=role,
+        starts_on=today,
+    )
+    UserLoginLock.objects.create(
+        user=user,
+        reason="Your account is locked. Contact district support.",
+    )
+    client = _csrf_client()
+    client.post(
+        f"{API_PREFIX}/auth/login/",
+        {"email": user.email, "password": "ChangeMe123!"},
+        format="json",
+    )
+
+    session_response = client.get(f"{API_PREFIX}/auth/session/")
+    me_response = client.get(f"{API_PREFIX}/auth/me/")
+
+    assert session_response.status_code == 200
+    assert session_response.data["access"]["has_effective_access"] is False
+    assert session_response.data["access"]["no_access_reason"] == "login_locked"
+    assert (
+        session_response.data["access"]["no_access_message"]
+        == "Your account is locked. Contact district support."
+    )
+    assert session_response.data["access"]["has_active_login_lock"] is True
+    assert me_response.status_code == 403
+    assert me_response.data["detail"] == "Your account is locked. Contact district support."

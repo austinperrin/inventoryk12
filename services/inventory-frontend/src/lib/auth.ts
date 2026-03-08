@@ -3,19 +3,29 @@ import { getCsrfToken } from './csrf';
 
 export type AuthUser = {
   id: number;
-  username: string;
+  uuid: string;
   email: string;
   first_name: string;
   last_name: string;
+  full_name: string;
+};
+
+export type AccessState = {
+  has_effective_access: boolean;
+  access_outcome: 'granted' | 'no_access';
+  no_access_reason: 'login_locked' | 'not_verified' | 'no_effective_permissions' | null;
+  no_access_message: string | null;
 };
 
 type AuthEnvelope = {
   user: AuthUser;
+  access: AccessState;
 };
 
 type SessionEnvelope = {
   authenticated: boolean;
   user: AuthUser | null;
+  access: AccessState | null;
 };
 
 export async function primeCsrfCookie(): Promise<void> {

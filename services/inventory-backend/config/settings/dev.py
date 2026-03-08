@@ -57,12 +57,10 @@ ALLOWED_HOSTS = ["*"]
 REST_FRAMEWORK["DEFAULT_RENDERER_CLASSES"] = list(REST_FRAMEWORK["DEFAULT_RENDERER_CLASSES"])
 REST_FRAMEWORK["DEFAULT_RENDERER_CLASSES"].append("rest_framework.renderers.BrowsableAPIRenderer")
 
-# Relaxed default permissions in development. Override as needed.
+# Closed-garden default permissions in development. Override explicitly as needed.
 REST_FRAMEWORK.setdefault("DEFAULT_PERMISSION_CLASSES", [])
 REST_FRAMEWORK["DEFAULT_PERMISSION_CLASSES"] = list(REST_FRAMEWORK["DEFAULT_PERMISSION_CLASSES"])
-REST_FRAMEWORK["DEFAULT_PERMISSION_CLASSES"].append(
-    "rest_framework.permissions.IsAuthenticatedOrReadOnly"
-)
+REST_FRAMEWORK["DEFAULT_PERMISSION_CLASSES"].append("rest_framework.permissions.IsAuthenticated")
 
 # ----------------------------------------------------------------------
 # EMAIL

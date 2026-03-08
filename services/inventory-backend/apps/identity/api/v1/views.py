@@ -1,5 +1,6 @@
 from django.conf import settings
 from django.middleware.csrf import get_token
+from django.utils import timezone
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import ensure_csrf_cookie
 from rest_framework import status
@@ -12,6 +13,7 @@ from rest_framework_simplejwt.tokens import RefreshToken
 
 from apps.identity.services import resolve_user_access
 
+from .permissions import HasEffectiveAccess
 from .serializers import LoginSerializer, UserSummarySerializer
 
 
@@ -69,6 +71,9 @@ class LoginView(APIView):  # type: ignore[misc]
         serializer = LoginSerializer(data=request.data, context={"request": request})
         serializer.is_valid(raise_exception=True)
         user = serializer.validated_data["user"]
+        if user.verified_at is None:
+            user.verified_at = timezone.now()
+            user.save(update_fields=["verified_at"])
 
         refresh = RefreshToken.for_user(user)
         response = Response(
@@ -162,7 +167,7 @@ class SessionView(APIView):  # type: ignore[misc]
 
 @method_decorator(ensure_csrf_cookie, name="dispatch")
 class MeView(APIView):  # type: ignore[misc]
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, HasEffectiveAccess]
 
     def get(self, request: Request) -> Response:
         return Response(

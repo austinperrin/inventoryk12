@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Navigate } from 'react-router-dom';
 import { ApiError } from '../lib/api';
 import { useAuth } from '../auth/useAuth';
-import { routeHomePath } from '../routes/paths';
+import { routeHomePath, routeNoAccessPath } from '../routes/paths';
 
 function EyeIcon({ visible }: { visible: boolean }) {
   return (
@@ -24,7 +24,7 @@ function EyeIcon({ visible }: { visible: boolean }) {
 }
 
 export default function Login() {
-  const { login, status } = useAuth();
+  const { access, login, status } = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -32,6 +32,9 @@ export default function Login() {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   if (status === 'authenticated') {
+    if (access?.has_effective_access === false) {
+      return <Navigate to={routeNoAccessPath} replace />;
+    }
     return <Navigate to={routeHomePath} replace />;
   }
 
