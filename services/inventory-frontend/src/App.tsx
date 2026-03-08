@@ -31,10 +31,10 @@ function AppFrame() {
           )}
           {status === 'authenticated' ? (
             <button className="app-nav-button" type="button" onClick={() => void handleLogout()}>
-              Logout
+              Sign out
             </button>
           ) : (
-            <NavLink to={routeLoginPath}>Login</NavLink>
+            <NavLink to={routeLoginPath}>Sign in</NavLink>
           )}
         </nav>
       </header>

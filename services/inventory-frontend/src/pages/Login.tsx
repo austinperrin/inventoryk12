@@ -30,6 +30,7 @@ export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const hasAuthError = errorMessage.length > 0;
 
   if (status === 'authenticated') {
     if (access?.has_effective_access === false) {
@@ -53,6 +54,9 @@ export default function Login() {
       } else {
         setErrorMessage('Unable to reach the auth service.');
       }
+      setEmail('');
+      setPassword('');
+      setShowPassword(false);
     } finally {
       setIsSubmitting(false);
     }
@@ -70,13 +74,19 @@ export default function Login() {
         <div className="form-floating auth-floating">
           <input
             autoComplete="email"
-            className="auth-input"
+            className={`auth-input${hasAuthError ? ' auth-input--error' : ''}`}
             id="login-email"
             name="email"
             placeholder=" "
             type="email"
             value={email}
-            onChange={(event) => setEmail(event.target.value)}
+            onChange={(event) => {
+              setEmail(event.target.value);
+              if (hasAuthError) {
+                setErrorMessage('');
+              }
+            }}
+            aria-invalid={hasAuthError}
           />
           <label htmlFor="login-email">Email address</label>
         </div>
@@ -84,18 +94,24 @@ export default function Login() {
           <div className="form-floating auth-floating auth-floating--password">
             <input
               autoComplete="current-password"
-              className="auth-input auth-input--password"
+              className={`auth-input auth-input--password${hasAuthError ? ' auth-input--error' : ''}`}
               id="login-password"
               name="password"
               placeholder=" "
               type={showPassword ? 'text' : 'password'}
               value={password}
-              onChange={(event) => setPassword(event.target.value)}
+              onChange={(event) => {
+                setPassword(event.target.value);
+                if (hasAuthError) {
+                  setErrorMessage('');
+                }
+              }}
+              aria-invalid={hasAuthError}
             />
             <label htmlFor="login-password">Password</label>
           </div>
           <button
-            className="auth-password-toggle"
+            className={`auth-password-toggle${hasAuthError ? ' auth-password-toggle--error' : ''}`}
             type="button"
             aria-label={showPassword ? 'Hide password' : 'Show password'}
             onClick={() => setShowPassword((current) => !current)}

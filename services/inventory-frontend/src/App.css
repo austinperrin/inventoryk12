@@ -168,6 +168,22 @@
   box-shadow: 0 0 0 3px rgba(17, 107, 122, 0.14);
 }
 
+.auth-input--error {
+  border-color: rgba(185, 28, 28, 0.7);
+  box-shadow: 0 0 0 3px rgba(185, 28, 28, 0.14);
+}
+
+.auth-input--error:focus {
+  border-color: rgba(185, 28, 28, 0.85);
+  box-shadow: 0 0 0 3px rgba(185, 28, 28, 0.2);
+}
+
+.auth-input--error + label,
+.auth-input--error:focus + label,
+.auth-input--error:not(:placeholder-shown) + label {
+  color: var(--color-danger);
+}
+
 .auth-password-group {
   position: relative;
 }
@@ -197,9 +213,21 @@
   background: rgba(17, 107, 122, 0.1);
 }
 
+.auth-password-toggle--error {
+  color: var(--color-danger);
+}
+
+.auth-password-toggle--error:hover {
+  background: rgba(185, 28, 28, 0.1);
+}
+
 .auth-password-toggle:focus-visible {
   outline: none;
   box-shadow: 0 0 0 3px rgba(17, 107, 122, 0.14);
+}
+
+.auth-password-toggle--error:focus-visible {
+  box-shadow: 0 0 0 3px rgba(185, 28, 28, 0.2);
 }
 
 .auth-password-icon {
