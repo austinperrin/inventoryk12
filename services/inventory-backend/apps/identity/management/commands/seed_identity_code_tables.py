@@ -1,5 +1,6 @@
 from collections.abc import Sequence
 
+from django.contrib.auth.models import Group
 from django.core.management.base import BaseCommand
 from django.db import transaction
 
@@ -10,6 +11,7 @@ from apps.identity.seeds import (
     PREFIX_CODE_SEEDS,
     RACE_CODE_SEEDS,
     SUFFIX_CODE_SEEDS,
+    SYSTEM_MANAGED_ROLE_SEEDS,
 )
 
 IDENTITY_CODE_TABLE_SEEDS = (
@@ -42,6 +44,13 @@ class Command(BaseCommand):
                         f"{model_name}: created={created_count} updated={updated_count}"
                     )
                 )
+
+            created_roles, existing_roles = self._seed_roles(dry_run=dry_run)
+            self.stdout.write(
+                self.style.SUCCESS(
+                    f"SystemManagedRoles: created={created_roles} existing={existing_roles}"
+                )
+            )
 
             if dry_run:
                 transaction.set_rollback(True)
@@ -78,3 +87,20 @@ class Command(BaseCommand):
                 instance.refresh_from_db()
 
         return created_count, updated_count
+
+    def _seed_roles(self, *, dry_run: bool) -> tuple[int, int]:
+        created_count = 0
+        existing_count = 0
+
+        for role_name in SYSTEM_MANAGED_ROLE_SEEDS:
+            _, created = Group.objects.get_or_create(name=role_name)
+            if created:
+                created_count += 1
+            else:
+                existing_count += 1
+
+        if dry_run:
+            # Keep this operation in the transaction scope for rollback parity.
+            Group.objects.filter(name__in=SYSTEM_MANAGED_ROLE_SEEDS).count()
+
+        return created_count, existing_count

@@ -28,6 +28,10 @@ control.
 - System-managed seeded roles define the default role catalog and default
   permission bundles, but districts may adjust the permissions assigned to
   those roles within product guardrails.
+- `system_admin` is the highest district-scoped role and acts as the district
+  superuser authority for district system operations.
+- `district_admin` remains a high-privilege district role for non-system
+  operational administration.
 - District-managed custom roles are allowed and implemented as additional
   groups with bounded admin controls.
 - Direct user permissions are allowed as additive extensions for exception-based
@@ -71,6 +75,13 @@ control.
 - Non-prod environment baseline:
   - sandbox/training role configuration is cloned from prod by default
   - per-environment role divergence is a later-phase option
+- InventoryK12 internal support authority model:
+  - internal support accounts are modeled as platform operator accounts using
+    `is_staff` and/or `is_superuser` on the user record, not as district RBAC
+    groups
+  - platform operator authority sits above district role administration
+  - district-level role management surfaces must not expose or allow mutation
+    of platform operator authority
 
 ## Model and Field Breakdown
 
@@ -87,9 +98,9 @@ control.
 
 | Role | Assign Roles/Permissions | Manage Users | Manage Assets | Run Imports | Run Audits | View Reports |
 | --- | --- | --- | --- | --- | --- | --- |
+| system_admin | Yes (bounded) | Yes | Yes | Yes | Yes | Yes |
 | district_admin | Yes (bounded) | Yes | Yes | Yes | Yes | Yes |
 | site_admin | Yes (bounded) | Limited | Yes | Yes | Yes | Yes |
-| system_admin | Yes (bounded) | Limited | Yes | Yes | Yes | Yes |
 | principal | No | Limited | Yes | Yes | Yes | Yes |
 | teacher | No | No | Limited | No | No | Limited |
 | counselor | No | No | Limited | No | No | Limited |
@@ -139,6 +150,8 @@ Notes:
 - Define policy and audit rules for direct user permission grants and revokes.
 - Define RBAC audit trail requirements for role grants/revocations.
 - Define support/admin break-glass workflow and logging requirements.
+- Define internal support-account operational controls for `is_staff` and
+  `is_superuser` lifecycle, including access review cadence.
 - Open questions:
   - Finalize the non-delegable permission set and assignment guardrails.
   - How should district-edited seeded roles behave when product upgrades add

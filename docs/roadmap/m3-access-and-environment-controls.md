@@ -58,14 +58,14 @@ high-assurance auth/session controls required for MVP protected workflows.
 ### Development Checklist
 
 #### Backend Engineering
-- [ ] Implement permission enforcement checks for protected workflows.
-- [ ] Implement effective-permission resolution from active role assignments and
+- [x] Implement permission enforcement checks for protected workflows.
+- [x] Implement effective-permission resolution from active role assignments and
   direct user permissions.
-- [ ] Implement no-effective-access login/session outcome.
-- [ ] Implement system-managed seeded-role protections and district-editable
+- [x] Implement no-effective-access login/session outcome.
+- [x] Implement system-managed seeded-role protections and district-editable
   default role-permission behavior.
-- [ ] Implement role delegation boundaries.
-- [ ] Implement direct user-permission grant controls for exception-based
+- [x] Implement role delegation boundaries.
+- [x] Implement direct user-permission grant controls for exception-based
   extensions.
 - [ ] Implement session hardening controls (idle timeout, absolute lifetime, re-auth hooks).
 - [ ] Implement login abuse protections (rate limiting, throttling, or lockout policy).
@@ -73,8 +73,8 @@ high-assurance auth/session controls required for MVP protected workflows.
 - [ ] Implement session/device revocation and privileged-session review hooks.
 
 #### QA + Testing
-- [ ] Add authorization failure/denial test coverage.
-- [ ] Add effective-permission resolution coverage for multi-role, direct-user,
+- [x] Add authorization failure/denial test coverage.
+- [x] Add effective-permission resolution coverage for multi-role, direct-user,
   and no-access outcomes.
 - [ ] Add auth/session hardening test coverage for timeout, revocation, and step-up flows.
 - [ ] Add MFA/login-abuse coverage for success, failure, and recovery paths.

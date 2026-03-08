@@ -3,6 +3,7 @@ from .gender_codes import GENDER_CODE_SEEDS
 from .prefix_codes import PREFIX_CODE_SEEDS
 from .race_codes import RACE_CODE_SEEDS
 from .suffix_codes import SUFFIX_CODE_SEEDS
+from .system_roles import SYSTEM_MANAGED_ROLE_SEEDS
 
 __all__ = [
     "ETHNICITY_CODE_SEEDS",
@@ -10,4 +11,5 @@ __all__ = [
     "PREFIX_CODE_SEEDS",
     "RACE_CODE_SEEDS",
     "SUFFIX_CODE_SEEDS",
+    "SYSTEM_MANAGED_ROLE_SEEDS",
 ]

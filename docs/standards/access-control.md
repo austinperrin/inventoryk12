@@ -30,6 +30,21 @@ Define repo-wide access-control enforcement and validation expectations.
 - Direct user permissions are additive exception controls and must not replace
   role-based assignment as the default operating model.
 
+## Internal Support Accounts
+
+- InventoryK12 internal support authority is represented by user flags
+  (`is_staff` and `is_superuser`) and not by district-managed role groups.
+- Within district-managed role groups, `system_admin` is the highest district
+  role and serves as district superuser authority for district system
+  operations.
+- `system_admin` may delegate any district-managed role or permission that does
+  not violate non-delegable/system-level guardrails.
+- District role-management paths must not allow district admins to view, edit,
+  or remove platform operator authority.
+- Use `is_superuser` only for highest-trust break-glass/support scenarios; use
+  `is_staff` for internal tooling eligibility where full-superuser authority is
+  not required.
+
 ## Security Review Expectations
 
 - Verify deny-by-default behavior on protected endpoints and privileged jobs.

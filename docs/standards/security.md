@@ -18,6 +18,9 @@
 - Default to deny unless explicitly allowed.
 - Enforce permission checks on all sensitive API endpoints and privileged jobs.
 - Record audit trails for privileged access changes and sensitive actions.
+- Treat platform operator authority (`is_staff`/`is_superuser`) as
+  infrastructure-level access that is separate from district-managed RBAC
+  groups and restricted to InventoryK12 internal support workflows.
 
 ## RBAC Source of Truth
 

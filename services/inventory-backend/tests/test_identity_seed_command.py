@@ -1,9 +1,11 @@
 from io import StringIO
 
 import pytest
+from django.contrib.auth.models import Group
 from django.core.management import call_command
 
 from apps.identity.models import EthnicityCode, GenderCode, PrefixCode, RaceCode, SuffixCode
+from apps.identity.seeds import SYSTEM_MANAGED_ROLE_SEEDS
 
 
 @pytest.mark.django_db
@@ -23,6 +25,9 @@ def test_seed_identity_code_tables_creates_expected_rows() -> None:
         code="hispanic_latino",
         label="Hispanic or Latino",
     ).exists()
+    assert Group.objects.filter(name__in=SYSTEM_MANAGED_ROLE_SEEDS).count() == len(
+        SYSTEM_MANAGED_ROLE_SEEDS
+    )
 
 
 @pytest.mark.django_db
@@ -45,6 +50,9 @@ def test_seed_identity_code_tables_is_idempotent_and_updates_existing_rows() -> 
     assert GenderCode.objects.count() == 6
     assert RaceCode.objects.count() == 7
     assert EthnicityCode.objects.count() == 4
+    assert Group.objects.filter(name__in=SYSTEM_MANAGED_ROLE_SEEDS).count() == len(
+        SYSTEM_MANAGED_ROLE_SEEDS
+    )
     assert mr.label == "Mr."
     assert mr.sort_order == 10
     assert mr.is_system_managed is True
@@ -57,3 +65,4 @@ def test_seed_identity_code_tables_dry_run_does_not_persist_rows() -> None:
 
     assert PrefixCode.objects.count() == 0
     assert SuffixCode.objects.count() == 0
+    assert Group.objects.filter(name__in=SYSTEM_MANAGED_ROLE_SEEDS).count() == 0
