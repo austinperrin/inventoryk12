@@ -61,22 +61,23 @@ consistent.
 |  | [Phase 1: RBAC and Auth Hardening](./m3-access-and-environment-controls.md#m3-phase-1) | 1-2 weeks | 2026-05-25 | 2026-06-05 | 2026-03-07 | TBD | Started Early | <span style="color: #ca8a04;">In Progress</span> |
 |  | [Phase 2: URL/Topology Routing Baseline](./m3-access-and-environment-controls.md#m3-phase-2) | 4-6 days | 2026-06-08 | 2026-06-12 | TBD | TBD | TBD | <span style="color: #b91c1c;">Not Started</span> |
 |  | [Phase 3: Non-Prod Refresh Operations](./m3-access-and-environment-controls.md#m3-phase-3) | 3-5 days | 2026-06-15 | 2026-06-19 | TBD | TBD | TBD | <span style="color: #b91c1c;">Not Started</span> |
-| [Milestone 4: Inventory MVP Build](./m4-inventory-mvp-build.md) |  | 4-6 weeks | 2026-06-22 | 2026-07-31 | TBD | TBD | TBD | <span style="color: #b91c1c;">Not Started</span> |
+| [Milestone 4: Inventory MVP Build](./m4-inventory-mvp-build.md) |  | 5-7 weeks | 2026-06-22 | 2026-08-07 | TBD | TBD | TBD | <span style="color: #b91c1c;">Not Started</span> |
 |  | [Phase 1: Inventory + Operations Backend Slice](./m4-inventory-mvp-build.md#m4-phase-1) | 1-2 weeks | 2026-06-22 | 2026-07-03 | TBD | TBD | TBD | <span style="color: #b91c1c;">Not Started</span> |
-|  | [Phase 2: Frontend Workflow Slice](./m4-inventory-mvp-build.md#m4-phase-2) | 1-2 weeks | 2026-07-06 | 2026-07-17 | TBD | TBD | TBD | <span style="color: #b91c1c;">Not Started</span> |
-|  | [Phase 3: Integrations MVP Baseline](./m4-inventory-mvp-build.md#m4-phase-3) | 4-6 days | 2026-07-20 | 2026-07-24 | TBD | TBD | TBD | <span style="color: #b91c1c;">Not Started</span> |
-|  | [Phase 4: End-to-End QA Gate](./m4-inventory-mvp-build.md#m4-phase-4) | 1 week | 2026-07-27 | 2026-07-31 | TBD | TBD | TBD | <span style="color: #b91c1c;">Not Started</span> |
-| [Milestone 5: Production Deployment Readiness](./m5-production-deployment-readiness.md) |  | 2-4 weeks | 2026-08-03 | 2026-08-21 | TBD | TBD | TBD | <span style="color: #b91c1c;">Not Started</span> |
-|  | [Phase 1: Deployment Pipeline and Infra Baseline](./m5-production-deployment-readiness.md#m5-phase-1) | 4-6 days | 2026-08-03 | 2026-08-07 | TBD | TBD | TBD | <span style="color: #b91c1c;">Not Started</span> |
-|  | [Phase 2: Security, Backup, Recovery Controls](./m5-production-deployment-readiness.md#m5-phase-2) | 4-6 days | 2026-08-10 | 2026-08-14 | TBD | TBD | TBD | <span style="color: #b91c1c;">Not Started</span> |
-|  | [Phase 3: Production Dry Run](./m5-production-deployment-readiness.md#m5-phase-3) | 3-5 days | 2026-08-17 | 2026-08-21 | TBD | TBD | TBD | <span style="color: #b91c1c;">Not Started</span> |
-| [Milestone 6: MVP Pilot Launch](./m6-mvp-pilot-launch.md) |  | 2-3 weeks | 2026-08-24 | 2026-09-11 | TBD | TBD | TBD | <span style="color: #b91c1c;">Not Started</span> |
-|  | [Phase 1: Pilot Tenant Onboarding](./m6-mvp-pilot-launch.md#m6-phase-1) | 3-5 days | 2026-08-24 | 2026-08-28 | TBD | TBD | TBD | <span style="color: #b91c1c;">Not Started</span> |
-|  | [Phase 2: Pilot Execution and Support](./m6-mvp-pilot-launch.md#m6-phase-2) | 1-2 weeks | 2026-08-31 | 2026-09-04 | TBD | TBD | TBD | <span style="color: #b91c1c;">Not Started</span> |
-|  | [Phase 3: Pilot Exit and MVP Sign-Off](./m6-mvp-pilot-launch.md#m6-phase-3) | 3-4 days | 2026-09-07 | 2026-09-11 | TBD | TBD | TBD | <span style="color: #b91c1c;">Not Started</span> |
-| [Milestone 7: Post-MVP Enhancements Hook](./m7-post-mvp-enhancements.md) |  | 1-2 weeks | 2026-09-14 | 2026-09-25 | TBD | TBD | TBD | <span style="color: #b91c1c;">Not Started</span> |
-|  | [Phase 1: Prioritization and ADR Gap Review](./m7-post-mvp-enhancements.md#m7-phase-1) | 2-3 days | 2026-09-14 | 2026-09-16 | TBD | TBD | TBD | <span style="color: #b91c1c;">Not Started</span> |
-|  | [Phase 2: Enhancement Backlog and Delivery Plan](./m7-post-mvp-enhancements.md#m7-phase-2) | 2-3 days | 2026-09-17 | 2026-09-21 | TBD | TBD | TBD | <span style="color: #b91c1c;">Not Started</span> |
+|  | [Phase 2: Admin, System, and Management UX Slice](./m4-inventory-mvp-build.md#m4-phase-2) | 1-2 weeks | 2026-07-06 | 2026-07-17 | TBD | TBD | TBD | <span style="color: #b91c1c;">Not Started</span> |
+|  | [Phase 3: Frontend Workflow Slice](./m4-inventory-mvp-build.md#m4-phase-3) | 1-2 weeks | 2026-07-20 | 2026-07-31 | TBD | TBD | TBD | <span style="color: #b91c1c;">Not Started</span> |
+|  | [Phase 4: Integrations MVP Baseline](./m4-inventory-mvp-build.md#m4-phase-4) | 4-6 days | 2026-08-03 | 2026-08-07 | TBD | TBD | TBD | <span style="color: #b91c1c;">Not Started</span> |
+|  | [Phase 5: End-to-End QA Gate](./m4-inventory-mvp-build.md#m4-phase-5) | 1 week | 2026-08-10 | 2026-08-14 | TBD | TBD | TBD | <span style="color: #b91c1c;">Not Started</span> |
+| [Milestone 5: Production Deployment Readiness](./m5-production-deployment-readiness.md) |  | 2-4 weeks | 2026-08-17 | 2026-09-04 | TBD | TBD | TBD | <span style="color: #b91c1c;">Not Started</span> |
+|  | [Phase 1: Deployment Pipeline and Infra Baseline](./m5-production-deployment-readiness.md#m5-phase-1) | 4-6 days | 2026-08-17 | 2026-08-21 | TBD | TBD | TBD | <span style="color: #b91c1c;">Not Started</span> |
+|  | [Phase 2: Security, Backup, Recovery Controls](./m5-production-deployment-readiness.md#m5-phase-2) | 4-6 days | 2026-08-24 | 2026-08-28 | TBD | TBD | TBD | <span style="color: #b91c1c;">Not Started</span> |
+|  | [Phase 3: Production Dry Run](./m5-production-deployment-readiness.md#m5-phase-3) | 3-5 days | 2026-08-31 | 2026-09-04 | TBD | TBD | TBD | <span style="color: #b91c1c;">Not Started</span> |
+| [Milestone 6: MVP Pilot Launch](./m6-mvp-pilot-launch.md) |  | 2-3 weeks | 2026-09-07 | 2026-09-25 | TBD | TBD | TBD | <span style="color: #b91c1c;">Not Started</span> |
+|  | [Phase 1: Pilot Tenant Onboarding](./m6-mvp-pilot-launch.md#m6-phase-1) | 3-5 days | 2026-09-07 | 2026-09-11 | TBD | TBD | TBD | <span style="color: #b91c1c;">Not Started</span> |
+|  | [Phase 2: Pilot Execution and Support](./m6-mvp-pilot-launch.md#m6-phase-2) | 1-2 weeks | 2026-09-14 | 2026-09-18 | TBD | TBD | TBD | <span style="color: #b91c1c;">Not Started</span> |
+|  | [Phase 3: Pilot Exit and MVP Sign-Off](./m6-mvp-pilot-launch.md#m6-phase-3) | 3-4 days | 2026-09-21 | 2026-09-25 | TBD | TBD | TBD | <span style="color: #b91c1c;">Not Started</span> |
+| [Milestone 7: Post-MVP Enhancements Hook](./m7-post-mvp-enhancements.md) |  | 1-2 weeks | 2026-09-28 | 2026-10-09 | TBD | TBD | TBD | <span style="color: #b91c1c;">Not Started</span> |
+|  | [Phase 1: Prioritization and ADR Gap Review](./m7-post-mvp-enhancements.md#m7-phase-1) | 2-3 days | 2026-09-28 | 2026-09-30 | TBD | TBD | TBD | <span style="color: #b91c1c;">Not Started</span> |
+|  | [Phase 2: Enhancement Backlog and Delivery Plan](./m7-post-mvp-enhancements.md#m7-phase-2) | 2-3 days | 2026-10-01 | 2026-10-05 | TBD | TBD | TBD | <span style="color: #b91c1c;">Not Started</span> |
 
 ## Dependency Rules
 
