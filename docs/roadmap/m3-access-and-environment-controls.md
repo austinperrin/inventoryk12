@@ -132,8 +132,8 @@ Implement tenant/environment routing behavior aligned to topology decisions.
 
 ### Review Checklist
 - [ ] Architecture review complete.
-- [ ] Routing setup docs are complete.
-- [ ] Routing behavior and docs are consistent.
+- [x] Routing setup docs are complete.
+- [x] Routing behavior and docs are consistent.
 
 ### Exit Criteria
 - [ ] Routing baseline is operational and documented.
