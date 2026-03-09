@@ -1,0 +1,48 @@
+version: 1
+
+tenant:
+  slug: demoisd
+  public_base_domain: inventoryk12.com
+
+environments:
+  prod:
+    enabled: true
+    customer_facing: true
+    path_prefix: /prod
+    frontend_origin: https://demoisd-prod-frontend.internal
+    backend_origin: https://demoisd-prod-backend.internal
+    cache_policy: standard
+    default_deny_unknown_paths: true
+  sandbox:
+    enabled: true
+    customer_facing: true
+    path_prefix: /sandbox
+    frontend_origin: https://demoisd-sandbox-frontend.internal
+    backend_origin: https://demoisd-sandbox-backend.internal
+    cache_policy: bypass-auth-paths
+    default_deny_unknown_paths: true
+  training:
+    enabled: false
+    customer_facing: true
+    path_prefix: /training
+    frontend_origin: https://demoisd-training-frontend.internal
+    backend_origin: https://demoisd-training-backend.internal
+    cache_policy: standard
+    default_deny_unknown_paths: true
+  dev:
+    enabled: true
+    customer_facing: false
+    path_prefix: /dev
+    frontend_origin: http://demoisd.localhost:5173
+    backend_origin: http://demoisd.localhost:8000
+    cache_policy: no-cache
+    default_deny_unknown_paths: true
+
+edge_policy:
+  allowlisted_environment_keys:
+    - prod
+    - sandbox
+    - training
+    - dev
+  deny_unconfigured_environment_paths: true
+  preserve_single_public_tenant_origin: true

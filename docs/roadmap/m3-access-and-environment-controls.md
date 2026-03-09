@@ -117,14 +117,14 @@ Implement tenant/environment routing behavior aligned to topology decisions.
 ### Development Checklist
 
 #### DevOps + SRE
-- [ ] Implement tenant URL/env routing baseline.
-- [ ] Add configuration model for env routing targets.
+- [x] Implement tenant URL/env routing baseline.
+- [x] Add configuration model for env routing targets.
 
 #### QA + Testing
-- [ ] Validate routing behavior for `prod` and non-prod paths.
+- [x] Validate routing behavior for `prod` and non-prod paths.
 
 #### Docs + Standards
-- [ ] Document routing setup and operational checks.
+- [x] Document routing setup and operational checks.
 
 ### Branch and PR Plan
 - Branch: `feat/m3-p2-url-topology-routing`
@@ -132,8 +132,8 @@ Implement tenant/environment routing behavior aligned to topology decisions.
 
 ### Review Checklist
 - [ ] Architecture review complete.
-- [ ] Routing setup docs are complete.
-- [ ] Routing behavior and docs are consistent.
+- [x] Routing setup docs are complete.
+- [x] Routing behavior and docs are consistent.
 
 ### Exit Criteria
 - [ ] Routing baseline is operational and documented.
