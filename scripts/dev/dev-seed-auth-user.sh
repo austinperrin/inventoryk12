@@ -8,7 +8,7 @@ Usage: scripts/dev/dev-seed-auth-user.sh [options]
 Creates or replaces a local development auth user for browser smoke tests.
 
 Options:
-  --docker              Run in the Docker backend container (recommended local default)
+  --docker              Run in the Docker backend container (required for local development)
   --email <email>       Override default email (default: admin@example.com)
   --password <password> Override default password (default: ChangeMe123!)
   --first-name <name>   Override default first name (default: Demo)
@@ -82,10 +82,15 @@ if [ "$RUN_DOCKER" = "true" ]; then
   exit 0
 fi
 
+if [ "${GITHUB_ACTIONS:-}" != "true" ]; then
+  log_error "Local host execution is disabled. Re-run with --docker."
+  exit 1
+fi
+
 require_cmd python
 require_file "$ROOT/services/inventory-backend/manage.py"
 
-log_info "Seeding local auth user with local Python"
+log_info "Seeding auth user with host Python in CI context"
 set -x
 cd "$ROOT"
 python services/inventory-backend/manage.py shell --no-imports -c \

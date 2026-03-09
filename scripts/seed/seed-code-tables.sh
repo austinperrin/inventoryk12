@@ -8,7 +8,7 @@ Usage: scripts/seed/seed-code-tables.sh [options]
 Seeds backend code tables across one or more domains in dependency order.
 
 Options:
-  --docker              Run in the Docker backend container (recommended local default)
+  --docker              Run in the Docker backend container (required for local development)
   --dry-run             Preview changes without writing to the database
   --domain <name>       Seed a single domain (repeatable)
   --only <csv>          Seed only the provided comma-separated domains
@@ -173,6 +173,10 @@ if [ "$RUN_DOCKER" = "true" ]; then
     exit 1
   fi
 else
+  if [ "${GITHUB_ACTIONS:-}" != "true" ]; then
+    log_error "Local host execution is disabled. Re-run with --docker."
+    exit 1
+  fi
   require_cmd python
   require_file "$ROOT/services/inventory-backend/manage.py"
 fi

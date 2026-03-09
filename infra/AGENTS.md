@@ -19,3 +19,6 @@
 
 ## Architecture Boundaries
 - Before changing deployment topology, tenant/environment isolation, storage, or worker infrastructure assumptions, check `docs/adr/0001-tech-stack-and-runtime-baseline.md` and related ADRs.
+
+## Maintenance
+- Keep this `AGENTS.md` updated whenever Docker workflow assumptions, infrastructure boundaries, or deployment/topology guidance changes.

@@ -8,7 +8,7 @@ Usage: scripts/ops/ops-migrate.sh [--docker]
 Runs Django migrations for the backend service.
 
 Options:
-  --docker  Run migrate command in Docker (recommended local default)
+  --docker  Run migrate command in Docker (required for local development)
 USAGE
 }
 
@@ -48,10 +48,15 @@ if [ "$RUN_DOCKER" = "true" ]; then
   exit 0
 fi
 
+if [ "${GITHUB_ACTIONS:-}" != "true" ]; then
+  log_error "Local host execution is disabled. Re-run with --docker."
+  exit 1
+fi
+
 require_cmd python
 require_file "$ROOT/services/inventory-backend/manage.py"
 
-log_info "Running migrations with local Python"
+log_info "Running migrations with host Python in CI context"
 set -x
 cd "$ROOT"
 python services/inventory-backend/manage.py migrate

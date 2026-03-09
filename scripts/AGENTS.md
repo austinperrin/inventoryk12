@@ -17,5 +17,9 @@
 ## Repo Conventions
 - Local development and ops flows should stay Docker-first.
 - CI scripts should map cleanly to the repo-root `pnpm ci:*` entrypoints.
-- If a script requires host-installed dependencies, document that in the closest README or runbook and keep a Docker-based path when possible.
+- Local script execution should not require host Python environments; use Docker for local checks/tests/ops flows.
+- Host-installed dependency paths are acceptable for CI runners (for example GitHub Actions) and should be documented as CI-only when present.
 - Keep `scripts/README.md` and `docs/runbooks/local-development.md` aligned with any new developer-facing script such as local seeding or smoke-test helpers.
+
+## Maintenance
+- Keep this `AGENTS.md` updated whenever script behavior, execution context (local vs CI), command interfaces, or script standards change.

@@ -1,42 +1,46 @@
 # Backend Service
 
-Django + Django REST Framework API scaffold for the monorepo. This document
-captures the backend baseline before domain implementation is rebuilt.
+Django + Django REST Framework API service for the monorepo.
 
 ## Goals
 
-- Establish a clean backend scaffold for roadmap-driven implementation.
-- Keep API versioning consistent from the start.
-- Preserve security-first defaults without coupling the scaffold to unfinished domains.
+- Keep API versioning and environment-path routing consistent.
+- Preserve security-first auth/session defaults.
+- Add domain behavior in roadmap order with focused, test-covered slices.
 
 ## Layout
 
-The backend currently keeps only shared scaffold components in place. Domain
-apps will be reintroduced milestone by milestone as roadmap work is completed.
+The backend includes shared platform wiring plus milestone-delivered domain
+apps.
 
 ```
 services/inventory-backend/
 ├── apps/
 │   ├── common/          # cross-cutting utilities and health endpoints
-├── config/             # Django project settings module (env aware)
+│   ├── identity/        # auth, RBAC, session, and access controls
+│   ├── organization/    # district/org baseline models
+│   ├── locations/       # location hierarchy baseline models
+│   ├── contacts/        # contacts baseline models
+│   ├── academic/        # academic baseline models
+│   ├── instruction/     # instruction baseline models
+│   └── enrollment/      # enrollment baseline models
+├── config/              # Django project settings module (env aware)
 ├── manage.py
-└── docker/             # service-specific Docker assets if needed
+└── requirements/        # runtime + dev dependencies
 ```
 
 - `apps/common`: shared models, audit helpers, and baseline service endpoints.
-- `apps/common` is registered explicitly via `apps.common.apps.CommonConfig` in `config/settings/base.py`.
+- `apps/identity`: custom user model, auth APIs, permission governance, MFA/session controls.
+- Domain apps (`organization`, `locations`, `contacts`, `academic`, `instruction`, `enrollment`) are present from Milestone 2 domain-foundation delivery.
 - `config/settings/`: split settings for `base.py`, `dev.py`, `test.py`, `prod.py`, referencing shared env vars loaded via `configs/`.
-- `docker/`: overrides or extra compose snippets specific to the backend service.
 
 ## API Conventions
 
 - Shared scaffold endpoints live under `/<env>/api/v1/common/`.
 - Authentication baseline endpoints live under `/<env>/api/v1/auth/`.
-- The root URL config currently exposes only the scaffold common endpoints so later domain routes can be added incrementally without reshaping the service entrypoint.
+- The root URL config currently exposes `auth` and `common` route groups and keeps the environment-prefixed entrypoint stable.
 - Domain endpoints are added under `/api/v1/<domain>/` as milestone work is implemented.
 - Breaking API changes should be introduced through ADR review and version planning.
-- Auth-specific runtime wiring is intentionally deferred to the roadmap platform
-  baseline milestone and ADR 0001.
 
 ## Security Expectations
 
@@ -55,14 +59,15 @@ services/inventory-backend/
 
 ## Next Steps
 
-- Reintroduce backend domain apps in roadmap order.
-- Add auth runtime plumbing during the platform baseline milestone and expand
-  RBAC behavior during the access-control milestone.
-- Expand test coverage as service capabilities are added.
+- Complete Milestone 3 phases for URL/topology routing and non-prod refresh operations.
+- Progress to Milestone 4 inventory + operations MVP slices per roadmap sequencing.
+- Keep test coverage and docs synchronized with each phase branch.
 
 ## Local Tooling
 
-- Run backend checks through Docker: `pnpm dev:checks`.
+- Local backend checks and tests are Docker-only through repo wrappers.
+- Use `pnpm dev:checks` for default local verification.
+- Use ops/seed scripts with `--docker` for local execution.
 
 ## Tooling Baseline
 
@@ -73,7 +78,10 @@ services/inventory-backend/
 - Backend Python dependencies are split under `requirements/`:
   - `requirements/base.txt` for runtime packages
   - `requirements/dev.txt` for lint, typecheck, test, and audit tooling
-- Repo-root CI and ops wrappers are the supported entrypoints:
+- Repo-root CI and ops wrappers are the supported entrypoints.
+- CI scripts are host-runner oriented for GitHub Actions (not Docker-based) and are invoked through `pnpm ci:*` or `scripts/ci/*`.
+- Local development remains Docker-first and should not rely on local Python environments.
+- Supported entrypoints:
   - `pnpm ci:backend`
   - `pnpm ci:backend:lint`
   - `pnpm ci:backend:typecheck`

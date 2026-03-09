@@ -25,3 +25,6 @@
 - Do not introduce browser token storage patterns that conflict with ADR 0001. Browser auth is expected to use secure `HttpOnly` cookies with CSRF protections.
 - Keep frontend auth requests aligned to the configured tenant/environment origin rather than a private backend host.
 - Avoid leaking sensitive tenant or student data into logs, fixtures, mock data, or client-visible debug output.
+
+## Maintenance
+- Keep this `AGENTS.md` updated whenever frontend architecture, routing/auth patterns, local workflow, build/test entrypoints, or security expectations change.

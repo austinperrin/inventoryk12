@@ -34,6 +34,13 @@ Scripts are grouped by intent and should be safe, idempotent, and well-documente
 The canonical startup, smoke-test, and troubleshooting flow is documented in
 `docs/runbooks/local-development.md`.
 
+Local execution policy:
+
+- Local development is Docker-only for checks/tests/ops flows.
+- Do not rely on local Python virtual environments for backend workflows.
+- Use `--docker` where applicable for ops/seed scripts.
+- Host-runner execution is reserved for CI (GitHub Actions).
+
 ## Bootstrap
 
 - `pnpm bootstrap:env`
@@ -53,10 +60,9 @@ The canonical startup, smoke-test, and troubleshooting flow is documented in
     - `-- --frontend`
     - `-- --build`
 - `pnpm dev:checks`
-  - runs Docker-first backend and frontend checks
+  - runs backend and frontend checks in Docker
   - options:
     - `-- --build`
-    - `-- --docker`
 - `pnpm dev:format`
   - runs backend and frontend formatters in Docker
 - `pnpm dev:reset`
@@ -70,6 +76,8 @@ The canonical startup, smoke-test, and troubleshooting flow is documented in
     - `-- --first-name <name>`
     - `-- --last-name <name>`
 ## CI Entry Points
+
+These scripts are intended for host runners in GitHub Actions.
 
 - `pnpm ci:docs`
 - `pnpm ci:backend`

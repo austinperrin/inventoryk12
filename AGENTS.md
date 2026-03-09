@@ -16,10 +16,12 @@
 - Default local verification is `pnpm dev:checks`. Formatting is `pnpm dev:format`.
 - CI-equivalent entry points are `pnpm ci:backend`, `pnpm ci:frontend`, `pnpm ci:security`, and `pnpm ci:checks`.
 - Use wrapped ops commands instead of ad hoc database flows when possible: `pnpm ops:makemigrations`, `pnpm ops:migrate`, `pnpm ops:backup`, `pnpm ops:restore`, `pnpm ops:reset-schema`.
+- For local development, run ops and seed flows in Docker (`--docker`) where supported; do not rely on host Python environments.
 - Use `pnpm dev:seed-auth-user -- --docker` for the default local browser-login smoke test instead of ad hoc shell commands.
 - Local browser URLs should mirror the tenant deployment shape, for example `http://demoisd.localhost:5173/dev/login` and `http://demoisd.localhost:8000/dev/api/v1/common/health/`.
 
 ## Shared Conventions
 - Shell scripts must stay small, idempotent, and defensive: start with `set -euo pipefail` and reuse `scripts/lib/common.sh` per `scripts/README.md` and `docs/standards/scripts.md`.
 - If behavior changes, update the nearest relevant docs in `docs/`, especially `docs/standards/`, roadmap files, or ADRs when the change affects repo-wide assumptions.
+- Keep this root `AGENTS.md` current whenever repo-wide workflow, tooling, branching, runtime, or CI assumptions change.
 - Never commit secrets or real sensitive data. Treat student and tenant data as sensitive by default and redact PII from logs, fixtures, exports, and support tooling.

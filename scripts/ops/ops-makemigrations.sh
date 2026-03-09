@@ -9,7 +9,7 @@ Runs Django makemigrations for the backend service.
 Prepares local app migration packages automatically before generation.
 
 Options:
-  --docker  Run makemigrations in Docker (recommended local default)
+  --docker  Run makemigrations in Docker (required for local development)
 USAGE
 }
 
@@ -55,10 +55,15 @@ if [ "$RUN_DOCKER" = "true" ]; then
   exit 0
 fi
 
+if [ "${GITHUB_ACTIONS:-}" != "true" ]; then
+  log_error "Local host execution is disabled. Re-run with --docker."
+  exit 1
+fi
+
 require_cmd python
 require_file "$ROOT/services/inventory-backend/manage.py"
 
-log_info "Running makemigrations with local Python"
+log_info "Running makemigrations with host Python in CI context"
 set -x
 cd "$ROOT"
 for app_dir in services/inventory-backend/apps/*; do

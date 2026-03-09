@@ -20,3 +20,6 @@
 - Keep roadmap dates, milestones, and status fields internally consistent when editing `docs/roadmap/`.
 - When using status or variance labels in `docs/roadmap/index.md`, keep them within the legend-defined allowed values.
 - Use `docs/adr/template.md` for new ADRs and keep related ADR links current in `docs/adr/README.md` when the set expands materially.
+
+## Maintenance
+- Keep this `AGENTS.md` updated whenever documentation structure, ownership boundaries, ADR/roadmap governance, or doc maintenance expectations change.

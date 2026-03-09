@@ -12,3 +12,6 @@
 - Keep configuration templates aligned with the actual variables expected by scripts, Docker compose, and service settings.
 - Prefer documenting new variables near the bootstrap flow and the consuming service docs when a config surface changes.
 - Do not hard-code credentials, real tenant data, or environment-specific secrets in this directory.
+
+## Maintenance
+- Keep this `AGENTS.md` updated whenever configuration boundaries, variable conventions, template usage, or secret-handling expectations change.

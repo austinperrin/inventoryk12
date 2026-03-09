@@ -9,6 +9,7 @@ current backend/frontend development flow.
 - backend + frontend startup
 - migration and auth smoke test
 - reset and troubleshooting commands
+- no local Python virtualenv requirement for backend checks/tests
 
 ## Prerequisites
 
@@ -39,6 +40,11 @@ The environment path is config-driven:
    - `VITE_API_BASE_URL=http://demoisd.localhost:8000/dev`
 4. Run the default verification path:
    - `pnpm dev:checks -- --build`
+
+Note:
+
+- Local checks/tests are expected to run in Docker via repo scripts.
+- For backend ops and seeding flows, use the `--docker` option.
 
 ## Start the Stack
 
@@ -119,7 +125,7 @@ Use this when:
   - IDE cannot resolve React/Vitest modules
 - Cause:
   - dependencies may exist only in Docker volumes
-- Fix:
+- Fix (editor tooling only):
   - run `pnpm install --filter inventory-frontend` on the host if editor
     tooling needs local `node_modules`
 

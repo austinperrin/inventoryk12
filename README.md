@@ -45,8 +45,10 @@ backend/frontend, add-on services/modules, standards, and operational tooling.
 ## Workflow Expectations
 
 - Local development and operations are Docker-based.
+- Local checks/tests should run via Docker-backed wrappers (`pnpm dev:checks`, `pnpm dev:format`) and Docker ops flags (`--docker`) where supported.
+- Local backend workflows should not depend on host Python virtual environments.
 - CI checks (`pnpm ci:*`) are validated in GitHub Actions with CI-managed
-  dependencies.
+  host-runner dependencies.
 - The canonical startup/reset/troubleshooting flow is documented in
   [docs/runbooks/local-development.md](./docs/runbooks/local-development.md).
 
