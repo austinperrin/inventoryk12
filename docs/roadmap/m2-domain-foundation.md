@@ -258,4 +258,4 @@ Finalize domain integrity checks and freeze migration shape before access and fe
 
 ## Next Steps
 
-Proceed to [Milestone 3: Access and Environment Controls](./m3-access-and-environment-controls.md).
+Proceed to [Milestone 3: Access, Environment, and UX Foundation](./m3-access-and-environment-controls.md).

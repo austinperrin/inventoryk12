@@ -155,6 +155,6 @@ Not applicable.
 ## References
 
 - [Roadmap Index](../roadmap/index.md)
-- [Milestone 3: Access and Environment Controls](../roadmap/m3-access-and-environment-controls.md)
+- [Milestone 3: Access, Environment, and UX Foundation](../roadmap/m3-access-and-environment-controls.md)
 - [Milestone 5: Production Deployment Readiness](../roadmap/m5-production-deployment-readiness.md)
 - [Security Standards](../standards/security.md)

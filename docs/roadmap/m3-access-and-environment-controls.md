@@ -1,7 +1,7 @@
-# Milestone 3: Access and Environment Controls
+# Milestone 3: Access, Environment, and UX Foundation
 
 - Status: In Progress
-- Estimate: 2-4 weeks
+- Estimate: 4-7 weeks
 - Dependency: [Milestone 2: Domain Foundation](./m2-domain-foundation.md) `Completed`
 - Related ADRs: [ADR 0002](../adr/0002-url-and-domain-topology.md), [ADR 0003](../adr/0003-non-prod-data-refresh-and-sanitization-policy.md), [ADR 0005](../adr/0005-rbac-model-and-permission-enforcement.md), [ADR 0016](../adr/0016-high-assurance-auth-and-session-security-baseline.md)
 
@@ -9,12 +9,12 @@
 
 - Milestone Owner: Security + Compliance
 - Technical Owner: Architecture
-- Execution Teams: Backend Engineering, DevOps + SRE, Security + Compliance, QA + Testing
+- Execution Teams: Backend Engineering, Frontend Engineering, DevOps + SRE, Security + Compliance, QA + Testing, Docs + Standards
 
 ## Goal
 
-Implement RBAC, high-assurance auth/session controls, URL/routing controls,
-and non-prod refresh controls needed for safe tenant operations.
+Implement RBAC, high-assurance auth/session controls, URL/routing controls, and
+UI/UX baseline foundations needed before MVP feature delivery.
 
 ## Milestone Pre-Checklist (Alignment + Drift Control)
 
@@ -85,7 +85,7 @@ high-assurance auth/session controls required for MVP protected workflows.
 - [x] Add password recovery/update test coverage:
   forgot/reset success and failure paths, reset-token handling,
   and require-reset enforcement behavior.
-- [ ] Add MFA/login-abuse coverage for success, failure, and recovery paths.
+- [x] Add MFA/login-abuse coverage for success, failure, and recovery paths.
 
 #### Security + Compliance
 - [x] Validate enforcement behavior against policy requirements.
@@ -131,42 +131,130 @@ Implement tenant/environment routing behavior aligned to topology decisions.
 - PR Target: `chore/m3-integration`
 
 ### Review Checklist
-- [ ] Architecture review complete.
+- [x] Architecture review complete.
 - [x] Routing setup docs are complete.
 - [x] Routing behavior and docs are consistent.
 
 ### Exit Criteria
-- [ ] Routing baseline is operational and documented.
+- [x] Routing baseline is operational and documented.
 
 <a id="m3-phase-3"></a>
-## Phase 3: Non-Prod Refresh Operations
+## Phase 3: UI/UX Baseline Foundation
 
 ### Phase Goal
-Implement controlled non-prod refresh workflows with clear auditability.
+Define and implement shared UI/UX baseline patterns so administration and MVP
+workflow screens can ship with consistent behavior and quality.
+
+### Development Checklist
+
+#### Frontend Engineering
+- [ ] Establish shared design tokens (color, spacing, typography, density).
+- [ ] Establish baseline UI primitives for forms, tables, toasts/alerts,
+  skeleton/loading, and empty/error states.
+- [ ] Implement baseline responsive layout patterns for desktop and mobile.
+- [ ] Define and document baseline accessibility and keyboard-interaction checks.
+
+#### QA + Testing
+- [ ] Add baseline UI test harness coverage for primitives and common states.
+
+#### Docs + Standards
+- [ ] Publish UI/UX baseline guidelines and component usage rules.
+
+### Branch and PR Plan
+- Branch: `feat/m3-p3-ui-ux-baseline-foundation`
+- PR Target: `chore/m3-integration`
+
+### Review Checklist
+- [ ] Product/frontend review complete.
+- [ ] Shared baseline components are documented and reusable.
+- [ ] Accessibility baseline checks are documented and validated.
+
+### Exit Criteria
+- [ ] UI/UX baseline is implemented, documented, and ready for feature phases.
+
+<a id="m3-phase-4"></a>
+## Phase 4: Admin, System, and Management UX Slice
+
+### Phase Goal
+Build the administration-facing UX slice for district system administration,
+user/role management, permission governance, and account-state management.
+
+### Development Checklist
+
+#### Frontend Engineering
+- [ ] Implement distinct administration UX flows for system-level operations and district-level management.
+- [ ] Implement role-assignment management UX for district users:
+  assignment, revocation, effective windows, and feedback states.
+- [ ] Implement role/permission management UX guardrails:
+  enforce protected/system-managed boundaries and non-delegable restrictions.
+- [ ] Implement account-state management UX:
+  lock status, verification/no-access context, and scoped user feedback flows.
+- [ ] Implement credential-recovery and password-management UX flows:
+  forgot-password, reset-password, authenticated password update,
+  and forced-reset journey when the user require-reset flag is active.
+- [ ] Implement admin UX denial/error/loading states for privileged actions.
+- [ ] Implement responsive behavior for core administration screens (desktop + mobile).
+
+#### QA + Testing
+- [ ] Add frontend component and integration tests for admin/system management workflows.
+- [ ] Add UI tests for denial, lockout, and protected-boundary enforcement behavior.
+- [ ] Add UI tests for password recovery/update flows and forced-reset journey behavior.
+
+#### Security + Compliance
+- [ ] Validate admin/system UX behavior against RBAC and session policy requirements.
+- [ ] Validate district-role administration cannot mutate platform-operator authority.
+
+#### Docs + Standards
+- [ ] Update admin/system workflow docs for implemented behavior and edge cases.
+- [ ] Publish API-to-UI dependency map for administration screens.
+
+### Branch and PR Plan
+- Branch: `feat/m3-p4-admin-system-management-ui`
+- PR Target: `chore/m3-integration`
+
+### Review Checklist
+- [ ] Product/frontend review complete.
+- [ ] Security review complete for admin/system UX controls.
+- [ ] Admin/system UX behavior aligns with backend guardrails and accepted ADRs.
+- [ ] Workflow docs and implementation stay aligned.
+
+### Exit Criteria
+- [ ] Admin/system management UX is functional, test-covered, and policy-aligned.
+
+<a id="m3-phase-5"></a>
+## Phase 5: Non-Prod Seed and Smoke Support (Dev/Test Baseline)
+
+### Phase Goal
+Provide lightweight, deterministic non-prod seed and smoke support to unblock
+frontend, API, and QA iteration before production-grade refresh automation.
 
 ### Development Checklist
 
 #### Backend Engineering
-- [ ] Implement scheduled daily non-prod refresh trigger.
-- [ ] Implement support-ticket manual refresh workflow.
-
-#### Security + Compliance
-- [ ] Add audit log requirements and validation checks.
+- [ ] Implement deterministic non-prod baseline seed data for core MVP and admin workflows.
+- [ ] Implement environment guardrails to prevent seed/reset commands from targeting production.
 
 #### DevOps + SRE
-- [ ] Finalize refresh runbook.
+- [ ] Implement one-command non-prod reset + seed flow for local/dev/test usage.
+- [ ] Implement minimal run metadata capture (timestamp, operator, environment, outcome).
+
+#### QA + Testing
+- [ ] Implement seeded smoke checks for critical login, admin, and inventory paths.
+
+#### Docs + Standards
+- [ ] Publish lightweight seed/smoke runbook for developers and testers.
 
 ### Branch and PR Plan
-- Branch: `feat/m3-p3-non-prod-refresh-ops`
+- Branch: `feat/m3-p5-non-prod-seed-smoke-support`
 - PR Target: `chore/m3-integration`
 
 ### Review Checklist
-- [ ] Ops/security review complete.
-- [ ] Refresh runbook is complete.
-- [ ] Operational process matches ADR 0003.
+- [ ] Seed/reset flow is deterministic and repeatable.
+- [ ] Environment guardrails are validated.
+- [ ] Smoke checks cover core MVP and admin flows.
 
 ### Exit Criteria
-- [ ] Non-prod refresh process is validated and repeatable.
+- [ ] Non-prod seed and smoke support is operational for local/dev/test workflows.
 
 ## Milestone Review Checklist
 

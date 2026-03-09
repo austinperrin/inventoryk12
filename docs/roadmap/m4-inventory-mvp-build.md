@@ -1,8 +1,8 @@
 # Milestone 4: Inventory MVP Build
 
 - Status: Not Started
-- Estimate: 5-7 weeks
-- Dependency: [Milestone 3: Access and Environment Controls](./m3-access-and-environment-controls.md) `Completed`
+- Estimate: 4-6 weeks
+- Dependency: [Milestone 3: Access, Environment, and UX Foundation](./m3-access-and-environment-controls.md) `Completed`
 - Related ADRs: [ADR 0013](../adr/0013-inventory-domain-model-v1.md), [ADR 0014](../adr/0014-operations-domain-model-v1.md), [ADR 0015](../adr/0015-integrations-domain-model-v1.md)
 
 ## Owners
@@ -13,8 +13,8 @@
 
 ## Goal
 
-Deliver a working inventory MVP workflow (backend + admin/frontend + integrations +
-QA).
+Deliver a working inventory MVP workflow (backend + frontend workflows +
+integrations + QA).
 
 ## Milestone Pre-Checklist (Alignment + Drift Control)
 
@@ -70,56 +70,7 @@ Build the backend MVP slice for inventory and operations workflows.
 - [ ] Backend MVP slice is functional and test-covered.
 
 <a id="m4-phase-2"></a>
-## Phase 2: Admin, System, and Management UX Slice
-
-### Phase Goal
-Build the administration-facing UX slice for district system administration,
-user/role management, permission governance, and account-state management.
-
-### Development Checklist
-
-#### Frontend Engineering
-- [ ] Implement distinct administration UX flows for system-level operations and district-level management.
-- [ ] Implement role-assignment management UX for district users:
-  assignment, revocation, effective windows, and feedback states.
-- [ ] Implement role/permission management UX guardrails:
-  enforce protected/system-managed boundaries and non-delegable restrictions.
-- [ ] Implement account-state management UX:
-  lock status, verification/no-access context, and scoped user feedback flows.
-- [ ] Implement credential-recovery and password-management UX flows:
-  forgot-password, reset-password, authenticated password update,
-  and forced-reset journey when the user require-reset flag is active.
-- [ ] Implement admin UX denial/error/loading states for privileged actions.
-- [ ] Implement responsive behavior for core administration screens (desktop + mobile).
-
-#### QA + Testing
-- [ ] Add frontend component and integration tests for admin/system management workflows.
-- [ ] Add UI tests for denial, lockout, and protected-boundary enforcement behavior.
-- [ ] Add UI tests for password recovery/update flows and forced-reset journey behavior.
-
-#### Security + Compliance
-- [ ] Validate admin/system UX behavior against RBAC and session policy requirements.
-- [ ] Validate district-role administration cannot mutate platform-operator authority.
-
-#### Docs + Standards
-- [ ] Update admin/system workflow docs for implemented behavior and edge cases.
-- [ ] Publish API-to-UI dependency map for administration screens.
-
-### Branch and PR Plan
-- Branch: `feat/m4-p2-admin-system-management-ui`
-- PR Target: `chore/m4-integration`
-
-### Review Checklist
-- [ ] Product/frontend review complete.
-- [ ] Security review complete for admin/system UX controls.
-- [ ] Admin/system UX behavior aligns with backend guardrails and accepted ADRs.
-- [ ] Workflow docs and implementation stay aligned.
-
-### Exit Criteria
-- [ ] Admin/system management UX is functional, test-covered, and policy-aligned.
-
-<a id="m4-phase-3"></a>
-## Phase 3: Frontend Workflow Slice
+## Phase 2: Frontend Workflow Slice
 
 ### Phase Goal
 Build the frontend MVP inventory workflows that exercise the core backend slice
@@ -149,7 +100,7 @@ end-to-end.
 - [ ] Publish API-to-UI dependency map for MVP workflow screens.
 
 ### Branch and PR Plan
-- Branch: `feat/m4-p3-inventory-ui-workflows`
+- Branch: `feat/m4-p2-inventory-ui-workflows`
 - PR Target: `chore/m4-integration`
 
 ### Review Checklist
@@ -161,8 +112,8 @@ end-to-end.
 ### Exit Criteria
 - [ ] Frontend MVP workflows are functional, test-covered, and UX-reviewed.
 
-<a id="m4-phase-4"></a>
-## Phase 4: Integrations MVP Baseline
+<a id="m4-phase-3"></a>
+## Phase 3: Integrations MVP Baseline
 
 ### Phase Goal
 Implement the MVP integration baseline so inventory workflows can exchange data
@@ -183,7 +134,7 @@ with external systems in a controlled and auditable way.
 - [ ] Document connector setup assumptions and reconciliation guardrails.
 
 ### Branch and PR Plan
-- Branch: `feat/m4-p4-integrations-mvp-baseline`
+- Branch: `feat/m4-p3-integrations-mvp-baseline`
 - PR Target: `chore/m4-integration`
 
 ### Review Checklist
@@ -194,8 +145,8 @@ with external systems in a controlled and auditable way.
 ### Exit Criteria
 - [ ] Integrations baseline is functional, test-covered, and documented.
 
-<a id="m4-phase-5"></a>
-## Phase 5: End-to-End QA Gate
+<a id="m4-phase-4"></a>
+## Phase 4: End-to-End QA Gate
 
 ### Phase Goal
 Validate MVP readiness with full-scope QA and release checks.
@@ -213,7 +164,7 @@ Validate MVP readiness with full-scope QA and release checks.
 - [ ] Complete security sanity checks for MVP scope.
 
 ### Branch and PR Plan
-- Branch: `test/m4-p5-mvp-e2e-qa-gate`
+- Branch: `test/m4-p4-mvp-e2e-qa-gate`
 - PR Target: `chore/m4-integration`
 
 ### Review Checklist
