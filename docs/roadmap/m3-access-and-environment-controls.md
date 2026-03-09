@@ -68,21 +68,21 @@ high-assurance auth/session controls required for MVP protected workflows.
 - [x] Implement direct user-permission grant controls for exception-based
   extensions.
 - [x] Implement session hardening controls for idle timeout and absolute lifetime.
-- [ ] Implement re-auth hooks for privileged workflows.
+- [x] Implement re-auth hooks for privileged workflows.
 - [x] Implement login abuse protections (rate limiting, throttling, or lockout policy).
-- [ ] Implement password recovery and credential lifecycle APIs:
+- [x] Implement password recovery and credential lifecycle APIs:
   forgot-password request, reset-password completion, authenticated password update,
   and forced reset enforcement when the user require-reset flag is active.
-- [ ] Implement MFA and step-up auth support for privileged workflows.
-- [ ] Implement session/device revocation and privileged-session review hooks.
+- [x] Implement MFA and step-up auth support for privileged workflows.
+- [x] Implement session/device revocation and privileged-session review hooks.
 
 #### QA + Testing
 - [x] Add authorization failure/denial test coverage.
 - [x] Add effective-permission resolution coverage for multi-role, direct-user,
   and no-access outcomes.
 - [x] Add auth/session hardening test coverage for timeout and revocation flows.
-- [ ] Add step-up auth test coverage.
-- [ ] Add password recovery/update test coverage:
+- [x] Add step-up auth test coverage.
+- [x] Add password recovery/update test coverage:
   forgot/reset success and failure paths, reset-token handling,
   and require-reset enforcement behavior.
 - [ ] Add MFA/login-abuse coverage for success, failure, and recovery paths.

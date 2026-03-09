@@ -1,5 +1,6 @@
 from django.conf import settings
 from django.contrib.auth import get_user_model
+from django.contrib.auth.models import Group
 from django.contrib.auth.tokens import default_token_generator
 from django.core.mail import send_mail
 from django.middleware.csrf import get_token
@@ -17,25 +18,36 @@ from rest_framework.views import APIView  # type: ignore[import-untyped]
 from rest_framework_simplejwt.serializers import TokenRefreshSerializer
 from rest_framework_simplejwt.tokens import RefreshToken
 
+from apps.identity.models import MfaPolicy
 from apps.identity.services import (
     add_session_claims,
+    issue_mfa_challenge,
+    issue_mfa_cookie_value,
     issue_reauth_cookie_value,
+    mfa_policy_summary,
+    requires_mfa_for_user,
     resolve_user_access,
     validate_session_window,
+    verify_mfa_challenge,
 )
 from apps.identity.services.session_security import SESSION_STARTED_AT_CLAIM
 
-from .permissions import HasEffectiveAccess
+from .permissions import HasEffectiveAccess, IsSystemAdminOrSuperuser, RequiresPrivilegedStepUp
 from .serializers import (
     ChangePasswordSerializer,
     ForgotPasswordSerializer,
     LoginSerializer,
+    MfaChallengeSerializer,
+    MfaPolicySerializer,
+    MfaPolicyUpdateSerializer,
+    MfaVerifySerializer,
     ReauthSerializer,
     ResetPasswordSerializer,
     UserSummarySerializer,
 )
 
 User = get_user_model()
+SESSION_VERSION_CLAIM = "ik12_session_version"
 
 
 def _set_auth_cookie(response: Response, name: str, value: str, max_age: int) -> None:
@@ -78,6 +90,15 @@ def _set_reauth_cookie(response: Response, value: str) -> None:
     )
 
 
+def _set_mfa_cookie(response: Response, value: str) -> None:
+    _set_auth_cookie(
+        response,
+        settings.AUTH_MFA_COOKIE_NAME,
+        value,
+        settings.AUTH_MFA_RECENT_WINDOW_SECONDS,
+    )
+
+
 def _clear_auth_cookies(response: Response) -> None:
     response.delete_cookie(
         settings.AUTH_ACCESS_COOKIE_NAME,
@@ -93,6 +114,12 @@ def _clear_auth_cookies(response: Response) -> None:
     )
     response.delete_cookie(
         settings.AUTH_REAUTH_COOKIE_NAME,
+        path=settings.AUTH_COOKIE_PATH,
+        domain=settings.AUTH_COOKIE_DOMAIN,
+        samesite=settings.AUTH_COOKIE_SAMESITE,
+    )
+    response.delete_cookie(
+        settings.AUTH_MFA_COOKIE_NAME,
         path=settings.AUTH_COOKIE_PATH,
         domain=settings.AUTH_COOKIE_DOMAIN,
         samesite=settings.AUTH_COOKIE_SAMESITE,
@@ -122,6 +149,7 @@ class LoginView(APIView):  # type: ignore[misc]
 
         now = timezone.now()
         refresh = RefreshToken.for_user(user)
+        refresh[SESSION_VERSION_CLAIM] = int(user.auth_session_version)
         add_session_claims(refresh, now=now)
         response = Response(
             {
@@ -169,6 +197,16 @@ class RefreshView(APIView):  # type: ignore[misc]
             _clear_auth_cookies(response)
             return response
 
+        token_user_id = parsed_refresh_token.payload.get("user_id")
+        token_session_version = int(parsed_refresh_token.payload.get(SESSION_VERSION_CLAIM, 1))
+        token_user = User.objects.filter(pk=token_user_id, is_active=True).first()
+        if not token_user or int(token_user.auth_session_version) != token_session_version:
+            response = Response(
+                {"detail": "Session has been revoked."}, status=status.HTTP_401_UNAUTHORIZED
+            )
+            _clear_auth_cookies(response)
+            return response
+
         is_valid_session, failure_reason = validate_session_window(
             parsed_refresh_token,
             now=timezone.now(),
@@ -196,6 +234,10 @@ class RefreshView(APIView):  # type: ignore[misc]
         rotated_refresh_token = serializer.validated_data.get("refresh")
         if rotated_refresh_token:
             next_refresh_token = RefreshToken(rotated_refresh_token)
+            next_refresh_token[SESSION_VERSION_CLAIM] = parsed_refresh_token.payload.get(
+                SESSION_VERSION_CLAIM,
+                1,
+            )
             next_refresh_token[SESSION_STARTED_AT_CLAIM] = parsed_refresh_token.payload.get(
                 SESSION_STARTED_AT_CLAIM,
                 int(timezone.now().timestamp()),
@@ -296,6 +338,104 @@ class ReauthView(APIView):  # type: ignore[misc]
         serializer.is_valid(raise_exception=True)
         response = Response(status=status.HTTP_204_NO_CONTENT)
         _set_reauth_cookie(response, issue_reauth_cookie_value(request.user))
+        return response
+
+
+class MfaChallengeView(APIView):  # type: ignore[misc]
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request: Request) -> Response:
+        if not requires_mfa_for_user(request.user):
+            return Response({"detail": "MFA is not required for this account."})
+
+        serializer = MfaChallengeSerializer(data=request.data, context={"request": request})
+        serializer.is_valid(raise_exception=True)
+        challenge_id = issue_mfa_challenge(request.user)
+        return Response({"challenge_id": challenge_id}, status=status.HTTP_200_OK)
+
+
+class MfaVerifyView(APIView):  # type: ignore[misc]
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request: Request) -> Response:
+        serializer = MfaVerifySerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        is_valid = verify_mfa_challenge(
+            request.user,
+            serializer.validated_data["challenge_id"],
+            serializer.validated_data["code"],
+        )
+        if not is_valid:
+            return Response(
+                {"detail": "Invalid or expired MFA challenge."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        response = Response(status=status.HTTP_204_NO_CONTENT)
+        _set_mfa_cookie(response, issue_mfa_cookie_value(request.user))
+        return response
+
+
+class MfaPolicyView(APIView):  # type: ignore[misc]
+    permission_classes = [IsAuthenticated, IsSystemAdminOrSuperuser]
+
+    def get(self, request: Request) -> Response:
+        serializer = MfaPolicySerializer(mfa_policy_summary())
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def patch(self, request: Request) -> Response:
+        serializer = MfaPolicyUpdateSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        policy = MfaPolicy.objects.get_or_create(policy_key="default")[0]
+        data = serializer.validated_data
+        if "enforce_for_all" in data:
+            policy.enforce_for_all = bool(data["enforce_for_all"])
+        if "allow_user_opt_in" in data:
+            policy.allow_user_opt_in = bool(data["allow_user_opt_in"])
+        policy.save()
+
+        if "enforced_role_names" in data:
+            roles = Group.objects.filter(name__in=data["enforced_role_names"])
+            policy.enforced_roles.set(roles)
+
+        return Response(MfaPolicySerializer(mfa_policy_summary()).data, status=status.HTTP_200_OK)
+
+
+class PrivilegedReviewHookView(APIView):  # type: ignore[misc]
+    permission_classes = [IsAuthenticated, RequiresPrivilegedStepUp]
+
+    def get(self, request: Request) -> Response:
+        return Response(
+            {"detail": "Privileged step-up requirement satisfied."},
+            status=status.HTTP_200_OK,
+        )
+
+
+class SessionReviewView(APIView):  # type: ignore[misc]
+    permission_classes = [IsAuthenticated, RequiresPrivilegedStepUp]
+
+    def get(self, request: Request) -> Response:
+        return Response(
+            {
+                "auth_session_version": int(request.user.auth_session_version),
+                "reauth_window_seconds": int(settings.AUTH_REAUTH_WINDOW_SECONDS),
+                "mfa_recent_window_seconds": int(settings.AUTH_MFA_RECENT_WINDOW_SECONDS),
+                "mfa_required_for_user": bool(requires_mfa_for_user(request.user)),
+            },
+            status=status.HTTP_200_OK,
+        )
+
+
+class RevokeAllSessionsView(APIView):  # type: ignore[misc]
+    permission_classes = [IsAuthenticated, RequiresPrivilegedStepUp]
+
+    def post(self, request: Request) -> Response:
+        request.user.auth_session_version = int(request.user.auth_session_version) + 1
+        request.user.save(update_fields=["auth_session_version"])
+        response = Response(status=status.HTTP_204_NO_CONTENT)
+        _clear_auth_cookies(response)
         return response
 
 

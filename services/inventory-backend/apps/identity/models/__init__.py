@@ -10,6 +10,7 @@ from .demographics import (
 )
 from .details import GuardianDetail, PrefixCode, StaffDetail, StudentDetail, SuffixCode
 from .login_lock import RoleLoginLock, UserLoginLock
+from .mfa_policy import MfaPolicy
 from .profile import Profile
 from .role_assignment import RoleAssignment, RoleAssignmentOrganization
 from .user import User
@@ -20,6 +21,7 @@ __all__ = [
     "GenderCode",
     "GuardianDetail",
     "GuardianDemographics",
+    "MfaPolicy",
     "Profile",
     "PrefixCode",
     "RaceCode",

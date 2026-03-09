@@ -27,6 +27,11 @@ Define repo-wide access-control enforcement and validation expectations.
   classes/policies, not inline in view handlers.
 - Authentication endpoints must enforce abuse controls, including login
   throttling/rate limiting on credential submission paths.
+- MFA policy supports:
+  - district-wide enforcement for all users
+  - role-based enforcement for selected role sets
+  - user opt-in where enabled by policy
+- `system_admin` must remain in the enforced MFA role baseline.
 - Session refresh paths must enforce both idle timeout and absolute session
   lifetime policy.
 - Browser clients should proactively enforce idle-timeout and absolute-lifetime

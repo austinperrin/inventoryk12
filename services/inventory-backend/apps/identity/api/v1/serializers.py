@@ -1,4 +1,5 @@
 from django.contrib.auth import authenticate, get_user_model
+from django.contrib.auth.models import Group
 from django.contrib.auth.password_validation import validate_password
 from django.contrib.auth.tokens import default_token_generator
 from django.core.exceptions import ValidationError as DjangoValidationError
@@ -116,3 +117,51 @@ class ReauthSerializer(serializers.Serializer):
             raise serializers.ValidationError({"current_password": "Current password is incorrect."})
 
         return attrs
+
+
+class MfaChallengeSerializer(serializers.Serializer):
+    current_password = serializers.CharField(trim_whitespace=False, write_only=True)
+
+    def validate(self, attrs):
+        request = self.context.get("request")
+        user = getattr(request, "user", None)
+        if user is None or not user.is_authenticated:
+            raise serializers.ValidationError("Authentication required.")
+
+        if not user.check_password(attrs["current_password"]):
+            raise serializers.ValidationError({"current_password": "Current password is incorrect."})
+
+        return attrs
+
+
+class MfaVerifySerializer(serializers.Serializer):
+    challenge_id = serializers.CharField()
+    code = serializers.CharField(trim_whitespace=True, max_length=12)
+
+
+class MfaPolicySerializer(serializers.Serializer):
+    enforce_for_all = serializers.BooleanField()
+    allow_user_opt_in = serializers.BooleanField()
+    enforced_role_names = serializers.ListField(
+        child=serializers.CharField(),
+        allow_empty=True,
+    )
+
+
+class MfaPolicyUpdateSerializer(serializers.Serializer):
+    enforce_for_all = serializers.BooleanField(required=False)
+    allow_user_opt_in = serializers.BooleanField(required=False)
+    enforced_role_names = serializers.ListField(
+        child=serializers.CharField(),
+        required=False,
+    )
+
+    def validate_enforced_role_names(self, value: list[str]) -> list[str]:
+        normalized = sorted({name.strip() for name in value if name.strip()})
+        existing = set(Group.objects.filter(name__in=normalized).values_list("name", flat=True))
+        missing = sorted(set(normalized) - existing)
+        if missing:
+            raise serializers.ValidationError(
+                f"Unknown role names: {', '.join(missing)}"
+            )
+        return normalized

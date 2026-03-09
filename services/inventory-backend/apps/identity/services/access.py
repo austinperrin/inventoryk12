@@ -7,6 +7,7 @@ from django.db.models import Q
 from django.utils import timezone
 
 from apps.identity.models import RoleAssignment, RoleLoginLock, User, UserLoginLock
+from apps.identity.services.mfa import requires_mfa_for_user
 
 DEFAULT_NO_ACCESS_MESSAGES = {
     "login_locked": "Your account is currently locked. Contact your administrator.",
@@ -99,5 +100,7 @@ def resolve_user_access(user: User, on_date: date | None = None) -> dict[str, ob
         "has_direct_permissions": bool(direct_permission_codes),
         "has_active_login_lock": has_active_login_lock,
         "is_verified": user.verified_at is not None,
+        "mfa_enabled": user.mfa_enabled,
+        "requires_mfa_step_up": requires_mfa_for_user(user, on_date=target_date),
         "permissions": permission_codes,
     }

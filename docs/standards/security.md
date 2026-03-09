@@ -22,6 +22,8 @@
   limiting).
 - Enforce session hardening controls for idle timeout and absolute session
   lifetime on session refresh paths.
+- Enforce MFA for `system_admin` and support district policy controls for
+  global or role-based MFA enforcement with optional user opt-in.
 - Enforce client-side timeout UX handling so expired sessions proactively sign
   users out and present clear, scoped sign-in feedback for inactivity versus
   lifetime expiry.

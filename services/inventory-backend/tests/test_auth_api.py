@@ -13,7 +13,7 @@ from django.utils.http import urlsafe_base64_encode
 from django.utils import timezone
 from rest_framework.test import APIClient
 
-from apps.identity.models import RoleAssignment, UserLoginLock
+from apps.identity.models import MfaPolicy, RoleAssignment, UserLoginLock
 from apps.identity.services import has_recent_reauth_cookie
 
 User = get_user_model()
@@ -562,3 +562,251 @@ def test_auth_reauth_sets_short_lived_reauth_cookie_on_success(db) -> None:
     assert settings.AUTH_REAUTH_COOKIE_NAME in client.cookies
     reauth_cookie = client.cookies[settings.AUTH_REAUTH_COOKIE_NAME].value
     assert has_recent_reauth_cookie(reauth_cookie, user) is True
+
+
+def test_auth_session_reports_requires_mfa_step_up_for_system_admin_role(db) -> None:
+    user = User.objects.create_user(
+        email="system-admin-mfa@example.com",
+        password="ChangeMe123!",
+    )
+    role = Group.objects.create(name="system_admin")
+    RoleAssignment.objects.create(
+        user=user,
+        role=role,
+        starts_on=timezone.localdate(),
+    )
+    client = _csrf_client()
+    client.post(
+        f"{API_PREFIX}/auth/login/",
+        {"email": user.email, "password": "ChangeMe123!"},
+        format="json",
+    )
+
+    session_response = client.get(f"{API_PREFIX}/auth/session/")
+
+    assert session_response.status_code == 200
+    assert session_response.data["access"]["requires_mfa_step_up"] is True
+
+
+def test_auth_session_reports_requires_mfa_step_up_for_opt_in_user(db) -> None:
+    MfaPolicy.objects.update_or_create(
+        policy_key="default",
+        defaults={
+            "enforce_for_all": False,
+            "allow_user_opt_in": True,
+        },
+    )
+    user = User.objects.create_user(
+        email="opt-in-mfa@example.com",
+        password="ChangeMe123!",
+        mfa_enabled=True,
+    )
+    client = _csrf_client()
+    client.post(
+        f"{API_PREFIX}/auth/login/",
+        {"email": user.email, "password": "ChangeMe123!"},
+        format="json",
+    )
+
+    session_response = client.get(f"{API_PREFIX}/auth/session/")
+
+    assert session_response.status_code == 200
+    assert session_response.data["access"]["requires_mfa_step_up"] is True
+
+
+def test_auth_session_does_not_require_mfa_when_opt_in_disabled_for_non_system_admin(db) -> None:
+    MfaPolicy.objects.update_or_create(
+        policy_key="default",
+        defaults={
+            "enforce_for_all": False,
+            "allow_user_opt_in": False,
+        },
+    )
+    user = User.objects.create_user(
+        email="opt-in-disabled@example.com",
+        password="ChangeMe123!",
+        mfa_enabled=True,
+    )
+    client = _csrf_client()
+    client.post(
+        f"{API_PREFIX}/auth/login/",
+        {"email": user.email, "password": "ChangeMe123!"},
+        format="json",
+    )
+
+    session_response = client.get(f"{API_PREFIX}/auth/session/")
+    assert session_response.status_code == 200
+    assert session_response.data["access"]["requires_mfa_step_up"] is False
+
+
+def test_auth_mfa_policy_can_be_updated_by_system_admin(db) -> None:
+    user = User.objects.create_user(
+        email="mfa-policy-admin@example.com",
+        password="ChangeMe123!",
+    )
+    role = Group.objects.create(name="system_admin")
+    RoleAssignment.objects.create(
+        user=user,
+        role=role,
+        starts_on=timezone.localdate(),
+    )
+    Group.objects.get_or_create(name="district_admin")
+    Group.objects.get_or_create(name="teacher")
+    client = _csrf_client()
+    client.post(
+        f"{API_PREFIX}/auth/login/",
+        {"email": user.email, "password": "ChangeMe123!"},
+        format="json",
+    )
+
+    response = client.patch(
+        f"{API_PREFIX}/auth/mfa/policy/",
+        {
+            "enforce_for_all": False,
+            "allow_user_opt_in": True,
+            "enforced_role_names": ["district_admin", "teacher"],
+        },
+        format="json",
+    )
+    assert response.status_code == 200
+    assert response.data["enforce_for_all"] is False
+    assert response.data["allow_user_opt_in"] is True
+    assert response.data["enforced_role_names"] == ["district_admin", "teacher"]
+
+
+def test_auth_mfa_policy_denies_non_system_admin_user(db) -> None:
+    user = User.objects.create_user(
+        email="mfa-policy-user@example.com",
+        password="ChangeMe123!",
+    )
+    client = _csrf_client()
+    client.post(
+        f"{API_PREFIX}/auth/login/",
+        {"email": user.email, "password": "ChangeMe123!"},
+        format="json",
+    )
+
+    response = client.patch(
+        f"{API_PREFIX}/auth/mfa/policy/",
+        {"enforce_for_all": True},
+        format="json",
+    )
+    assert response.status_code == 403
+
+
+def test_auth_mfa_challenge_and_verify_enable_privileged_step_up_hook(db) -> None:
+    mail.outbox.clear()
+    user = User.objects.create_user(
+        email="mfa-hook@example.com",
+        password="ChangeMe123!",
+    )
+    role = Group.objects.create(name="system_admin")
+    role.permissions.add(
+        Permission.objects.get(content_type__app_label="auth", codename="view_group")
+    )
+    RoleAssignment.objects.create(
+        user=user,
+        role=role,
+        starts_on=timezone.localdate(),
+    )
+    client = _csrf_client()
+    client.post(
+        f"{API_PREFIX}/auth/login/",
+        {"email": user.email, "password": "ChangeMe123!"},
+        format="json",
+    )
+
+    pre_hook_response = client.get(f"{API_PREFIX}/auth/privileged-review-hook/")
+    assert pre_hook_response.status_code == 403
+
+    reauth_response = client.post(
+        f"{API_PREFIX}/auth/re-auth/",
+        {"current_password": "ChangeMe123!"},
+        format="json",
+    )
+    assert reauth_response.status_code == 204
+
+    without_mfa_response = client.get(f"{API_PREFIX}/auth/privileged-review-hook/")
+    assert without_mfa_response.status_code == 403
+
+    challenge_response = client.post(
+        f"{API_PREFIX}/auth/mfa/challenge/",
+        {"current_password": "ChangeMe123!"},
+        format="json",
+    )
+    assert challenge_response.status_code == 200
+    assert "challenge_id" in challenge_response.data
+    assert len(mail.outbox) == 1
+    challenge_id = challenge_response.data["challenge_id"]
+    code = mail.outbox[0].body.strip().split()[-1]
+
+    verify_response = client.post(
+        f"{API_PREFIX}/auth/mfa/verify/",
+        {"challenge_id": challenge_id, "code": code},
+        format="json",
+    )
+    assert verify_response.status_code == 204
+    assert settings.AUTH_MFA_COOKIE_NAME in client.cookies
+
+    post_hook_response = client.get(f"{API_PREFIX}/auth/privileged-review-hook/")
+    assert post_hook_response.status_code == 200
+
+
+def test_auth_session_review_and_revoke_all_sessions_require_step_up_and_revoke_tokens(db) -> None:
+    mail.outbox.clear()
+    user = User.objects.create_user(
+        email="session-review@example.com",
+        password="ChangeMe123!",
+    )
+    role = Group.objects.create(name="system_admin")
+    role.permissions.add(
+        Permission.objects.get(content_type__app_label="auth", codename="view_group")
+    )
+    RoleAssignment.objects.create(
+        user=user,
+        role=role,
+        starts_on=timezone.localdate(),
+    )
+    client = _csrf_client()
+    client.post(
+        f"{API_PREFIX}/auth/login/",
+        {"email": user.email, "password": "ChangeMe123!"},
+        format="json",
+    )
+
+    pre_review_response = client.get(f"{API_PREFIX}/auth/session-review/")
+    assert pre_review_response.status_code == 403
+
+    client.post(
+        f"{API_PREFIX}/auth/re-auth/",
+        {"current_password": "ChangeMe123!"},
+        format="json",
+    )
+    challenge_response = client.post(
+        f"{API_PREFIX}/auth/mfa/challenge/",
+        {"current_password": "ChangeMe123!"},
+        format="json",
+    )
+    challenge_id = challenge_response.data["challenge_id"]
+    code = mail.outbox[0].body.strip().split()[-1]
+    client.post(
+        f"{API_PREFIX}/auth/mfa/verify/",
+        {"challenge_id": challenge_id, "code": code},
+        format="json",
+    )
+
+    review_response = client.get(f"{API_PREFIX}/auth/session-review/")
+    assert review_response.status_code == 200
+    assert review_response.data["auth_session_version"] == 1
+    assert review_response.data["mfa_required_for_user"] is True
+
+    old_refresh = client.cookies["ik12_refresh"].value
+    revoke_response = client.post(f"{API_PREFIX}/auth/sessions/revoke-all/", {}, format="json")
+    assert revoke_response.status_code == 204
+    assert revoke_response.cookies["ik12_access"].value == ""
+    assert revoke_response.cookies["ik12_refresh"].value == ""
+
+    client.cookies["ik12_refresh"] = old_refresh
+    refresh_response = client.post(f"{API_PREFIX}/auth/refresh/", {}, format="json")
+    assert refresh_response.status_code == 401
+    assert refresh_response.data["detail"] == "Session has been revoked."
