@@ -3,9 +3,13 @@ from datetime import timedelta
 
 from django.conf import settings
 from django.contrib.auth import get_user_model
+from django.contrib.auth.tokens import default_token_generator
 from django.contrib.auth.models import Group, Permission
 from django.core.cache import cache
+from django.core import mail
 from django.test import override_settings
+from django.utils.encoding import force_bytes
+from django.utils.http import urlsafe_base64_encode
 from django.utils import timezone
 from rest_framework.test import APIClient
 
@@ -377,3 +381,140 @@ def test_auth_session_reports_no_access_when_user_has_active_login_lock(db) -> N
     assert session_response.data["access"]["has_active_login_lock"] is True
     assert me_response.status_code == 403
     assert me_response.data["detail"] == "Your account is locked. Contact district support."
+
+
+def test_auth_session_reports_no_access_when_password_reset_is_required(db) -> None:
+    user = User.objects.create_user(
+        email="require-reset@example.com",
+        password="ChangeMe123!",
+        require_password_reset=True,
+    )
+    view_group_permission = Permission.objects.get(
+        content_type__app_label="auth",
+        codename="view_group",
+    )
+    role = Group.objects.create(name="teacher-reset")
+    role.permissions.add(view_group_permission)
+    RoleAssignment.objects.create(
+        user=user,
+        role=role,
+        starts_on=timezone.localdate(),
+    )
+    client = _csrf_client()
+    client.post(
+        f"{API_PREFIX}/auth/login/",
+        {"email": user.email, "password": "ChangeMe123!"},
+        format="json",
+    )
+
+    session_response = client.get(f"{API_PREFIX}/auth/session/")
+    me_response = client.get(f"{API_PREFIX}/auth/me/")
+
+    assert session_response.status_code == 200
+    assert session_response.data["access"]["has_effective_access"] is False
+    assert session_response.data["access"]["no_access_reason"] == "require_password_reset"
+    assert (
+        session_response.data["access"]["no_access_message"]
+        == "You must reset your password before continuing."
+    )
+    assert me_response.status_code == 403
+    assert me_response.data["detail"] == "You must reset your password before continuing."
+
+
+def test_auth_forgot_password_returns_204_and_sends_email_for_known_user(db) -> None:
+    user = User.objects.create_user(
+        email="forgot@example.com",
+        password="ChangeMe123!",
+    )
+    client = _csrf_client()
+
+    response = client.post(
+        f"{API_PREFIX}/auth/forgot-password/",
+        {"email": user.email},
+        format="json",
+    )
+
+    assert response.status_code == 204
+    assert len(mail.outbox) == 1
+    assert user.email in mail.outbox[0].to
+
+
+def test_auth_forgot_password_returns_204_for_unknown_user_without_email(db) -> None:
+    client = _csrf_client()
+    mail.outbox.clear()
+
+    response = client.post(
+        f"{API_PREFIX}/auth/forgot-password/",
+        {"email": "missing@example.com"},
+        format="json",
+    )
+
+    assert response.status_code == 204
+    assert len(mail.outbox) == 0
+
+
+def test_auth_reset_password_updates_credentials_and_clears_require_reset(db) -> None:
+    user = User.objects.create_user(
+        email="reset@example.com",
+        password="ChangeMe123!",
+        require_password_reset=True,
+    )
+    uid = urlsafe_base64_encode(force_bytes(user.pk))
+    token = default_token_generator.make_token(user)
+    client = _csrf_client()
+
+    response = client.post(
+        f"{API_PREFIX}/auth/reset-password/",
+        {
+            "uid": uid,
+            "token": token,
+            "new_password": "NewPassword123!",
+            "new_password_confirm": "NewPassword123!",
+        },
+        format="json",
+    )
+
+    assert response.status_code == 204
+    user.refresh_from_db()
+    assert user.require_password_reset is False
+    assert user.check_password("NewPassword123!")
+
+
+def test_auth_change_password_requires_current_password_and_clears_require_reset(db) -> None:
+    user = User.objects.create_user(
+        email="change@example.com",
+        password="ChangeMe123!",
+        require_password_reset=True,
+    )
+    client = _csrf_client()
+    client.post(
+        f"{API_PREFIX}/auth/login/",
+        {"email": user.email, "password": "ChangeMe123!"},
+        format="json",
+    )
+
+    bad_response = client.post(
+        f"{API_PREFIX}/auth/change-password/",
+        {
+            "current_password": "WrongPassword123!",
+            "new_password": "UpdatedPassword123!",
+            "new_password_confirm": "UpdatedPassword123!",
+        },
+        format="json",
+    )
+    assert bad_response.status_code == 400
+
+    good_response = client.post(
+        f"{API_PREFIX}/auth/change-password/",
+        {
+            "current_password": "ChangeMe123!",
+            "new_password": "UpdatedPassword123!",
+            "new_password_confirm": "UpdatedPassword123!",
+        },
+        format="json",
+    )
+    assert good_response.status_code == 204
+
+    user.refresh_from_db()
+    assert user.require_password_reset is False
+    assert user.check_password("UpdatedPassword123!")

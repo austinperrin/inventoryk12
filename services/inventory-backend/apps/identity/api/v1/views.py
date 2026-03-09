@@ -1,6 +1,11 @@
 from django.conf import settings
+from django.contrib.auth import get_user_model
+from django.contrib.auth.tokens import default_token_generator
+from django.core.mail import send_mail
 from django.middleware.csrf import get_token
 from django.utils import timezone
+from django.utils.http import urlsafe_base64_encode
+from django.utils.encoding import force_bytes
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import ensure_csrf_cookie
 from rest_framework import status
@@ -16,7 +21,15 @@ from apps.identity.services import add_session_claims, resolve_user_access, vali
 from apps.identity.services.session_security import SESSION_STARTED_AT_CLAIM
 
 from .permissions import HasEffectiveAccess
-from .serializers import LoginSerializer, UserSummarySerializer
+from .serializers import (
+    ChangePasswordSerializer,
+    ForgotPasswordSerializer,
+    LoginSerializer,
+    ResetPasswordSerializer,
+    UserSummarySerializer,
+)
+
+User = get_user_model()
 
 
 def _set_auth_cookie(response: Response, name: str, value: str, max_age: int) -> None:
@@ -195,6 +208,63 @@ class LogoutView(APIView):  # type: ignore[misc]
         response = Response(status=status.HTTP_200_OK)
         _clear_auth_cookies(response)
         return response
+
+
+class ForgotPasswordView(APIView):  # type: ignore[misc]
+    authentication_classes: list[type] = []
+    permission_classes = [AllowAny]
+
+    def post(self, request: Request) -> Response:
+        serializer = ForgotPasswordSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        email = serializer.validated_data["email"]
+
+        user = User.objects.filter(email=email, is_active=True).first()
+        if user and user.has_usable_password():
+            uid = urlsafe_base64_encode(force_bytes(user.pk))
+            token = default_token_generator.make_token(user)
+            send_mail(
+                subject="InventoryK12 password reset request",
+                message=(
+                    "A password reset was requested for your account.\n\n"
+                    f"uid={uid}\n"
+                    f"token={token}\n\n"
+                    "If you did not request this, contact your administrator."
+                ),
+                from_email=None,
+                recipient_list=[user.email],
+                fail_silently=True,
+            )
+
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class ResetPasswordView(APIView):  # type: ignore[misc]
+    authentication_classes: list[type] = []
+    permission_classes = [AllowAny]
+
+    def post(self, request: Request) -> Response:
+        serializer = ResetPasswordSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        user = serializer.validated_data["user"]
+        user.set_password(serializer.validated_data["new_password"])
+        user.require_password_reset = False
+        if user.verified_at is None:
+            user.verified_at = timezone.now()
+        user.save(update_fields=["password", "require_password_reset", "verified_at"])
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class ChangePasswordView(APIView):  # type: ignore[misc]
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request: Request) -> Response:
+        serializer = ChangePasswordSerializer(data=request.data, context={"request": request})
+        serializer.is_valid(raise_exception=True)
+        request.user.set_password(serializer.validated_data["new_password"])
+        request.user.require_password_reset = False
+        request.user.save(update_fields=["password", "require_password_reset"])
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 @method_decorator(ensure_csrf_cookie, name="dispatch")

@@ -13,7 +13,12 @@ export type AuthUser = {
 export type AccessState = {
   has_effective_access: boolean;
   access_outcome: 'granted' | 'no_access';
-  no_access_reason: 'login_locked' | 'not_verified' | 'no_effective_permissions' | null;
+  no_access_reason:
+    | 'login_locked'
+    | 'not_verified'
+    | 'require_password_reset'
+    | 'no_effective_permissions'
+    | null;
   no_access_message: string | null;
 };
 

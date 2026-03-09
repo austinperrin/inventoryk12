@@ -11,6 +11,7 @@ from apps.identity.models import RoleAssignment, RoleLoginLock, User, UserLoginL
 DEFAULT_NO_ACCESS_MESSAGES = {
     "login_locked": "Your account is currently locked. Contact your administrator.",
     "not_verified": "Your account is not verified yet. Contact your administrator.",
+    "require_password_reset": "You must reset your password before continuing.",
     "no_effective_permissions": (
         "Your account is active but has no effective permissions assigned."
     ),
@@ -75,6 +76,8 @@ def resolve_user_access(user: User, on_date: date | None = None) -> dict[str, ob
         no_access_reason = "login_locked"
     elif user.verified_at is None:
         no_access_reason = "not_verified"
+    elif user.require_password_reset:
+        no_access_reason = "require_password_reset"
     elif not has_any_permissions:
         no_access_reason = "no_effective_permissions"
 

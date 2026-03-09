@@ -5,6 +5,7 @@ import { routeHomePath } from '../routes/paths';
 const noAccessTitle: Record<string, string> = {
   login_locked: 'Account locked',
   not_verified: 'Verification required',
+  require_password_reset: 'Password reset required',
   no_effective_permissions: 'Access pending',
 };
 
