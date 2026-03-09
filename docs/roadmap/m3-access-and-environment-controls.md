@@ -67,8 +67,9 @@ high-assurance auth/session controls required for MVP protected workflows.
 - [x] Implement role delegation boundaries.
 - [x] Implement direct user-permission grant controls for exception-based
   extensions.
-- [ ] Implement session hardening controls (idle timeout, absolute lifetime, re-auth hooks).
-- [ ] Implement login abuse protections (rate limiting, throttling, or lockout policy).
+- [x] Implement session hardening controls for idle timeout and absolute lifetime.
+- [ ] Implement re-auth hooks for privileged workflows.
+- [x] Implement login abuse protections (rate limiting, throttling, or lockout policy).
 - [ ] Implement MFA and step-up auth support for privileged workflows.
 - [ ] Implement session/device revocation and privileged-session review hooks.
 
@@ -76,7 +77,8 @@ high-assurance auth/session controls required for MVP protected workflows.
 - [x] Add authorization failure/denial test coverage.
 - [x] Add effective-permission resolution coverage for multi-role, direct-user,
   and no-access outcomes.
-- [ ] Add auth/session hardening test coverage for timeout, revocation, and step-up flows.
+- [x] Add auth/session hardening test coverage for timeout and revocation flows.
+- [ ] Add step-up auth test coverage.
 - [ ] Add MFA/login-abuse coverage for success, failure, and recovery paths.
 
 #### Security + Compliance

@@ -25,6 +25,13 @@ Define repo-wide access-control enforcement and validation expectations.
   permission checks.
 - Authorization logic should be implemented in dedicated permission
   classes/policies, not inline in view handlers.
+- Authentication endpoints must enforce abuse controls, including login
+  throttling/rate limiting on credential submission paths.
+- Session refresh paths must enforce both idle timeout and absolute session
+  lifetime policy.
+- Browser clients should proactively enforce idle-timeout and absolute-lifetime
+  sign-out behavior and present scoped user feedback for the sign-out reason
+  (for example, inactivity versus lifetime expiry).
 - Delegated role/permission assignment must enforce non-delegable permission
   boundaries.
 - Direct user permissions are additive exception controls and must not replace

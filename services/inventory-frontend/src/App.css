@@ -262,6 +262,18 @@
   font-weight: 600;
 }
 
+.auth-notice {
+  margin: 0;
+  color: #0d4f59;
+  font-weight: 600;
+}
+
+.auth-lockout {
+  display: grid;
+  gap: 1rem;
+  justify-items: start;
+}
+
 @media (max-width: 720px) {
   .app-shell {
     padding: 1rem;

@@ -17,15 +17,22 @@ export type AccessState = {
   no_access_message: string | null;
 };
 
+export type SessionPolicy = {
+  idle_timeout_seconds: number;
+  absolute_lifetime_seconds: number;
+};
+
 type AuthEnvelope = {
   user: AuthUser;
   access: AccessState;
+  session_policy?: SessionPolicy;
 };
 
 type SessionEnvelope = {
   authenticated: boolean;
   user: AuthUser | null;
   access: AccessState | null;
+  session_policy?: SessionPolicy;
 };
 
 export async function primeCsrfCookie(): Promise<void> {

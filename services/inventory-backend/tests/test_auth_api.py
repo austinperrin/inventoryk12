@@ -1,8 +1,11 @@
+import pytest
 from datetime import timedelta
 
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import Group, Permission
+from django.core.cache import cache
+from django.test import override_settings
 from django.utils import timezone
 from rest_framework.test import APIClient
 
@@ -10,6 +13,13 @@ from apps.identity.models import RoleAssignment, UserLoginLock
 
 User = get_user_model()
 API_PREFIX = f"{settings.APP_ENV_PATH_PREFIX}/api/v1"
+
+
+@pytest.fixture(autouse=True)
+def _clear_auth_throttle_cache():
+    cache.clear()
+    yield
+    cache.clear()
 
 
 def _csrf_client() -> APIClient:
@@ -117,6 +127,100 @@ def test_auth_logout_clears_cookies_and_blacklists_refresh_token(db) -> None:
 
     refresh_response = client.post(f"{API_PREFIX}/auth/refresh/", {}, format="json")
     assert refresh_response.status_code == 401
+
+
+def test_auth_login_is_rate_limited_after_threshold(db) -> None:
+    cache.clear()
+    user = User.objects.create_user(
+        email="throttle@example.com",
+        password="ChangeMe123!",
+    )
+    client = _csrf_client()
+
+    configured_rate = settings.REST_FRAMEWORK["DEFAULT_THROTTLE_RATES"]["auth_login"]
+    limit = int(str(configured_rate).split("/", maxsplit=1)[0])
+    response = None
+    for _ in range(limit):
+        response = client.post(
+            f"{API_PREFIX}/auth/login/",
+            {"email": user.email, "password": "WrongPassword123!"},
+            format="json",
+        )
+        assert response.status_code == 400
+
+    response = client.post(
+        f"{API_PREFIX}/auth/login/",
+        {"email": user.email, "password": "WrongPassword123!"},
+        format="json",
+    )
+
+    assert response.status_code == 429
+    cache.clear()
+
+
+def test_auth_refresh_denies_when_idle_timeout_is_exceeded(db, monkeypatch) -> None:
+    user = User.objects.create_user(
+        email="idle-timeout@example.com",
+        password="ChangeMe123!",
+    )
+    client = _csrf_client()
+    base_now = timezone.now()
+    monkeypatch.setattr("apps.identity.api.v1.views.timezone.now", lambda: base_now)
+
+    client.post(
+        f"{API_PREFIX}/auth/login/",
+        {"email": user.email, "password": "ChangeMe123!"},
+        format="json",
+    )
+
+    monkeypatch.setattr(
+        "apps.identity.api.v1.views.timezone.now",
+        lambda: base_now + timedelta(seconds=61),
+    )
+    with override_settings(
+        AUTH_SESSION_IDLE_TIMEOUT_SECONDS=60,
+        AUTH_SESSION_ABSOLUTE_LIFETIME_SECONDS=3600,
+    ):
+        refresh_response = client.post(f"{API_PREFIX}/auth/refresh/", {}, format="json")
+
+    assert refresh_response.status_code == 401
+    assert refresh_response.data["detail"] == "Session idle timeout exceeded. Please sign in again."
+    assert refresh_response.cookies["ik12_access"].value == ""
+    assert refresh_response.cookies["ik12_refresh"].value == ""
+
+
+def test_auth_refresh_denies_when_absolute_lifetime_is_exceeded(db, monkeypatch) -> None:
+    user = User.objects.create_user(
+        email="absolute-timeout@example.com",
+        password="ChangeMe123!",
+    )
+    client = _csrf_client()
+    base_now = timezone.now()
+    monkeypatch.setattr("apps.identity.api.v1.views.timezone.now", lambda: base_now)
+
+    client.post(
+        f"{API_PREFIX}/auth/login/",
+        {"email": user.email, "password": "ChangeMe123!"},
+        format="json",
+    )
+
+    monkeypatch.setattr(
+        "apps.identity.api.v1.views.timezone.now",
+        lambda: base_now + timedelta(seconds=121),
+    )
+    with override_settings(
+        AUTH_SESSION_IDLE_TIMEOUT_SECONDS=3600,
+        AUTH_SESSION_ABSOLUTE_LIFETIME_SECONDS=120,
+    ):
+        refresh_response = client.post(f"{API_PREFIX}/auth/refresh/", {}, format="json")
+
+    assert refresh_response.status_code == 401
+    assert (
+        refresh_response.data["detail"]
+        == "Session absolute lifetime exceeded. Please sign in again."
+    )
+    assert refresh_response.cookies["ik12_access"].value == ""
+    assert refresh_response.cookies["ik12_refresh"].value == ""
 
 
 def test_auth_me_denies_guest_user() -> None:

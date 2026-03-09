@@ -7,11 +7,13 @@ from rest_framework import status
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.request import Request  # type: ignore[import-untyped]
 from rest_framework.response import Response  # type: ignore[import-untyped]
+from rest_framework.throttling import ScopedRateThrottle
 from rest_framework.views import APIView  # type: ignore[import-untyped]
 from rest_framework_simplejwt.serializers import TokenRefreshSerializer
 from rest_framework_simplejwt.tokens import RefreshToken
 
-from apps.identity.services import resolve_user_access
+from apps.identity.services import add_session_claims, resolve_user_access, validate_session_window
+from apps.identity.services.session_security import SESSION_STARTED_AT_CLAIM
 
 from .permissions import HasEffectiveAccess
 from .serializers import LoginSerializer, UserSummarySerializer
@@ -63,9 +65,18 @@ def _clear_auth_cookies(response: Response) -> None:
     )
 
 
+def _session_policy_payload() -> dict[str, int]:
+    return {
+        "idle_timeout_seconds": int(settings.AUTH_SESSION_IDLE_TIMEOUT_SECONDS),
+        "absolute_lifetime_seconds": int(settings.AUTH_SESSION_ABSOLUTE_LIFETIME_SECONDS),
+    }
+
+
 class LoginView(APIView):  # type: ignore[misc]
     authentication_classes: list[type] = []
     permission_classes = [AllowAny]
+    throttle_classes = [ScopedRateThrottle]
+    throttle_scope = "auth_login"
 
     def post(self, request: Request) -> Response:
         serializer = LoginSerializer(data=request.data, context={"request": request})
@@ -75,11 +86,14 @@ class LoginView(APIView):  # type: ignore[misc]
             user.verified_at = timezone.now()
             user.save(update_fields=["verified_at"])
 
+        now = timezone.now()
         refresh = RefreshToken.for_user(user)
+        add_session_claims(refresh, now=now)
         response = Response(
             {
                 "user": UserSummarySerializer(user).data,
                 "access": resolve_user_access(user),
+                "session_policy": _session_policy_payload(),
             },
             status=status.HTTP_200_OK,
         )
@@ -112,6 +126,29 @@ class RefreshView(APIView):  # type: ignore[misc]
             _clear_auth_cookies(response)
             return response
 
+        try:
+            parsed_refresh_token = RefreshToken(refresh_token)
+        except Exception:
+            response = Response(
+                {"detail": "Refresh token invalid."}, status=status.HTTP_401_UNAUTHORIZED
+            )
+            _clear_auth_cookies(response)
+            return response
+
+        is_valid_session, failure_reason = validate_session_window(
+            parsed_refresh_token,
+            now=timezone.now(),
+        )
+        if not is_valid_session:
+            detail = "Session expired. Please sign in again."
+            if failure_reason == "session_idle_timeout":
+                detail = "Session idle timeout exceeded. Please sign in again."
+            elif failure_reason == "session_absolute_timeout":
+                detail = "Session absolute lifetime exceeded. Please sign in again."
+            response = Response({"detail": detail}, status=status.HTTP_401_UNAUTHORIZED)
+            _clear_auth_cookies(response)
+            return response
+
         serializer = TokenRefreshSerializer(data={"refresh": refresh_token})
         try:
             serializer.is_valid(raise_exception=True)
@@ -121,6 +158,17 @@ class RefreshView(APIView):  # type: ignore[misc]
             )
             _clear_auth_cookies(response)
             return response
+
+        rotated_refresh_token = serializer.validated_data.get("refresh")
+        if rotated_refresh_token:
+            next_refresh_token = RefreshToken(rotated_refresh_token)
+            next_refresh_token[SESSION_STARTED_AT_CLAIM] = parsed_refresh_token.payload.get(
+                SESSION_STARTED_AT_CLAIM,
+                int(timezone.now().timestamp()),
+            )
+            add_session_claims(next_refresh_token, now=timezone.now())
+            serializer.validated_data["refresh"] = str(next_refresh_token)
+            serializer.validated_data["access"] = str(next_refresh_token.access_token)
 
         response = Response(status=status.HTTP_200_OK)
         _set_auth_cookies(
@@ -160,6 +208,7 @@ class SessionView(APIView):  # type: ignore[misc]
                     "authenticated": True,
                     "user": UserSummarySerializer(request.user).data,
                     "access": resolve_user_access(request.user),
+                    "session_policy": _session_policy_payload(),
                 }
             )
         return Response({"authenticated": False, "user": None})
