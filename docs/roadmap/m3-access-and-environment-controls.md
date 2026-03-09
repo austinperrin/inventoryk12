@@ -117,11 +117,11 @@ Implement tenant/environment routing behavior aligned to topology decisions.
 ### Development Checklist
 
 #### DevOps + SRE
-- [ ] Implement tenant URL/env routing baseline.
+- [x] Implement tenant URL/env routing baseline.
 - [x] Add configuration model for env routing targets.
 
 #### QA + Testing
-- [ ] Validate routing behavior for `prod` and non-prod paths.
+- [x] Validate routing behavior for `prod` and non-prod paths.
 
 #### Docs + Standards
 - [x] Document routing setup and operational checks.
