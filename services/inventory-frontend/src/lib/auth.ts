@@ -75,6 +75,15 @@ export async function refresh(): Promise<void> {
   });
 }
 
+export async function reauthenticate(currentPassword: string): Promise<void> {
+  const csrfToken = getCsrfToken();
+  await apiRequest('/api/v1/auth/re-auth/', {
+    method: 'POST',
+    headers: csrfToken ? { 'X-CSRFToken': csrfToken } : undefined,
+    body: { current_password: currentPassword },
+  });
+}
+
 export async function getCurrentUser(): Promise<AuthUser> {
   const data = await apiRequest<AuthEnvelope>('/api/v1/auth/me/');
   return data.user;

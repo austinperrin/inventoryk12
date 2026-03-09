@@ -17,7 +17,12 @@ from rest_framework.views import APIView  # type: ignore[import-untyped]
 from rest_framework_simplejwt.serializers import TokenRefreshSerializer
 from rest_framework_simplejwt.tokens import RefreshToken
 
-from apps.identity.services import add_session_claims, resolve_user_access, validate_session_window
+from apps.identity.services import (
+    add_session_claims,
+    issue_reauth_cookie_value,
+    resolve_user_access,
+    validate_session_window,
+)
 from apps.identity.services.session_security import SESSION_STARTED_AT_CLAIM
 
 from .permissions import HasEffectiveAccess
@@ -25,6 +30,7 @@ from .serializers import (
     ChangePasswordSerializer,
     ForgotPasswordSerializer,
     LoginSerializer,
+    ReauthSerializer,
     ResetPasswordSerializer,
     UserSummarySerializer,
 )
@@ -63,6 +69,15 @@ def _set_auth_cookies(
         )
 
 
+def _set_reauth_cookie(response: Response, value: str) -> None:
+    _set_auth_cookie(
+        response,
+        settings.AUTH_REAUTH_COOKIE_NAME,
+        value,
+        settings.AUTH_REAUTH_WINDOW_SECONDS,
+    )
+
+
 def _clear_auth_cookies(response: Response) -> None:
     response.delete_cookie(
         settings.AUTH_ACCESS_COOKIE_NAME,
@@ -72,6 +87,12 @@ def _clear_auth_cookies(response: Response) -> None:
     )
     response.delete_cookie(
         settings.AUTH_REFRESH_COOKIE_NAME,
+        path=settings.AUTH_COOKIE_PATH,
+        domain=settings.AUTH_COOKIE_DOMAIN,
+        samesite=settings.AUTH_COOKIE_SAMESITE,
+    )
+    response.delete_cookie(
+        settings.AUTH_REAUTH_COOKIE_NAME,
         path=settings.AUTH_COOKIE_PATH,
         domain=settings.AUTH_COOKIE_DOMAIN,
         samesite=settings.AUTH_COOKIE_SAMESITE,
@@ -265,6 +286,17 @@ class ChangePasswordView(APIView):  # type: ignore[misc]
         request.user.require_password_reset = False
         request.user.save(update_fields=["password", "require_password_reset"])
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class ReauthView(APIView):  # type: ignore[misc]
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request: Request) -> Response:
+        serializer = ReauthSerializer(data=request.data, context={"request": request})
+        serializer.is_valid(raise_exception=True)
+        response = Response(status=status.HTTP_204_NO_CONTENT)
+        _set_reauth_cookie(response, issue_reauth_cookie_value(request.user))
+        return response
 
 
 @method_decorator(ensure_csrf_cookie, name="dispatch")

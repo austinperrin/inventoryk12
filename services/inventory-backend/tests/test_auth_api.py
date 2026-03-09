@@ -14,6 +14,7 @@ from django.utils import timezone
 from rest_framework.test import APIClient
 
 from apps.identity.models import RoleAssignment, UserLoginLock
+from apps.identity.services import has_recent_reauth_cookie
 
 User = get_user_model()
 API_PREFIX = f"{settings.APP_ENV_PATH_PREFIX}/api/v1"
@@ -518,3 +519,46 @@ def test_auth_change_password_requires_current_password_and_clears_require_reset
     user.refresh_from_db()
     assert user.require_password_reset is False
     assert user.check_password("UpdatedPassword123!")
+
+
+def test_auth_reauth_requires_authenticated_user(db) -> None:
+    client = APIClient(enforce_csrf_checks=True)
+
+    response = client.post(
+        f"{API_PREFIX}/auth/re-auth/",
+        {"current_password": "ChangeMe123!"},
+        format="json",
+    )
+
+    assert response.status_code == 401
+
+
+def test_auth_reauth_sets_short_lived_reauth_cookie_on_success(db) -> None:
+    user = User.objects.create_user(
+        email="reauth@example.com",
+        password="ChangeMe123!",
+    )
+    client = _csrf_client()
+    client.post(
+        f"{API_PREFIX}/auth/login/",
+        {"email": user.email, "password": "ChangeMe123!"},
+        format="json",
+    )
+
+    invalid_response = client.post(
+        f"{API_PREFIX}/auth/re-auth/",
+        {"current_password": "WrongPassword123!"},
+        format="json",
+    )
+    assert invalid_response.status_code == 400
+
+    success_response = client.post(
+        f"{API_PREFIX}/auth/re-auth/",
+        {"current_password": "ChangeMe123!"},
+        format="json",
+    )
+
+    assert success_response.status_code == 204
+    assert settings.AUTH_REAUTH_COOKIE_NAME in client.cookies
+    reauth_cookie = client.cookies[settings.AUTH_REAUTH_COOKIE_NAME].value
+    assert has_recent_reauth_cookie(reauth_cookie, user) is True
