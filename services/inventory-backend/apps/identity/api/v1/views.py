@@ -5,9 +5,9 @@ from django.contrib.auth.tokens import default_token_generator
 from django.core.mail import send_mail
 from django.middleware.csrf import get_token
 from django.utils import timezone
-from django.utils.http import urlsafe_base64_encode
-from django.utils.encoding import force_bytes
 from django.utils.decorators import method_decorator
+from django.utils.encoding import force_bytes
+from django.utils.http import urlsafe_base64_encode
 from django.views.decorators.csrf import ensure_csrf_cookie
 from rest_framework import status
 from rest_framework.permissions import AllowAny, IsAuthenticated
@@ -197,7 +197,14 @@ class RefreshView(APIView):  # type: ignore[misc]
             _clear_auth_cookies(response)
             return response
 
-        token_user_id = parsed_refresh_token.payload.get("user_id")
+        token_user_id_raw = parsed_refresh_token.payload.get("user_id")
+        if token_user_id_raw is None:
+            response = Response(
+                {"detail": "Session has been revoked."}, status=status.HTTP_401_UNAUTHORIZED
+            )
+            _clear_auth_cookies(response)
+            return response
+        token_user_id = str(token_user_id_raw)
         token_session_version = int(parsed_refresh_token.payload.get(SESSION_VERSION_CLAIM, 1))
         token_user = User.objects.filter(pk=token_user_id, is_active=True).first()
         if not token_user or int(token_user.auth_session_version) != token_session_version:

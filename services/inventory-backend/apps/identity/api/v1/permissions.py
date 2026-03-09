@@ -1,13 +1,12 @@
+from django.conf import settings
 from rest_framework.permissions import BasePermission
 from rest_framework.request import Request  # type: ignore[import-untyped]
 from rest_framework.views import APIView  # type: ignore[import-untyped]
 
-from django.conf import settings
-
 from apps.identity.services import (
+    has_active_system_admin_role,
     has_recent_mfa_cookie,
     has_recent_reauth_cookie,
-    has_active_system_admin_role,
     requires_mfa_for_user,
     resolve_user_access,
 )
@@ -76,6 +75,4 @@ class IsSystemAdminOrSuperuser(BasePermission):
         if not request.user or not request.user.is_authenticated:
             return False
 
-        return bool(
-            request.user.is_superuser or has_active_system_admin_role(request.user)
-        )
+        return bool(request.user.is_superuser or has_active_system_admin_role(request.user))

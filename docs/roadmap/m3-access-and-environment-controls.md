@@ -88,24 +88,25 @@ high-assurance auth/session controls required for MVP protected workflows.
 - [ ] Add MFA/login-abuse coverage for success, failure, and recovery paths.
 
 #### Security + Compliance
-- [ ] Validate enforcement behavior against policy requirements.
-- [ ] Validate auth/session controls against ADR 0016.
-- [ ] Validate password recovery/reset/update controls and require-reset enforcement against policy.
-- [ ] Define MVP exceptions explicitly if any ADR 0016 controls are deferred.
+- [x] Validate enforcement behavior against policy requirements.
+- [x] Validate auth/session controls against ADR 0016.
+- [x] Validate password recovery/reset/update controls and require-reset enforcement against policy.
+- [x] Define MVP exceptions explicitly if any ADR 0016 controls are deferred.
+  - none identified for Phase 1 scope
 
 ### Branch and PR Plan
 - Branch: `feat/m3-p1-rbac-enforcement`
 - PR Target: `chore/m3-integration`
 
 ### Review Checklist
-- [ ] Security review complete.
-- [ ] RBAC behavior matches ADR 0005.
-- [ ] Login and shell-composition behavior match the approved effective-access model.
-- [ ] Auth/session behavior matches ADR 0016.
-- [ ] Permission drift checks are complete.
+- [x] Security review complete.
+- [x] RBAC behavior matches ADR 0005.
+- [x] Login and shell-composition behavior match the approved effective-access model.
+- [x] Auth/session behavior matches ADR 0016.
+- [x] Permission drift checks are complete.
 
 ### Exit Criteria
-- [ ] RBAC and high-assurance auth controls are active, documented, and verified for MVP scope.
+- [x] RBAC and high-assurance auth controls are active, documented, and verified for MVP scope.
 
 <a id="m3-phase-2"></a>
 ## Phase 2: URL/Topology Routing Baseline

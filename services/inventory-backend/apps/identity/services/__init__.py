@@ -1,12 +1,4 @@
 from .access import resolve_user_access
-from .role_governance import (
-    can_assign_role,
-    can_delete_role,
-    can_grant_direct_permission,
-    can_rename_role,
-    has_active_system_admin_role,
-    is_system_managed_role,
-)
 from .mfa import (
     get_or_create_mfa_policy,
     has_recent_mfa_cookie,
@@ -17,6 +9,14 @@ from .mfa import (
     verify_mfa_challenge,
 )
 from .re_auth import has_recent_reauth_cookie, issue_reauth_cookie_value
+from .role_governance import (
+    can_assign_role,
+    can_delete_role,
+    can_grant_direct_permission,
+    can_rename_role,
+    has_active_system_admin_role,
+    is_system_managed_role,
+)
 from .session_security import add_session_claims, validate_session_window
 
 __all__ = [

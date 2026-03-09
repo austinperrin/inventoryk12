@@ -91,7 +91,9 @@ class ChangePasswordSerializer(serializers.Serializer):
             raise serializers.ValidationError("Authentication required.")
 
         if not user.check_password(attrs["current_password"]):
-            raise serializers.ValidationError({"current_password": "Current password is incorrect."})
+            raise serializers.ValidationError(
+                {"current_password": "Current password is incorrect."}
+            )
 
         if attrs["new_password"] != attrs["new_password_confirm"]:
             raise serializers.ValidationError({"new_password_confirm": "Passwords do not match."})
@@ -114,7 +116,9 @@ class ReauthSerializer(serializers.Serializer):
             raise serializers.ValidationError("Authentication required.")
 
         if not user.check_password(attrs["current_password"]):
-            raise serializers.ValidationError({"current_password": "Current password is incorrect."})
+            raise serializers.ValidationError(
+                {"current_password": "Current password is incorrect."}
+            )
 
         return attrs
 
@@ -129,7 +133,9 @@ class MfaChallengeSerializer(serializers.Serializer):
             raise serializers.ValidationError("Authentication required.")
 
         if not user.check_password(attrs["current_password"]):
-            raise serializers.ValidationError({"current_password": "Current password is incorrect."})
+            raise serializers.ValidationError(
+                {"current_password": "Current password is incorrect."}
+            )
 
         return attrs
 
@@ -161,7 +167,5 @@ class MfaPolicyUpdateSerializer(serializers.Serializer):
         existing = set(Group.objects.filter(name__in=normalized).values_list("name", flat=True))
         missing = sorted(set(normalized) - existing)
         if missing:
-            raise serializers.ValidationError(
-                f"Unknown role names: {', '.join(missing)}"
-            )
+            raise serializers.ValidationError(f"Unknown role names: {', '.join(missing)}")
         return normalized

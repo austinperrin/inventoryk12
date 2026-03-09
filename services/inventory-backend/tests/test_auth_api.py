@@ -1,16 +1,16 @@
-import pytest
 from datetime import timedelta
 
+import pytest
 from django.conf import settings
 from django.contrib.auth import get_user_model
-from django.contrib.auth.tokens import default_token_generator
 from django.contrib.auth.models import Group, Permission
-from django.core.cache import cache
+from django.contrib.auth.tokens import default_token_generator
 from django.core import mail
+from django.core.cache import cache
 from django.test import override_settings
+from django.utils import timezone
 from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode
-from django.utils import timezone
 from rest_framework.test import APIClient
 
 from apps.identity.models import MfaPolicy, RoleAssignment, UserLoginLock
