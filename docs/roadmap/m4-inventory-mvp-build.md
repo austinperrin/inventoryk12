@@ -32,6 +32,8 @@ QA).
 - Each phase should be completed on its recommended phase branch.
 - Phase-specific checklist and status updates should be committed in that same
   phase branch instead of being deferred.
+- UI scope phases use one implementation branch per scope; tests for that scope
+  are implemented in the same branch.
 - Each phase branch should merge back into `chore/m4-integration` after that
   phase is complete.
 - The milestone branch `chore/m4-integration` is reserved for milestone-level
@@ -77,7 +79,7 @@ user/role management, permission governance, and account-state management.
 ### Development Checklist
 
 #### Frontend Engineering
-- [ ] Implement system-admin and district-admin management entry points and navigation.
+- [ ] Implement distinct administration UX flows for system-level operations and district-level management.
 - [ ] Implement role-assignment management UX for district users:
   assignment, revocation, effective windows, and feedback states.
 - [ ] Implement role/permission management UX guardrails:
@@ -100,7 +102,7 @@ user/role management, permission governance, and account-state management.
 - [ ] Publish API-to-UI dependency map for administration screens.
 
 ### Branch and PR Plan
-- Branches: `feat/m4-p2-admin-system-management-ui`, `test/m4-p2-admin-ui-tests`
+- Branch: `feat/m4-p2-admin-system-management-ui`
 - PR Target: `chore/m4-integration`
 
 ### Review Checklist
@@ -143,7 +145,7 @@ end-to-end.
 - [ ] Publish API-to-UI dependency map for MVP workflow screens.
 
 ### Branch and PR Plan
-- Branches: `feat/m4-p3-inventory-ui-workflows`, `test/m4-p3-frontend-workflow-tests`
+- Branch: `feat/m4-p3-inventory-ui-workflows`
 - PR Target: `chore/m4-integration`
 
 ### Review Checklist
