@@ -118,13 +118,13 @@ Implement tenant/environment routing behavior aligned to topology decisions.
 
 #### DevOps + SRE
 - [ ] Implement tenant URL/env routing baseline.
-- [ ] Add configuration model for env routing targets.
+- [x] Add configuration model for env routing targets.
 
 #### QA + Testing
 - [ ] Validate routing behavior for `prod` and non-prod paths.
 
 #### Docs + Standards
-- [ ] Document routing setup and operational checks.
+- [x] Document routing setup and operational checks.
 
 ### Branch and PR Plan
 - Branch: `feat/m3-p2-url-topology-routing`
