@@ -58,30 +58,39 @@ high-assurance auth/session controls required for MVP protected workflows.
 ### Development Checklist
 
 #### Backend Engineering
-- [ ] Implement permission enforcement checks for protected workflows.
-- [ ] Implement effective-permission resolution from active role assignments and
+- [x] Implement permission enforcement checks for protected workflows.
+- [x] Implement effective-permission resolution from active role assignments and
   direct user permissions.
-- [ ] Implement no-effective-access login/session outcome.
-- [ ] Implement system-managed seeded-role protections and district-editable
+- [x] Implement no-effective-access login/session outcome.
+- [x] Implement system-managed seeded-role protections and district-editable
   default role-permission behavior.
-- [ ] Implement role delegation boundaries.
-- [ ] Implement direct user-permission grant controls for exception-based
+- [x] Implement role delegation boundaries.
+- [x] Implement direct user-permission grant controls for exception-based
   extensions.
-- [ ] Implement session hardening controls (idle timeout, absolute lifetime, re-auth hooks).
-- [ ] Implement login abuse protections (rate limiting, throttling, or lockout policy).
-- [ ] Implement MFA and step-up auth support for privileged workflows.
-- [ ] Implement session/device revocation and privileged-session review hooks.
+- [x] Implement session hardening controls for idle timeout and absolute lifetime.
+- [x] Implement re-auth hooks for privileged workflows.
+- [x] Implement login abuse protections (rate limiting, throttling, or lockout policy).
+- [x] Implement password recovery and credential lifecycle APIs:
+  forgot-password request, reset-password completion, authenticated password update,
+  and forced reset enforcement when the user require-reset flag is active.
+- [x] Implement MFA and step-up auth support for privileged workflows.
+- [x] Implement session/device revocation and privileged-session review hooks.
 
 #### QA + Testing
-- [ ] Add authorization failure/denial test coverage.
-- [ ] Add effective-permission resolution coverage for multi-role, direct-user,
+- [x] Add authorization failure/denial test coverage.
+- [x] Add effective-permission resolution coverage for multi-role, direct-user,
   and no-access outcomes.
-- [ ] Add auth/session hardening test coverage for timeout, revocation, and step-up flows.
+- [x] Add auth/session hardening test coverage for timeout and revocation flows.
+- [x] Add step-up auth test coverage.
+- [x] Add password recovery/update test coverage:
+  forgot/reset success and failure paths, reset-token handling,
+  and require-reset enforcement behavior.
 - [ ] Add MFA/login-abuse coverage for success, failure, and recovery paths.
 
 #### Security + Compliance
 - [ ] Validate enforcement behavior against policy requirements.
 - [ ] Validate auth/session controls against ADR 0016.
+- [ ] Validate password recovery/reset/update controls and require-reset enforcement against policy.
 - [ ] Define MVP exceptions explicitly if any ADR 0016 controls are deferred.
 
 ### Branch and PR Plan

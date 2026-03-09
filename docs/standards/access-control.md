@@ -25,10 +25,37 @@ Define repo-wide access-control enforcement and validation expectations.
   permission checks.
 - Authorization logic should be implemented in dedicated permission
   classes/policies, not inline in view handlers.
+- Authentication endpoints must enforce abuse controls, including login
+  throttling/rate limiting on credential submission paths.
+- MFA policy supports:
+  - district-wide enforcement for all users
+  - role-based enforcement for selected role sets
+  - user opt-in where enabled by policy
+- `system_admin` must remain in the enforced MFA role baseline.
+- Session refresh paths must enforce both idle timeout and absolute session
+  lifetime policy.
+- Browser clients should proactively enforce idle-timeout and absolute-lifetime
+  sign-out behavior and present scoped user feedback for the sign-out reason
+  (for example, inactivity versus lifetime expiry).
 - Delegated role/permission assignment must enforce non-delegable permission
   boundaries.
 - Direct user permissions are additive exception controls and must not replace
   role-based assignment as the default operating model.
+
+## Internal Support Accounts
+
+- InventoryK12 internal support authority is represented by user flags
+  (`is_staff` and `is_superuser`) and not by district-managed role groups.
+- Within district-managed role groups, `system_admin` is the highest district
+  role and serves as district superuser authority for district system
+  operations.
+- `system_admin` may delegate any district-managed role or permission that does
+  not violate non-delegable/system-level guardrails.
+- District role-management paths must not allow district admins to view, edit,
+  or remove platform operator authority.
+- Use `is_superuser` only for highest-trust break-glass/support scenarios; use
+  `is_staff` for internal tooling eligibility where full-superuser authority is
+  not required.
 
 ## Security Review Expectations
 

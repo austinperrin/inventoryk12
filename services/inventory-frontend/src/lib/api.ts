@@ -1,12 +1,14 @@
 export class ApiError extends Error {
   status: number;
   data: unknown;
+  retryAfterSeconds: number | null;
 
-  constructor(message: string, status: number, data: unknown) {
+  constructor(message: string, status: number, data: unknown, retryAfterSeconds: number | null) {
     super(message);
     this.name = 'ApiError';
     this.status = status;
     this.data = data;
+    this.retryAfterSeconds = retryAfterSeconds;
   }
 }
 
@@ -36,9 +38,19 @@ export async function apiRequest<T>(path: string, options: RequestOptions = {}):
 
   const contentType = response.headers.get('content-type') || '';
   const data = contentType.includes('application/json') ? await response.json() : await response.text();
+  const retryAfterHeader = response.headers.get('Retry-After');
+  const retryAfterSeconds =
+    retryAfterHeader && Number.isFinite(Number.parseInt(retryAfterHeader, 10))
+      ? Number.parseInt(retryAfterHeader, 10)
+      : null;
 
   if (!response.ok) {
-    throw new ApiError(`Request failed with status ${response.status}`, response.status, data);
+    throw new ApiError(
+      `Request failed with status ${response.status}`,
+      response.status,
+      data,
+      retryAfterSeconds,
+    );
   }
 
   return data as T;

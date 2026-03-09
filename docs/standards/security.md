@@ -18,6 +18,18 @@
 - Default to deny unless explicitly allowed.
 - Enforce permission checks on all sensitive API endpoints and privileged jobs.
 - Record audit trails for privileged access changes and sensitive actions.
+- Enforce login abuse protections on authentication endpoints (throttling/rate
+  limiting).
+- Enforce session hardening controls for idle timeout and absolute session
+  lifetime on session refresh paths.
+- Enforce MFA for `system_admin` and support district policy controls for
+  global or role-based MFA enforcement with optional user opt-in.
+- Enforce client-side timeout UX handling so expired sessions proactively sign
+  users out and present clear, scoped sign-in feedback for inactivity versus
+  lifetime expiry.
+- Treat platform operator authority (`is_staff`/`is_superuser`) as
+  infrastructure-level access that is separate from district-managed RBAC
+  groups and restricted to InventoryK12 internal support workflows.
 
 ## RBAC Source of Truth
 

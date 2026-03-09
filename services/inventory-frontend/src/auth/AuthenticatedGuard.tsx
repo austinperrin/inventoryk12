@@ -1,10 +1,10 @@
 import type { ReactNode } from 'react';
 import { Navigate } from 'react-router-dom';
 import { useAuth } from './useAuth';
-import { routeLoginPath, routeNoAccessPath } from '../routes/paths';
+import { routeLoginPath } from '../routes/paths';
 
-export function AuthGuard({ children }: { children: ReactNode }) {
-  const { access, status } = useAuth();
+export function AuthenticatedGuard({ children }: { children: ReactNode }) {
+  const { status } = useAuth();
 
   if (status === 'loading') {
     return (
@@ -18,10 +18,6 @@ export function AuthGuard({ children }: { children: ReactNode }) {
 
   if (status === 'guest') {
     return <Navigate to={routeLoginPath} replace />;
-  }
-
-  if (access?.has_effective_access === false) {
-    return <Navigate to={routeNoAccessPath} replace />;
   }
 
   return <>{children}</>;

@@ -184,6 +184,12 @@ REST_FRAMEWORK: dict[str, Any] = {
     "DEFAULT_AUTHENTICATION_CLASSES": [
         "apps.identity.api.v1.authentication.CookieJWTAuthentication",
     ],
+    "DEFAULT_THROTTLE_CLASSES": [
+        "rest_framework.throttling.ScopedRateThrottle",
+    ],
+    "DEFAULT_THROTTLE_RATES": {
+        "auth_login": env("AUTH_LOGIN_THROTTLE_RATE", default="10/hour"),
+    },
     # Permissions: require explicit configuration in each environment.
     # "DEFAULT_PERMISSION_CLASSES": [],
     # Versioning: included early for multi-service integration.
@@ -229,6 +235,21 @@ AUTH_COOKIE_SAMESITE = env("AUTH_COOKIE_SAMESITE", default="Lax")
 AUTH_COOKIE_SECURE = env.bool("AUTH_COOKIE_SECURE", default=False)
 AUTH_ACCESS_COOKIE_MAX_AGE = env.int("AUTH_ACCESS_COOKIE_MAX_AGE", default=15 * 60)
 AUTH_REFRESH_COOKIE_MAX_AGE = env.int("AUTH_REFRESH_COOKIE_MAX_AGE", default=7 * 24 * 60 * 60)
+AUTH_SESSION_IDLE_TIMEOUT_SECONDS = env.int(
+    "AUTH_SESSION_IDLE_TIMEOUT_SECONDS",
+    default=60 * 60,
+)
+AUTH_SESSION_ABSOLUTE_LIFETIME_SECONDS = env.int(
+    "AUTH_SESSION_ABSOLUTE_LIFETIME_SECONDS",
+    default=8 * 60 * 60,
+)
+AUTH_REAUTH_COOKIE_NAME = env("AUTH_REAUTH_COOKIE_NAME", default="ik12_reauth")
+AUTH_REAUTH_WINDOW_SECONDS = env.int("AUTH_REAUTH_WINDOW_SECONDS", default=15 * 60)
+AUTH_REAUTH_COOKIE_SALT = env("AUTH_REAUTH_COOKIE_SALT", default="identity.reauth")
+AUTH_MFA_COOKIE_NAME = env("AUTH_MFA_COOKIE_NAME", default="ik12_mfa")
+AUTH_MFA_RECENT_WINDOW_SECONDS = env.int("AUTH_MFA_RECENT_WINDOW_SECONDS", default=15 * 60)
+AUTH_MFA_COOKIE_SALT = env("AUTH_MFA_COOKIE_SALT", default="identity.mfa")
+AUTH_MFA_CHALLENGE_TTL_SECONDS = env.int("AUTH_MFA_CHALLENGE_TTL_SECONDS", default=5 * 60)
 
 SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(seconds=AUTH_ACCESS_COOKIE_MAX_AGE),

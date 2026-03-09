@@ -58,6 +58,8 @@ class User(BaseModel, AuditModel, AbstractBaseUser, PermissionsMixin):
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
     require_password_reset = models.BooleanField(default=False)
+    mfa_enabled = models.BooleanField(default=False)
+    auth_session_version = models.PositiveIntegerField(default=1)
 
     # User lifecycle
     activated_at = models.DateTimeField(null=True, blank=True)

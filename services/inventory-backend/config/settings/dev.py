@@ -40,6 +40,15 @@ AUTH_COOKIE_SAMESITE = base_settings.AUTH_COOKIE_SAMESITE
 AUTH_COOKIE_SECURE = base_settings.AUTH_COOKIE_SECURE
 AUTH_ACCESS_COOKIE_MAX_AGE = base_settings.AUTH_ACCESS_COOKIE_MAX_AGE
 AUTH_REFRESH_COOKIE_MAX_AGE = base_settings.AUTH_REFRESH_COOKIE_MAX_AGE
+AUTH_SESSION_IDLE_TIMEOUT_SECONDS = base_settings.AUTH_SESSION_IDLE_TIMEOUT_SECONDS
+AUTH_SESSION_ABSOLUTE_LIFETIME_SECONDS = base_settings.AUTH_SESSION_ABSOLUTE_LIFETIME_SECONDS
+AUTH_REAUTH_COOKIE_NAME = base_settings.AUTH_REAUTH_COOKIE_NAME
+AUTH_REAUTH_WINDOW_SECONDS = base_settings.AUTH_REAUTH_WINDOW_SECONDS
+AUTH_REAUTH_COOKIE_SALT = base_settings.AUTH_REAUTH_COOKIE_SALT
+AUTH_MFA_COOKIE_NAME = base_settings.AUTH_MFA_COOKIE_NAME
+AUTH_MFA_RECENT_WINDOW_SECONDS = base_settings.AUTH_MFA_RECENT_WINDOW_SECONDS
+AUTH_MFA_COOKIE_SALT = base_settings.AUTH_MFA_COOKIE_SALT
+AUTH_MFA_CHALLENGE_TTL_SECONDS = base_settings.AUTH_MFA_CHALLENGE_TTL_SECONDS
 SIMPLE_JWT = base_settings.SIMPLE_JWT
 
 # ----------------------------------------------------------------------
@@ -57,12 +66,10 @@ ALLOWED_HOSTS = ["*"]
 REST_FRAMEWORK["DEFAULT_RENDERER_CLASSES"] = list(REST_FRAMEWORK["DEFAULT_RENDERER_CLASSES"])
 REST_FRAMEWORK["DEFAULT_RENDERER_CLASSES"].append("rest_framework.renderers.BrowsableAPIRenderer")
 
-# Relaxed default permissions in development. Override as needed.
+# Closed-garden default permissions in development. Override explicitly as needed.
 REST_FRAMEWORK.setdefault("DEFAULT_PERMISSION_CLASSES", [])
 REST_FRAMEWORK["DEFAULT_PERMISSION_CLASSES"] = list(REST_FRAMEWORK["DEFAULT_PERMISSION_CLASSES"])
-REST_FRAMEWORK["DEFAULT_PERMISSION_CLASSES"].append(
-    "rest_framework.permissions.IsAuthenticatedOrReadOnly"
-)
+REST_FRAMEWORK["DEFAULT_PERMISSION_CLASSES"].append("rest_framework.permissions.IsAuthenticated")
 
 # ----------------------------------------------------------------------
 # EMAIL

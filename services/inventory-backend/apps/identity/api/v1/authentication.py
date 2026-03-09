@@ -6,6 +6,8 @@ from rest_framework_simplejwt.authentication import JWTAuthentication
 
 
 class CookieJWTAuthentication(JWTAuthentication):  # type: ignore[misc]
+    session_version_claim = "ik12_session_version"
+
     def authenticate(self, request: Request):
         header = self.get_header(request)
         if header is not None:
@@ -13,7 +15,9 @@ class CookieJWTAuthentication(JWTAuthentication):  # type: ignore[misc]
             if raw_token is None:
                 return None
             validated_token = self.get_validated_token(raw_token)
-            return self.get_user(validated_token), validated_token
+            user = self.get_user(validated_token)
+            self._enforce_session_version(user, validated_token)
+            return user, validated_token
 
         raw_cookie_token = request.COOKIES.get(settings.AUTH_ACCESS_COOKIE_NAME)
         if not raw_cookie_token:
@@ -21,7 +25,9 @@ class CookieJWTAuthentication(JWTAuthentication):  # type: ignore[misc]
 
         validated_token = self.get_validated_token(raw_cookie_token)
         self._enforce_csrf(request)
-        return self.get_user(validated_token), validated_token
+        user = self.get_user(validated_token)
+        self._enforce_session_version(user, validated_token)
+        return user, validated_token
 
     def _enforce_csrf(self, request: Request) -> None:
         check = CSRFCheck(lambda req: None)
@@ -29,3 +35,10 @@ class CookieJWTAuthentication(JWTAuthentication):  # type: ignore[misc]
         reason = check.process_view(request, None, (), {})
         if reason:
             raise exceptions.PermissionDenied(f"CSRF Failed: {reason}")
+
+    def _enforce_session_version(self, user, validated_token) -> None:
+        token_version = validated_token.get(self.session_version_claim)
+        if token_version is None:
+            return
+        if int(token_version) != int(getattr(user, "auth_session_version", 1)):
+            raise exceptions.AuthenticationFailed("Session has been revoked.")

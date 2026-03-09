@@ -1,13 +1,13 @@
 import { BrowserRouter, NavLink, Route, Routes, useNavigate } from 'react-router-dom';
 import { AuthProvider } from './auth/AuthProvider';
 import { useAuth } from './auth/useAuth';
-import { appBasePath, routeHomePath, routeLoginPath } from './routes/paths';
+import { appBasePath, routeHomePath, routeLoginPath, routeNoAccessPath } from './routes/paths';
 import { routes } from './routes/routes';
 import './App.css';
 
 function AppFrame() {
   const navigate = useNavigate();
-  const { logout, status } = useAuth();
+  const { access, logout, status } = useAuth();
 
   const handleLogout = async () => {
     await logout();
@@ -22,15 +22,19 @@ function AppFrame() {
           <h1 className="app-title">Platform Baseline</h1>
         </div>
         <nav className="app-nav" aria-label="Application navigation">
-          <NavLink to={routeHomePath} end>
-            Home
-          </NavLink>
+          {access?.has_effective_access === false ? (
+            <NavLink to={routeNoAccessPath}>No Access</NavLink>
+          ) : (
+            <NavLink to={routeHomePath} end>
+              Home
+            </NavLink>
+          )}
           {status === 'authenticated' ? (
             <button className="app-nav-button" type="button" onClick={() => void handleLogout()}>
-              Logout
+              Sign out
             </button>
           ) : (
-            <NavLink to={routeLoginPath}>Login</NavLink>
+            <NavLink to={routeLoginPath}>Sign in</NavLink>
           )}
         </nav>
       </header>

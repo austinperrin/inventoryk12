@@ -1,10 +1,11 @@
 import { createContext } from 'react';
-import type { AuthUser } from '../lib/auth';
+import type { AccessState, AuthUser } from '../lib/auth';
 
 export type AuthStatus = 'loading' | 'authenticated' | 'guest';
 
 export type AuthContextValue = {
   user: AuthUser | null;
+  access: AccessState | null;
   status: AuthStatus;
   login: (email: string, password: string) => Promise<void>;
   logout: () => Promise<void>;

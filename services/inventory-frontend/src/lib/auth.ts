@@ -3,19 +3,41 @@ import { getCsrfToken } from './csrf';
 
 export type AuthUser = {
   id: number;
-  username: string;
+  uuid: string;
   email: string;
   first_name: string;
   last_name: string;
+  full_name: string;
+};
+
+export type AccessState = {
+  has_effective_access: boolean;
+  access_outcome: 'granted' | 'no_access';
+  no_access_reason:
+    | 'login_locked'
+    | 'not_verified'
+    | 'require_password_reset'
+    | 'no_effective_permissions'
+    | null;
+  no_access_message: string | null;
+};
+
+export type SessionPolicy = {
+  idle_timeout_seconds: number;
+  absolute_lifetime_seconds: number;
 };
 
 type AuthEnvelope = {
   user: AuthUser;
+  access: AccessState;
+  session_policy?: SessionPolicy;
 };
 
 type SessionEnvelope = {
   authenticated: boolean;
   user: AuthUser | null;
+  access: AccessState | null;
+  session_policy?: SessionPolicy;
 };
 
 export async function primeCsrfCookie(): Promise<void> {
@@ -50,6 +72,15 @@ export async function refresh(): Promise<void> {
   await apiRequest('/api/v1/auth/refresh/', {
     method: 'POST',
     headers: csrfToken ? { 'X-CSRFToken': csrfToken } : undefined,
+  });
+}
+
+export async function reauthenticate(currentPassword: string): Promise<void> {
+  const csrfToken = getCsrfToken();
+  await apiRequest('/api/v1/auth/re-auth/', {
+    method: 'POST',
+    headers: csrfToken ? { 'X-CSRFToken': csrfToken } : undefined,
+    body: { current_password: currentPassword },
   });
 }
 
