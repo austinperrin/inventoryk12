@@ -70,6 +70,9 @@ high-assurance auth/session controls required for MVP protected workflows.
 - [x] Implement session hardening controls for idle timeout and absolute lifetime.
 - [ ] Implement re-auth hooks for privileged workflows.
 - [x] Implement login abuse protections (rate limiting, throttling, or lockout policy).
+- [ ] Implement password recovery and credential lifecycle APIs:
+  forgot-password request, reset-password completion, authenticated password update,
+  and forced reset enforcement when the user require-reset flag is active.
 - [ ] Implement MFA and step-up auth support for privileged workflows.
 - [ ] Implement session/device revocation and privileged-session review hooks.
 
@@ -79,11 +82,15 @@ high-assurance auth/session controls required for MVP protected workflows.
   and no-access outcomes.
 - [x] Add auth/session hardening test coverage for timeout and revocation flows.
 - [ ] Add step-up auth test coverage.
+- [ ] Add password recovery/update test coverage:
+  forgot/reset success and failure paths, reset-token handling,
+  and require-reset enforcement behavior.
 - [ ] Add MFA/login-abuse coverage for success, failure, and recovery paths.
 
 #### Security + Compliance
 - [ ] Validate enforcement behavior against policy requirements.
 - [ ] Validate auth/session controls against ADR 0016.
+- [ ] Validate password recovery/reset/update controls and require-reset enforcement against policy.
 - [ ] Define MVP exceptions explicitly if any ADR 0016 controls are deferred.
 
 ### Branch and PR Plan

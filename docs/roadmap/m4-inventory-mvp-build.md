@@ -86,12 +86,16 @@ user/role management, permission governance, and account-state management.
   enforce protected/system-managed boundaries and non-delegable restrictions.
 - [ ] Implement account-state management UX:
   lock status, verification/no-access context, and scoped user feedback flows.
+- [ ] Implement credential-recovery and password-management UX flows:
+  forgot-password, reset-password, authenticated password update,
+  and forced-reset journey when the user require-reset flag is active.
 - [ ] Implement admin UX denial/error/loading states for privileged actions.
 - [ ] Implement responsive behavior for core administration screens (desktop + mobile).
 
 #### QA + Testing
 - [ ] Add frontend component and integration tests for admin/system management workflows.
 - [ ] Add UI tests for denial, lockout, and protected-boundary enforcement behavior.
+- [ ] Add UI tests for password recovery/update flows and forced-reset journey behavior.
 
 #### Security + Compliance
 - [ ] Validate admin/system UX behavior against RBAC and session policy requirements.
