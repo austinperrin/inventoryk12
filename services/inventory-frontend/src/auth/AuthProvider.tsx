@@ -119,7 +119,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       if (Number.isFinite(sessionStartedAt) && now - sessionStartedAt >= absoluteLifetimeMs) {
         sessionStorage.setItem(
           AUTH_NOTICE_STORAGE_KEY,
-          'Your session lifetime expired. Please sign in again.',
+          'Session ended due to maximum session duration.\nPlease sign in again.',
         );
         void logoutRequest().catch(() => undefined);
         clearSessionTiming();
@@ -132,7 +132,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       if (Number.isFinite(lastActivityAt) && now - lastActivityAt >= idleTimeoutMs) {
         sessionStorage.setItem(
           AUTH_NOTICE_STORAGE_KEY,
-          'You were signed out due to inactivity. Please sign in again.',
+          'Session ended due to inactivity.\nPlease sign in again.',
         );
         void logoutRequest().catch(() => undefined);
         clearSessionTiming();

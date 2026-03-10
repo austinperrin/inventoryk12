@@ -75,6 +75,15 @@ export async function refresh(): Promise<void> {
   });
 }
 
+export async function forgotPassword(email: string): Promise<void> {
+  const csrfToken = getCsrfToken();
+  await apiRequest('/api/v1/auth/forgot-password/', {
+    method: 'POST',
+    headers: csrfToken ? { 'X-CSRFToken': csrfToken } : undefined,
+    body: { email },
+  });
+}
+
 export async function reauthenticate(currentPassword: string): Promise<void> {
   const csrfToken = getCsrfToken();
   await apiRequest('/api/v1/auth/re-auth/', {
