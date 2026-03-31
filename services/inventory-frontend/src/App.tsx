@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { Component, useEffect, useState, type ReactNode } from 'react';
 import { BrowserRouter, NavLink, Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 import { AuthProvider } from './auth/AuthProvider';
 import { useAuth } from './auth/useAuth';
@@ -9,6 +9,67 @@ import './App.css';
 type ThemeMode = 'auto' | 'light' | 'dark';
 
 const THEME_MODE_STORAGE_KEY = 'ik12_theme_mode';
+const DASHBOARD_SECTIONS_KEY = 'ik12_dashboard_sections_v2';
+
+type RouteErrorBoundaryState = {
+  hasError: boolean;
+  message: string;
+};
+
+class RouteErrorBoundary extends Component<{ children: ReactNode }, RouteErrorBoundaryState> {
+  constructor(props: { children: ReactNode }) {
+    super(props);
+    this.state = {
+      hasError: false,
+      message: '',
+    };
+  }
+
+  static getDerivedStateFromError(error: unknown): RouteErrorBoundaryState {
+    return {
+      hasError: true,
+      message: error instanceof Error ? error.message : 'Unknown runtime error',
+    };
+  }
+
+  componentDidCatch(error: unknown) {
+    console.error('Route render failed', error);
+  }
+
+  render() {
+    if (!this.state.hasError) {
+      return this.props.children;
+    }
+    return (
+      <section className="hero">
+        <p className="eyebrow">UI Runtime Error</p>
+        <h1>We hit a rendering issue</h1>
+        <p className="hero-copy">
+          The page failed to render. You can reset local dashboard layout state and reload.
+        </p>
+        <p className="hero-copy">
+          <strong>Error:</strong> {this.state.message}
+        </p>
+        <div className="hero-actions">
+          <button
+            className="auth-submit auth-submit--secondary"
+            type="button"
+            onClick={() => {
+              try {
+                window.localStorage.removeItem(DASHBOARD_SECTIONS_KEY);
+              } catch {
+                // Ignore local storage failures and still force reload.
+              }
+              window.location.reload();
+            }}
+          >
+            Reset local dashboard state
+          </button>
+        </div>
+      </section>
+    );
+  }
+}
 
 function isThemeMode(value: string | null): value is ThemeMode {
   return value === 'auto' || value === 'light' || value === 'dark';
@@ -53,7 +114,12 @@ function ThemeIcon({ mode }: { mode: ThemeMode }) {
 }
 
 function getInitialThemeMode(): ThemeMode {
-  const stored = localStorage.getItem(THEME_MODE_STORAGE_KEY);
+  let stored: string | null = null;
+  try {
+    stored = localStorage.getItem(THEME_MODE_STORAGE_KEY);
+  } catch {
+    stored = null;
+  }
   return isThemeMode(stored) ? stored : 'auto';
 }
 
@@ -123,7 +189,11 @@ function AppFrame({
       <main className="app-main">
         <Routes>
           {routes.map((route) => (
-            <Route key={route.id} path={route.path} element={route.element} />
+            <Route
+              key={route.id}
+              path={route.path}
+              element={<RouteErrorBoundary>{route.element}</RouteErrorBoundary>}
+            />
           ))}
         </Routes>
       </main>
@@ -174,7 +244,11 @@ function App() {
   }, []);
 
   useEffect(() => {
-    localStorage.setItem(THEME_MODE_STORAGE_KEY, themeMode);
+    try {
+      localStorage.setItem(THEME_MODE_STORAGE_KEY, themeMode);
+    } catch {
+      // Ignore local storage write failures.
+    }
   }, [themeMode]);
 
   useEffect(() => {

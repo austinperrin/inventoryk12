@@ -1,5 +1,16 @@
 :root {
   --font-sans: "IBM Plex Sans", "Segoe UI", sans-serif;
+  --font-size-xs: 0.8rem;
+  --font-size-sm: 0.88rem;
+  --font-size-md: 0.94rem;
+  --font-size-lg: 1rem;
+  --font-size-xl: 1.24rem;
+  --line-height-tight: 1.2;
+  --line-height-base: 1.5;
+  --line-height-loose: 1.65;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
 
   --text-strong: #111827;
   --text-default: #1f2937;
@@ -11,6 +22,9 @@
   --brand-500: #3b82f6;
   --danger-600: #b91c1c;
   --danger-500: #dc2626;
+  --info-600: #2563eb;
+  --success-600: #059669;
+  --warning-600: #d97706;
 
   --surface-bg: #f8fafc;
   --surface-canvas: #f8fafc;
@@ -21,7 +35,12 @@
   --surface-border-strong: #d1d5db;
   --surface-focus: rgba(37, 99, 235, 0.2);
   --surface-danger-focus: rgba(220, 38, 38, 0.2);
+  --surface-info-tint: rgba(37, 99, 235, 0.12);
+  --surface-success-tint: rgba(5, 150, 105, 0.12);
+  --surface-warning-tint: rgba(217, 119, 6, 0.12);
+  --surface-danger-tint: rgba(220, 38, 38, 0.12);
 
+  --space-0: 0;
   --space-1: 0.25rem;
   --space-2: 0.5rem;
   --space-3: 0.75rem;
@@ -29,7 +48,9 @@
   --space-5: 1.5rem;
   --space-6: 2rem;
   --space-7: 3rem;
+  --space-8: 4rem;
 
+  --radius-xs: 0.4rem;
   --radius-sm: 0.5rem;
   --radius-md: 0.85rem;
   --radius-lg: 0.875rem;
@@ -65,6 +86,9 @@
   --brand-500: #2563eb;
   --danger-600: #fca5a5;
   --danger-500: #f87171;
+  --info-600: #60a5fa;
+  --success-600: #34d399;
+  --warning-600: #fbbf24;
 
   --surface-bg: #0a0a0b;
   --surface-canvas: #111214;
@@ -75,6 +99,10 @@
   --surface-border-strong: #3f4753;
   --surface-focus: rgba(96, 165, 250, 0.28);
   --surface-danger-focus: rgba(248, 113, 113, 0.28);
+  --surface-info-tint: rgba(59, 130, 246, 0.2);
+  --surface-success-tint: rgba(16, 185, 129, 0.2);
+  --surface-warning-tint: rgba(245, 158, 11, 0.2);
+  --surface-danger-tint: rgba(239, 68, 68, 0.2);
 
   --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.5);
   --shadow-md: 0 12px 30px rgba(0, 0, 0, 0.4);

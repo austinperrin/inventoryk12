@@ -168,11 +168,11 @@ export default function Login() {
   return (
     <div className="auth-stack">
       {sessionNotice ? (
-        <p className="auth-notice auth-notice--outside" role="alert" aria-live="assertive">
+        <p className="auth-notice ui-alert ui-alert--info auth-notice--outside" role="alert" aria-live="assertive">
           {sessionNotice}
         </p>
       ) : null}
-      <section className="hero auth-panel">
+      <section className="hero auth-panel ui-card">
         <div className="auth-welcome">
           <p className="auth-welcome-kicker">Welcome</p>
           <h2 className="auth-welcome-title">Please sign in</h2>
@@ -184,10 +184,10 @@ export default function Login() {
         ) : (
           <form className="auth-form" onSubmit={handleSubmit}>
             <div className="form-floating auth-floating">
-              <input
-                autoComplete="email"
-                className={`auth-input${hasAuthError ? ' auth-input--error' : ''}`}
-                id="login-email"
+                <input
+                  autoComplete="email"
+                  className={`auth-input ui-input${hasAuthError ? ' auth-input--error ui-input--error' : ''}`}
+                  id="login-email"
                 name="email"
                 placeholder=" "
                 type="email"
@@ -206,7 +206,7 @@ export default function Login() {
               <div className="form-floating auth-floating auth-floating--password">
                 <input
                   autoComplete="current-password"
-                  className={`auth-input auth-input--password${hasAuthError ? ' auth-input--error' : ''}`}
+                  className={`auth-input ui-input auth-input--password${hasAuthError ? ' auth-input--error ui-input--error' : ''}`}
                   id="login-password"
                   name="password"
                   placeholder=" "
@@ -242,7 +242,7 @@ export default function Login() {
                 />
                 <span>Remember me</span>
               </label>
-              <button className="auth-link" type="button" onClick={() => void handleForgotPassword()}>
+              <button className="auth-link ui-button ui-button--ghost" type="button" onClick={() => void handleForgotPassword()}>
                 Forgot password?
               </button>
             </div>

@@ -13,6 +13,7 @@
   - [`docs/standards/api.md`](./standards/api.md)
   - [`docs/standards/security.md`](./standards/security.md)
   - [`docs/standards/access-control.md`](./standards/access-control.md)
+  - [`docs/standards/ui-ux-baseline.md`](./standards/ui-ux-baseline.md)
   - [`docs/standards/data.md`](./standards/data.md)
   - [`docs/standards/scripts.md`](./standards/scripts.md) scripting conventions
   - [`docs/standards/adr.md`](./standards/adr.md) ADR lifecycle and follow-up conventions

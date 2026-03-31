@@ -148,17 +148,17 @@ workflow screens can ship with consistent behavior and quality.
 ### Development Checklist
 
 #### Frontend Engineering
-- [ ] Establish shared design tokens (color, spacing, typography, density).
-- [ ] Establish baseline UI primitives for forms, tables, toasts/alerts,
+- [x] Establish shared design tokens (color, spacing, typography, density).
+- [x] Establish baseline UI primitives for forms, tables, toasts/alerts,
   skeleton/loading, and empty/error states.
-- [ ] Implement baseline responsive layout patterns for desktop and mobile.
+- [x] Implement baseline responsive layout patterns for desktop and mobile.
 - [ ] Define and document baseline accessibility and keyboard-interaction checks.
 
 #### QA + Testing
 - [ ] Add baseline UI test harness coverage for primitives and common states.
 
 #### Docs + Standards
-- [ ] Publish UI/UX baseline guidelines and component usage rules.
+- [x] Publish UI/UX baseline guidelines and component usage rules.
 
 ### Branch and PR Plan
 - Branch: `feat/m3-p3-ui-ux-baseline-foundation`
@@ -166,7 +166,7 @@ workflow screens can ship with consistent behavior and quality.
 
 ### Review Checklist
 - [ ] Product/frontend review complete.
-- [ ] Shared baseline components are documented and reusable.
+- [x] Shared baseline components are documented and reusable.
 - [ ] Accessibility baseline checks are documented and validated.
 
 ### Exit Criteria
