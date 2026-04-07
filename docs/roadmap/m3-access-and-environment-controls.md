@@ -179,6 +179,9 @@ workflow screens can ship with consistent behavior and quality.
 Build the administration-facing UX slice for district system administration,
 user/role management, permission governance, and account-state management.
 
+- Status: In Progress
+- Actual Start: 2026-04-06
+
 ### Development Checklist
 
 #### Frontend Engineering
