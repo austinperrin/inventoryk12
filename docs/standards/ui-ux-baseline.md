@@ -3,7 +3,7 @@
 ## Scope
 
 This standard defines shared frontend design tokens and reusable primitives for
-Milestone 3 Phase 3 baseline work.
+the InventoryK12 web application baseline.
 
 Source files:
 
@@ -42,7 +42,7 @@ page-specific classes as needed.
 - Tab: `.ui-tab`
 - Navigation item: `.ui-nav-item`
 
-## Dashboard Baseline (M3P3)
+## Dashboard Baseline
 
 The authenticated landing page is a customizable analytics dashboard. Users can
 enable/disable widgets they are allowed to view, and the same widget cards are
@@ -81,6 +81,51 @@ reused inside role-scoped pages.
 - Page CSS may extend primitives for layout context, sizing, or domain-specific variants.
 - Keep focus-visible treatment on every interactive element.
 - Keep semantic variants token-driven (for example: danger/alert states).
+
+## Accessibility and keyboard baseline
+
+The baseline UI must meet the following minimum accessibility and
+keyboard-interaction checks before feature-specific UI is built on top of it.
+
+### Required interaction checks
+
+- Every interactive element must be reachable by keyboard alone.
+- Interactive controls must expose a visible `:focus-visible` treatment.
+- Icon-only buttons must have an accessible name via `aria-label` or equivalent.
+- Menus, dialogs, and dismissible overlays must keep interactive controls in a
+  predictable tab order.
+- Sticky headers, section controls, and widget actions must remain keyboard
+  reachable while scrolling.
+- Hover-only affordances must retain an equivalent focus-visible state.
+
+### Required semantic checks
+
+- Form inputs must have a programmatic label.
+- Status, alert, and toast messaging must use appropriate live-region or status
+  semantics when the content is time-sensitive or dynamically inserted.
+- Decorative icons must stay `aria-hidden`.
+- Reusable card shells must preserve heading/order semantics when used in page
+  sections.
+
+### Baseline validation workflow
+
+- Run keyboard-only checks on the login page, authenticated dashboard shell,
+  user menu, widget menu, and edit-mode dashboard interactions.
+- Confirm focus visibility in both light and dark themes.
+- Confirm toast/alert messaging does not render behind primary content layers
+  and remains readable.
+- Confirm drag/edit affordances still expose non-pointer alternatives for
+  essential actions such as add, remove, rename, and menu access.
+- Record regressions in the roadmap and fix them before dependent UI work
+  continues.
+
+### Validation status
+
+- Accessibility baseline expectations are documented in this standard.
+- Baseline validation is currently satisfied by:
+  - manual keyboard/focus review of login, dashboard shell, menus, and alerts
+  - Vitest coverage for widget availability rules and shared dashboard card/menu
+    shell behavior
 
 ## Documentation approach
 

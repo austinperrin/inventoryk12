@@ -152,10 +152,10 @@ workflow screens can ship with consistent behavior and quality.
 - [x] Establish baseline UI primitives for forms, tables, toasts/alerts,
   skeleton/loading, and empty/error states.
 - [x] Implement baseline responsive layout patterns for desktop and mobile.
-- [ ] Define and document baseline accessibility and keyboard-interaction checks.
+- [x] Define and document baseline accessibility and keyboard-interaction checks.
 
 #### QA + Testing
-- [ ] Add baseline UI test harness coverage for primitives and common states.
+- [x] Add baseline UI test harness coverage for primitives and common states.
 
 #### Docs + Standards
 - [x] Publish UI/UX baseline guidelines and component usage rules.
@@ -165,12 +165,12 @@ workflow screens can ship with consistent behavior and quality.
 - PR Target: `chore/m3-integration`
 
 ### Review Checklist
-- [ ] Product/frontend review complete.
+- [x] Product/frontend review complete.
 - [x] Shared baseline components are documented and reusable.
-- [ ] Accessibility baseline checks are documented and validated.
+- [x] Accessibility baseline checks are documented and validated.
 
 ### Exit Criteria
-- [ ] UI/UX baseline is implemented, documented, and ready for feature phases.
+- [x] UI/UX baseline is implemented, documented, and ready for feature phases.
 
 <a id="m3-phase-4"></a>
 ## Phase 4: Admin, System, and Management UX Slice

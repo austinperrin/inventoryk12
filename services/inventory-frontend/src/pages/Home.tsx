@@ -1185,6 +1185,11 @@ export default function Home() {
   const [editSnapshot, setEditSnapshot] = useState<DashboardSectionState[] | null>(null);
   const showReferenceExamples = false;
   const toastTimersRef = useRef<Record<number, number>>({});
+  const sidebarRef = useRef<HTMLElement | null>(null);
+  const mainShellRef = useRef<HTMLDivElement | null>(null);
+  const userPanelRef = useRef<HTMLElement | null>(null);
+  const userPanelTriggerRef = useRef<HTMLButtonElement | null>(null);
+  const lastFocusedElementRef = useRef<HTMLElement | null>(null);
   const contentWrapRef = useRef<HTMLDivElement | null>(null);
   const contentMainRef = useRef<HTMLElement | null>(null);
   const contentHeaderRef = useRef<HTMLElement | null>(null);
@@ -1548,6 +1553,115 @@ export default function Home() {
       Object.values(timers).forEach((timer) => window.clearTimeout(timer));
     };
   }, []);
+
+  useEffect(() => {
+    const panel = userPanelRef.current;
+    const sidebar = sidebarRef.current;
+    const mainShell = mainShellRef.current;
+
+    if (!panel || !sidebar || !mainShell) {
+      return;
+    }
+
+    const focusableSelector = [
+      'a[href]',
+      'button:not([disabled])',
+      'input:not([disabled])',
+      'select:not([disabled])',
+      'textarea:not([disabled])',
+      '[tabindex]:not([tabindex="-1"])',
+    ].join(', ');
+
+    const setInert = (element: HTMLElement, enabled: boolean) => {
+      if (enabled) {
+        element.setAttribute('inert', '');
+      } else {
+        element.removeAttribute('inert');
+      }
+    };
+
+    const getFocusableElements = () =>
+      Array.from(panel.querySelectorAll<HTMLElement>(focusableSelector)).filter(
+        (element) =>
+          !element.hasAttribute('disabled') &&
+          element.getAttribute('aria-hidden') !== 'true' &&
+          element.tabIndex !== -1,
+      );
+
+    if (userPanelOpen) {
+      lastFocusedElementRef.current = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+      setInert(panel, false);
+      setInert(sidebar, true);
+      setInert(mainShell, true);
+      panel.removeAttribute('aria-hidden');
+
+      const focusable = getFocusableElements();
+      const initialFocus = focusable[0] ?? panel;
+      window.requestAnimationFrame(() => {
+        initialFocus.focus();
+      });
+
+      const onKeyDown = (event: KeyboardEvent) => {
+        if (event.key === 'Escape') {
+          event.preventDefault();
+          setUserPanelOpen(false);
+          return;
+        }
+
+        if (event.key !== 'Tab') {
+          return;
+        }
+
+        const elements = getFocusableElements();
+        if (elements.length === 0) {
+          event.preventDefault();
+          panel.focus();
+          return;
+        }
+
+        const first = elements[0];
+        const last = elements[elements.length - 1];
+        const active = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+
+        if (!first || !last) {
+          return;
+        }
+
+        if (event.shiftKey) {
+          if (active === first || active === panel) {
+            event.preventDefault();
+            last.focus();
+          }
+          return;
+        }
+
+        if (active === last) {
+          event.preventDefault();
+          first.focus();
+        }
+      };
+
+      panel.addEventListener('keydown', onKeyDown);
+      return () => {
+        panel.removeEventListener('keydown', onKeyDown);
+      };
+    }
+
+    setInert(panel, true);
+    panel.setAttribute('aria-hidden', 'true');
+    setInert(sidebar, false);
+    setInert(mainShell, false);
+
+    const restoreTarget =
+      userPanelTriggerRef.current ??
+      (lastFocusedElementRef.current?.isConnected ? lastFocusedElementRef.current : null);
+
+    if (restoreTarget) {
+      window.requestAnimationFrame(() => {
+        restoreTarget.focus();
+      });
+    }
+  }, [userPanelOpen]);
 
   useEffect(() => {
     const onPointerDown = (event: PointerEvent) => {
@@ -2243,7 +2357,7 @@ export default function Home() {
     <section
       className={`workspace${sidebarCollapsed ? ' workspace--sidebar-collapsed' : ''}${userPanelOpen ? ' workspace--panel-open' : ''}`}
     >
-      <aside className="workspace-sidebar" aria-label="Primary navigation">
+      <aside ref={sidebarRef} className="workspace-sidebar" aria-label="Primary navigation">
         <div className="workspace-sidebar-top">
           <p className="workspace-sidebar-kicker">{sidebarCollapsed ? 'IK12' : 'InventoryK12'}</p>
         </div>
@@ -2259,7 +2373,7 @@ export default function Home() {
         </nav>
       </aside>
 
-      <div className="workspace-main-shell">
+      <div ref={mainShellRef} className="workspace-main-shell">
         <header className="workspace-topbar">
             <button
               className="workspace-topbar-menu ui-button ui-button--icon"
@@ -2289,10 +2403,13 @@ export default function Home() {
               <span className="workspace-topbar-badge" aria-hidden="true" />
             </button>
             <button
+              ref={userPanelTriggerRef}
               className="workspace-user-trigger ui-button"
               type="button"
               onClick={() => setUserPanelOpen(true)}
               aria-label="Open user menu"
+              aria-expanded={userPanelOpen}
+              aria-controls="workspace-user-panel"
             >
               <span className="workspace-user-avatar">{initials}</span>
               <span className="workspace-user-meta">
@@ -3418,7 +3535,14 @@ export default function Home() {
         </div>
       </div>
 
-      <aside className={`workspace-user-panel${userPanelOpen ? ' is-open' : ''}`} aria-label="User settings">
+      <aside
+        ref={userPanelRef}
+        id="workspace-user-panel"
+        className={`workspace-user-panel${userPanelOpen ? ' is-open' : ''}`}
+        aria-label="User settings"
+        aria-hidden={userPanelOpen ? undefined : 'true'}
+        tabIndex={-1}
+      >
         <div className="workspace-user-panel-head">
           <div className="workspace-user-panel-head-identity">
             <span className="workspace-user-panel-avatar" aria-hidden="true">

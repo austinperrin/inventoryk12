@@ -2067,12 +2067,16 @@
   grid-template-rows: auto 1fr auto;
   gap: 0.8rem;
   transform: translateX(100%);
+  visibility: hidden;
+  pointer-events: none;
   transition: transform 220ms var(--ease-standard);
   z-index: 31;
 }
 
 .workspace-user-panel.is-open {
   transform: translateX(0);
+  visibility: visible;
+  pointer-events: auto;
 }
 
 .workspace--panel-open .workspace-content-wrap {
