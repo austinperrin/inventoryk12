@@ -60,7 +60,7 @@ consistent.
 | [Milestone 3: Access, Environment, and UX Foundation](./m3-access-and-environment-controls.md) |  | 4-7 weeks | 2026-05-25 | 2026-07-10 | 2026-03-07 | TBD | Started Early | <span style="color: #ca8a04;">In Progress</span> |
 |  | [Phase 1: RBAC and Auth Hardening](./m3-access-and-environment-controls.md#m3-phase-1) | 1-2 weeks | 2026-05-25 | 2026-06-05 | 2026-03-07 | 2026-03-09 | Completed Early | <span style="color: green;">Completed</span> |
 |  | [Phase 2: URL/Topology Routing Baseline](./m3-access-and-environment-controls.md#m3-phase-2) | 4-6 days | 2026-06-08 | 2026-06-12 | 2026-03-09 | 2026-03-09 | Completed Early | <span style="color: green;">Completed</span> |
-|  | [Phase 3: UI/UX Baseline Foundation](./m3-access-and-environment-controls.md#m3-phase-3) | 4-6 days | 2026-06-15 | 2026-06-19 | TBD | TBD | TBD | <span style="color: #b91c1c;">Not Started</span> |
+|  | [Phase 3: UI/UX Baseline Foundation](./m3-access-and-environment-controls.md#m3-phase-3) | 4-6 days | 2026-06-15 | 2026-06-19 | 2026-03-09 | 2026-03-30 | Completed Early | <span style="color: green;">Completed</span> |
 |  | [Phase 4: Admin, System, and Management UX Slice](./m3-access-and-environment-controls.md#m3-phase-4) | 1-2 weeks | 2026-06-22 | 2026-07-03 | TBD | TBD | TBD | <span style="color: #b91c1c;">Not Started</span> |
 |  | [Phase 5: Non-Prod Seed and Smoke Support (Dev/Test Baseline)](./m3-access-and-environment-controls.md#m3-phase-5) | 3-5 days | 2026-07-06 | 2026-07-10 | TBD | TBD | TBD | <span style="color: #b91c1c;">Not Started</span> |
 | [Milestone 4: Inventory MVP Build](./m4-inventory-mvp-build.md) |  | 4-6 weeks | 2026-07-13 | 2026-08-21 | TBD | TBD | TBD | <span style="color: #b91c1c;">Not Started</span> |

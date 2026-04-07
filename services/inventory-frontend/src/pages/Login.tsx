@@ -2,9 +2,11 @@ import { useEffect, useRef, useState } from 'react';
 import { Navigate } from 'react-router-dom';
 import { ApiError } from '../lib/api';
 import { useAuth } from '../auth/useAuth';
+import { forgotPassword, primeCsrfCookie } from '../lib/auth';
 import { routeHomePath, routeNoAccessPath } from '../routes/paths';
 
 const AUTH_NOTICE_STORAGE_KEY = 'ik12_auth_notice';
+const REMEMBERED_EMAIL_STORAGE_KEY = 'ik12_login_email';
 
 function EyeIcon({ visible }: { visible: boolean }) {
   return (
@@ -30,6 +32,7 @@ export default function Login() {
   const { access, login, status } = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [rememberMe, setRememberMe] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [sessionNotice, setSessionNotice] = useState('');
@@ -53,6 +56,12 @@ export default function Login() {
     if (authNotice) {
       setSessionNotice(authNotice);
       sessionStorage.removeItem(AUTH_NOTICE_STORAGE_KEY);
+    }
+
+    const rememberedEmail = localStorage.getItem(REMEMBERED_EMAIL_STORAGE_KEY);
+    if (rememberedEmail) {
+      setEmail(rememberedEmail);
+      setRememberMe(true);
     }
 
     const persisted = sessionStorage.getItem(LOGIN_LOCKOUT_UNTIL_KEY);
@@ -109,6 +118,11 @@ export default function Login() {
 
     try {
       await login(email, password);
+      if (rememberMe) {
+        localStorage.setItem(REMEMBERED_EMAIL_STORAGE_KEY, email.trim());
+      } else {
+        localStorage.removeItem(REMEMBERED_EMAIL_STORAGE_KEY);
+      }
     } catch (error) {
       if (error instanceof ApiError && error.status === 429) {
         const retryAfterSeconds = error.retryAfterSeconds ?? 60;
@@ -133,76 +147,112 @@ export default function Login() {
     }
   };
 
+  const handleForgotPassword = async () => {
+    const normalizedEmail = email.trim();
+    if (!normalizedEmail) {
+      setErrorMessage('Enter your email first, then choose Forgot password.');
+      return;
+    }
+
+    setErrorMessage('');
+    setSessionNotice('');
+    try {
+      await primeCsrfCookie();
+      await forgotPassword(normalizedEmail);
+      setSessionNotice('If an account exists, password reset instructions were sent.');
+    } catch {
+      setErrorMessage('Unable to submit password reset request right now.');
+    }
+  };
+
   return (
-    <section className="hero auth-panel">
-      <p className="eyebrow">Cookie Auth</p>
-      <h1>Sign in</h1>
-      <p className="hero-copy">
-        This baseline login uses `HttpOnly` cookies for access and refresh tokens and keeps browser
-        token storage out of application code.
-      </p>
-      {sessionNotice ? <p className="auth-notice">{sessionNotice}</p> : null}
-      {isRateLimited ? (
-        <div className="auth-lockout" role="alert" aria-live="assertive">
-          <p className="auth-error">{lockoutMessage}</p>
+    <div className="auth-stack">
+      {sessionNotice ? (
+        <p className="auth-notice ui-alert ui-alert--info auth-notice--outside" role="alert" aria-live="assertive">
+          {sessionNotice}
+        </p>
+      ) : null}
+      <section className="hero auth-panel ui-card">
+        <div className="auth-welcome">
+          <p className="auth-welcome-kicker">Welcome</p>
+          <h2 className="auth-welcome-title">Please sign in</h2>
         </div>
-      ) : (
-        <form className="auth-form" onSubmit={handleSubmit}>
-          <div className="form-floating auth-floating">
-            <input
-              autoComplete="email"
-              className={`auth-input${hasAuthError ? ' auth-input--error' : ''}`}
-              id="login-email"
-              name="email"
-              placeholder=" "
-              type="email"
-              value={email}
-              onChange={(event) => {
-                setEmail(event.target.value);
-                if (hasAuthError) {
-                  setErrorMessage('');
-                }
-              }}
-              aria-invalid={hasAuthError}
-            />
-            <label htmlFor="login-email">Email address</label>
+        {isRateLimited ? (
+          <div className="auth-lockout" role="alert" aria-live="assertive">
+            <p className="auth-error">{lockoutMessage}</p>
           </div>
-          <div className="auth-password-group">
-            <div className="form-floating auth-floating auth-floating--password">
-              <input
-                autoComplete="current-password"
-                className={`auth-input auth-input--password${hasAuthError ? ' auth-input--error' : ''}`}
-                id="login-password"
-                name="password"
+        ) : (
+          <form className="auth-form" onSubmit={handleSubmit}>
+            <div className="form-floating auth-floating">
+                <input
+                  autoComplete="email"
+                  className={`auth-input ui-input${hasAuthError ? ' auth-input--error ui-input--error' : ''}`}
+                  id="login-email"
+                name="email"
                 placeholder=" "
-                type={showPassword ? 'text' : 'password'}
-                ref={passwordInputRef}
-                value={password}
+                type="email"
+                value={email}
                 onChange={(event) => {
-                  setPassword(event.target.value);
+                  setEmail(event.target.value);
                   if (hasAuthError) {
                     setErrorMessage('');
                   }
                 }}
                 aria-invalid={hasAuthError}
               />
-              <label htmlFor="login-password">Password</label>
+              <label htmlFor="login-email">Email address</label>
             </div>
-            <button
-              className={`auth-password-toggle${hasAuthError ? ' auth-password-toggle--error' : ''}`}
-              type="button"
-              aria-label={showPassword ? 'Hide password' : 'Show password'}
-              onClick={() => setShowPassword((current) => !current)}
-            >
-              <EyeIcon visible={showPassword} />
+            <div className="auth-password-group">
+              <div className="form-floating auth-floating auth-floating--password">
+                <input
+                  autoComplete="current-password"
+                  className={`auth-input ui-input auth-input--password${hasAuthError ? ' auth-input--error ui-input--error' : ''}`}
+                  id="login-password"
+                  name="password"
+                  placeholder=" "
+                  type={showPassword ? 'text' : 'password'}
+                  ref={passwordInputRef}
+                  value={password}
+                  onChange={(event) => {
+                    setPassword(event.target.value);
+                    if (hasAuthError) {
+                      setErrorMessage('');
+                    }
+                  }}
+                  aria-invalid={hasAuthError}
+                />
+                <label htmlFor="login-password">Password</label>
+              </div>
+              <button
+                className={`auth-password-toggle${hasAuthError ? ' auth-password-toggle--error' : ''}`}
+                type="button"
+                aria-label={showPassword ? 'Hide password' : 'Show password'}
+                onClick={() => setShowPassword((current) => !current)}
+              >
+                <EyeIcon visible={showPassword} />
+              </button>
+            </div>
+            <div className="auth-meta">
+              <label className="auth-checkbox">
+                <input
+                  checked={rememberMe}
+                  name="remember_me"
+                  type="checkbox"
+                  onChange={(event) => setRememberMe(event.target.checked)}
+                />
+                <span>Remember me</span>
+              </label>
+              <button className="auth-link ui-button ui-button--ghost" type="button" onClick={() => void handleForgotPassword()}>
+                Forgot password?
+              </button>
+            </div>
+            {errorMessage ? <p className="auth-error">{errorMessage}</p> : null}
+            <button className="auth-submit" type="submit" disabled={isSubmitting}>
+              {isSubmitting ? 'Signing in...' : 'Sign in'}
             </button>
-          </div>
-          {errorMessage ? <p className="auth-error">{errorMessage}</p> : null}
-          <button className="auth-submit" type="submit" disabled={isSubmitting}>
-            {isSubmitting ? 'Signing in...' : 'Sign in'}
-          </button>
-        </form>
-      )}
-    </section>
+          </form>
+        )}
+      </section>
+    </div>
   );
 }

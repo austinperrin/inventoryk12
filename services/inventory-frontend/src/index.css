@@ -1,42 +1,175 @@
 :root {
-  font-family: "IBM Plex Sans", "Segoe UI", sans-serif;
+  --font-sans: "IBM Plex Sans", "Segoe UI", sans-serif;
+  --font-size-xs: 0.8rem;
+  --font-size-sm: 0.88rem;
+  --font-size-md: 0.94rem;
+  --font-size-lg: 1rem;
+  --font-size-xl: 1.24rem;
+  --line-height-tight: 1.2;
+  --line-height-base: 1.5;
+  --line-height-loose: 1.65;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+
+  --text-strong: #111827;
+  --text-default: #1f2937;
+  --text-muted: #6b7280;
+  --text-on-accent: #f8fafc;
+
+  --brand-700: #1d4ed8;
+  --brand-600: #2563eb;
+  --brand-500: #3b82f6;
+  --danger-600: #b91c1c;
+  --danger-500: #dc2626;
+  --info-600: #2563eb;
+  --success-600: #059669;
+  --warning-600: #d97706;
+
+  --surface-bg: #f8fafc;
+  --surface-canvas: #f8fafc;
+  --surface-canvas-deep: #f8fafc;
+  --surface-card: #ffffff;
+  --surface-card-strong: #ffffff;
+  --surface-border: #e5e7eb;
+  --surface-border-strong: #d1d5db;
+  --surface-focus: rgba(37, 99, 235, 0.2);
+  --surface-danger-focus: rgba(220, 38, 38, 0.2);
+  --surface-info-tint: rgba(37, 99, 235, 0.12);
+  --surface-success-tint: rgba(5, 150, 105, 0.12);
+  --surface-warning-tint: rgba(217, 119, 6, 0.12);
+  --surface-danger-tint: rgba(220, 38, 38, 0.12);
+
+  --space-0: 0;
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 3rem;
+  --space-8: 4rem;
+
+  --radius-xs: 0.4rem;
+  --radius-sm: 0.5rem;
+  --radius-md: 0.85rem;
+  --radius-lg: 0.875rem;
+  --radius-pill: 999px;
+
+  --shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.06);
+  --shadow-md: 0 10px 24px rgba(15, 23, 42, 0.08);
+
+  --duration-fast: 120ms;
+  --duration-base: 180ms;
+  --ease-standard: cubic-bezier(0.2, 0, 0, 1);
+
+  color-scheme: light;
+  font-family: var(--font-sans);
   line-height: 1.5;
   font-weight: 400;
-  color: #1f2933;
-  background:
-    radial-gradient(circle at top left, rgba(230, 193, 108, 0.28), transparent 24%),
-    radial-gradient(circle at bottom right, rgba(17, 107, 122, 0.14), transparent 30%),
-    linear-gradient(180deg, #f7f1e3 0%, #f8faf7 42%, #edf5f4 100%);
-  --color-ink: #1f2933;
-  --color-muted: #52606d;
-  --color-accent: #116b7a;
-  --color-border: rgba(31, 41, 51, 0.12);
-  --color-danger: #a12b2b;
-
+  color: var(--text-default);
+  background: var(--surface-canvas);
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-a {
-  font-weight: 500;
-  text-decoration: inherit;
+:root[data-theme="dark"] {
+  --text-strong: #f3f4f6;
+  --text-default: #e5e7eb;
+  --text-muted: #9ca3af;
+  --text-on-accent: #eff6ff;
+
+  --brand-700: #60a5fa;
+  --brand-600: #3b82f6;
+  --brand-500: #2563eb;
+  --danger-600: #fca5a5;
+  --danger-500: #f87171;
+  --info-600: #60a5fa;
+  --success-600: #34d399;
+  --warning-600: #fbbf24;
+
+  --surface-bg: #0a0a0b;
+  --surface-canvas: #111214;
+  --surface-canvas-deep: #111214;
+  --surface-card: #17191d;
+  --surface-card-strong: #1c1f24;
+  --surface-border: #2f3640;
+  --surface-border-strong: #3f4753;
+  --surface-focus: rgba(96, 165, 250, 0.28);
+  --surface-danger-focus: rgba(248, 113, 113, 0.28);
+  --surface-info-tint: rgba(59, 130, 246, 0.2);
+  --surface-success-tint: rgba(16, 185, 129, 0.2);
+  --surface-warning-tint: rgba(245, 158, 11, 0.2);
+  --surface-danger-tint: rgba(239, 68, 68, 0.2);
+
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.5);
+  --shadow-md: 0 12px 30px rgba(0, 0, 0, 0.4);
+
+  color-scheme: dark;
+}
+
+:root[data-theme="dark"] body::before {
+  background:
+    radial-gradient(circle at 8% 6%, rgba(59, 130, 246, 0.11), transparent 35%),
+    radial-gradient(circle at 90% 88%, rgba(96, 165, 250, 0.09), transparent 40%);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
 }
 
 body {
   margin: 0;
   min-width: 320px;
   min-height: 100vh;
-  color: var(--color-ink);
-  background: transparent;
+  color: var(--text-default);
+  background:
+    linear-gradient(180deg, var(--surface-bg), var(--surface-canvas-deep)),
+    var(--surface-canvas);
+  position: relative;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 8% 6%, rgba(37, 99, 235, 0.12), transparent 35%),
+    radial-gradient(circle at 90% 88%, rgba(59, 130, 246, 0.1), transparent 40%);
+  z-index: 0;
 }
 
 #root {
   min-height: 100vh;
+  position: relative;
+  z-index: 1;
 }
 
 h1,
+h2,
+h3,
 p {
   margin-top: 0;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-sans);
+  color: var(--text-strong);
+  letter-spacing: 0.01em;
+}
+
+a {
+  color: inherit;
+  font-weight: 500;
+  text-decoration: none;
+  transition:
+    color var(--duration-base) var(--ease-standard),
+    border-color var(--duration-base) var(--ease-standard);
 }
