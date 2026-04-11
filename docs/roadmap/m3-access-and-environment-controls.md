@@ -182,38 +182,58 @@ user/role management, permission governance, and account-state management.
 - Status: In Progress
 - Actual Start: 2026-04-06
 
+### Delivery Notes
+
+- Phase 4 should be delivered as small, reviewable slices instead of one large
+  frontend-only drop.
+- Frontend implementation should stay aligned to existing backend auth/session
+  endpoints where possible and explicitly call out any missing admin APIs before
+  UI work proceeds too far.
+- If user administration, role assignment management, or permission governance
+  flows require new backend endpoints, those APIs are part of Phase 4 scope and
+  should be implemented before or alongside the dependent UI slices.
+
 ### Development Checklist
 
 #### Frontend Engineering
-- [ ] Implement distinct administration UX flows for system-level operations and district-level management.
-- [ ] Implement role-assignment management UX for district users:
-  assignment, revocation, effective windows, and feedback states.
-- [ ] Implement role/permission management UX guardrails:
-  enforce protected/system-managed boundaries and non-delegable restrictions.
-- [ ] Implement account-state management UX:
-  lock status, verification/no-access context, and scoped user feedback flows.
-- [ ] Implement credential-recovery and password-management UX flows:
+- [ ] Slice 1: implement auth/account management UX:
   forgot-password, reset-password, authenticated password update,
-  and forced-reset journey when the user require-reset flag is active.
-- [ ] Implement admin UX denial/error/loading states for privileged actions.
+  require-reset journey, and refined no-access/account-state feedback.
+- [ ] Slice 2: implement MFA/session security UX:
+  MFA policy controls, privileged step-up prompts, active-session review,
+  revoke-all-sessions workflow, and privileged-action feedback states.
+- [ ] Slice 3: implement distinct administration UX flows for system-level operations and district-level management.
+- [ ] Slice 3: implement account-state management UX:
+  lock status, verification/no-access context, and scoped user feedback flows.
+- [ ] Slice 4: implement role-assignment management UX for district users:
+  assignment, revocation, effective windows, and feedback states.
+- [ ] Slice 4: implement role/permission management UX guardrails:
+  enforce protected/system-managed boundaries and non-delegable restrictions.
 - [ ] Implement responsive behavior for core administration screens (desktop + mobile).
 
 #### QA + Testing
-- [ ] Add frontend component and integration tests for admin/system management workflows.
+- [ ] Slice 5: add frontend component and integration tests for admin/system management workflows.
 - [ ] Add UI tests for denial, lockout, and protected-boundary enforcement behavior.
 - [ ] Add UI tests for password recovery/update flows and forced-reset journey behavior.
 
 #### Security + Compliance
-- [ ] Validate admin/system UX behavior against RBAC and session policy requirements.
+- [ ] Slice 5: validate admin/system UX behavior against RBAC and session policy requirements.
 - [ ] Validate district-role administration cannot mutate platform-operator authority.
 
 #### Docs + Standards
-- [ ] Update admin/system workflow docs for implemented behavior and edge cases.
+- [ ] Slice 5: update admin/system workflow docs for implemented behavior and edge cases.
 - [ ] Publish API-to-UI dependency map for administration screens.
 
 ### Branch and PR Plan
 - Branch: `feat/m3-p4-admin-system-management-ui`
-- PR Target: `chore/m3-integration`
+- Sub-Branches:
+  - `feat/m3-p4-auth-account-management-ui`
+  - `feat/m3-p4-mfa-session-management-ui`
+  - `feat/m3-p4-user-account-state-ui`
+  - `feat/m3-p4-role-permission-governance-ui`
+  - `test/docs/m3-p4-closeout`
+- Note: sub-branches target `feat/m3-p4-admin-system-management-ui`.
+- Target: `chore/m3-integration`
 
 ### Review Checklist
 - [ ] Product/frontend review complete.

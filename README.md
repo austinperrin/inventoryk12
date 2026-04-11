@@ -5,10 +5,14 @@ backend/frontend, add-on services/modules, standards, and operational tooling.
 
 ## Project Status
 
-- Core repo structure and tooling are scaffolded.
-- Backend (Django) and frontend (Vite + React + TS) are in place.
-- Compliance and policy docs are scaffolded and should be expanded as controls are finalized.
-- Infrastructure is intentionally minimal until target environments are finalized.
+- Milestones 0 through 2 are complete: repo bootstrap, platform baseline, and
+  domain foundation are in place.
+- Milestone 3 is active: backend auth/session hardening, routing baseline, and
+  frontend UI baseline are implemented; admin/system management UX and non-prod
+  seed/smoke support are still in progress.
+- Milestone 4 inventory MVP workflows have not started yet.
+- Infrastructure remains intentionally minimal until target deployment
+  environments are finalized.
 
 ## Structure
 
